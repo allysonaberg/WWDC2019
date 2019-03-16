@@ -23,8 +23,8 @@ public class Map {
     }
     
     public init(_ root: SKNode) {
-      let tileSize1: CGSize = CGSize(width: 128, height: 32)
-      let testTile = SKTileDefinition(texture: SKTexture(imageNamed: "01"), size: tileSize1)
+      let tileSize1: CGSize = CGSize(width: 128, height: 64)
+      let testTile = SKTileDefinition(texture: SKTexture(imageNamed: "grass"), size: tileSize1)
       let tileGroupRule = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [testTile])
       
       let tileGroup = SKTileGroup(rules: [tileGroupRule])
