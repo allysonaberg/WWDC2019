@@ -29,9 +29,8 @@ public class Map {
       
       let tileGroup = SKTileGroup(rules: [tileGroupRule])
       let tileSet = SKTileSet(tileGroups: [tileGroup], tileSetType: SKTileSetType.isometric)
-      let tileMap = SKTileMapNode(tileSet: tileSet, columns: 5, rows: 5, tileSize: tileSize)
+      let tileMap = SKTileMapNode(tileSet: tileSet, columns: 10, rows: 10, tileSize: tileSize)
       tileMap.fill(with: tileGroup) // fill or set by column/row
-      //tileMap.setTileGroup(tileGroup, forColumn: 5, row: 5)
       root.addChild(tileMap)
       
       self.container = SKSpriteNode()
@@ -39,31 +38,25 @@ public class Map {
       self.offset = tileMap.mapSize.height
       let ground = tileMapNode(tilemap: tileMap, level: 0)
       
+      for item in ground.enumerated() {
+        item.element.physicsBody = SKPhysicsBody(polygonFrom: self.bodyPath)
+        item.element.physicsBody?.isDynamic = false
+      }
     }
     
     //Creating tiles of the map layer for further work with them
     func tileMapNode(tilemap: SKTileMapNode, level: Int) -> [SKSpriteNode] {
         var array = [SKSpriteNode]()
-        print("beFOR")
         for col in 0..<tilemap.numberOfColumns {
-          print("inFOR")
             for row in 0..<tilemap.numberOfRows {
-              print("inInFOR")
-//////                let definition = tilemap.tileDefinition(atColumn: col, row: row)
-//////
-//////                guard let texture = definition?.textures.first else { continue }
-////              
                 let sprite = SKSpriteNode(texture: SKTexture(imageNamed: "grass"))
                 sprite.position = tilemap.centerOfTile(atColumn: col, row: row)
                 sprite.zPosition = self.offset - sprite.position.y + tilemap.tileSize.height *  CGFloat(level)
                 self.container.addChild(sprite)
-////
                 array.append(sprite)
             }
         }
-////
-//////        tilemap.isHidden = true
-////      
+       tilemap.isHidden = true
         return array
     }
 }

@@ -21,17 +21,17 @@ class GameScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>,
                                with event: UIEvent?) {
-        handleTouches(touches)
+//        handleTouches(touches)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>,
                                with event: UIEvent?) {
-        handleTouches(touches)
+//        handleTouches(touches)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>,
                                with event: UIEvent?) {
-        lastTouch = player.player.position
+//        lastTouch = player.player.position
         
     }
     
