@@ -24,20 +24,41 @@ public class Map {
     
     public init(_ root: SKNode) {
       let tileSize: CGSize = CGSize(width: 128, height: 64)
-      let testTile = SKTileDefinition(texture: SKTexture(imageNamed: "grass"), size: tileSize)
+      let testTile = SKTileDefinition(texture: SKTexture(imageNamed: "01"), size: tileSize)
       let tileGroupRule = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [testTile])
-      
       let tileGroup = SKTileGroup(rules: [tileGroupRule])
       let tileSet = SKTileSet(tileGroups: [tileGroup], tileSetType: SKTileSetType.isometric)
-      let tileMap = SKTileMapNode(tileSet: tileSet, columns: 10, rows: 10, tileSize: tileSize)
-      tileMap.fill(with: tileGroup) // fill or set by column/row
+      let tileMap = SKTileMapNode(tileSet: tileSet, columns: 5, rows: 5, tileSize: tileSize)
+//      tileMap.fill(with: tileGroup) // fill or set by column/row
+//      tileMap.setTileGroup(tileGroup, forColumn: 1, row: 1)
+      
+      
+      
+      let path = Bundle.main.path(forResource: "Level1.txt", ofType: nil)
+      do {
+        let fileContents = try String(contentsOfFile:path!, encoding: String.Encoding.utf8)
+        let lines = fileContents.components(separatedBy: "\n")
+        
+        for row in 0..<lines.count {
+          let items = lines[row].components(separatedBy: " ")
+          
+          for column in 0..<items.count {
+//            let tile = tileGroup.first(where: {$0.name == items[column]})
+            tileMap.setTileGroup(tileGroup, forColumn: column, row: row)
+          }
+        }
+      } catch {
+        print("Error loading map")
+      }
+      
       root.addChild(tileMap)
+
       
       self.container = SKSpriteNode()
       root.addChild(container)
       self.offset = tileMap.mapSize.height
       let ground = tileMapNode(tilemap: tileMap, level: 0)
-      
+
       for item in ground.enumerated() {
         item.element.physicsBody = SKPhysicsBody(polygonFrom: self.bodyPath)
         item.element.physicsBody?.isDynamic = false
@@ -49,7 +70,7 @@ public class Map {
         var array = [SKSpriteNode]()
         for col in 0..<tilemap.numberOfColumns {
             for row in 0..<tilemap.numberOfRows {
-                let sprite = SKSpriteNode(texture: SKTexture(imageNamed: "grass"))
+                let sprite = SKSpriteNode(texture: SKTexture(imageNamed: "01"))
                 sprite.position = tilemap.centerOfTile(atColumn: col, row: row)
                 sprite.zPosition = self.offset - sprite.position.y + tilemap.tileSize.height *  CGFloat(level)
                 self.container.addChild(sprite)
@@ -61,52 +82,5 @@ public class Map {
     }
 }
 
-
-struct SpriteSheet {
-
-  let baseTexture: SKTexture
-  let rows: CGFloat
-  let columns: CGFloat
-  var textureSize: (width: CGFloat, height: CGFloat) {
-    return (width: baseTexture.textureRect().width / self.columns,
-            height: baseTexture.textureRect().height / self.rows)
-  }
-
-  init(imageNamed texture: String, rows: CGFloat, columns: CGFloat) {
-    print("INIT 1")
-    self.baseTexture = SKTexture(imageNamed: texture)
-    print(baseTexture)
-    self.baseTexture.filteringMode = .nearest // best for pixel art
-    self.rows = rows
-    self.columns = columns
-  }
-
-  var testTileMap: SKTileMapNode {
-    print("2")
-    let tileSize: CGSize = CGSize(width: 16, height: 16)
-    let texture = cropTexture(row: 1, column: 10, w: 1, h: 1)
-    let tileDef = SKTileDefinition(texture: texture, size: tileSize)
-    let tileGroup = SKTileGroup(tileDefinition: tileDef)
-    let tileSet = SKTileSet(tileGroups: [tileGroup])
-    let mapNode = SKTileMapNode(tileSet: tileSet,
-                                columns: 4,
-                                rows: 4,
-                                tileSize: tileSize,
-                                fillWith: tileGroup)
-    print(mapNode)
-    return mapNode
-  }
-
-  func cropTexture(row: CGFloat, column: CGFloat, w: CGFloat, h: CGFloat) -> SKTexture {
-    print("3")
-    assert(row < rows && column < columns && row > 0 && column > 0)
-    let rect = CGRect(x: textureSize.width * (column - 1),
-                      y: textureSize.height * (self.rows - row),
-                      width: textureSize.width * w,
-                      height: textureSize.height * h)
-    return SKTexture(rect: rect, in: baseTexture)
-  }
-
-}
 
 
