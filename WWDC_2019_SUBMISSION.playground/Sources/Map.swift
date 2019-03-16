@@ -9,6 +9,8 @@ public class Map {
     
     var container : SKSpriteNode!
     var offset : CGFloat!
+  
+  var tileMap: SKTileMapNode!
     
     // The shape of the physical body of each map tile
     var bodyPath: CGPath {
@@ -23,48 +25,55 @@ public class Map {
     }
     
     public init(_ root: SKNode) {
-      let tileSize: CGSize = CGSize(width: 128, height: 64)
-      let testTile = SKTileDefinition(texture: SKTexture(imageNamed: "01"), size: tileSize)
-      let tileGroupRule = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [testTile])
-      let tileGroup = SKTileGroup(rules: [tileGroupRule])
-      let tileSet = SKTileSet(tileGroups: [tileGroup], tileSetType: SKTileSetType.isometric)
-      let tileMap = SKTileMapNode(tileSet: tileSet, columns: 5, rows: 5, tileSize: tileSize)
-//      tileMap.fill(with: tileGroup) // fill or set by column/row
-//      tileMap.setTileGroup(tileGroup, forColumn: 1, row: 1)
-      
-      
-      
-      let path = Bundle.main.path(forResource: "Level1.txt", ofType: nil)
-      do {
-        let fileContents = try String(contentsOfFile:path!, encoding: String.Encoding.utf8)
-        let lines = fileContents.components(separatedBy: "\n")
-        
-        for row in 0..<lines.count {
-          let items = lines[row].components(separatedBy: " ")
-          
-          for column in 0..<items.count {
-//            let tile = tileGroup.first(where: {$0.name == items[column]})
-            tileMap.setTileGroup(tileGroup, forColumn: column, row: row)
-          }
-        }
-      } catch {
-        print("Error loading map")
-      }
-      
-      root.addChild(tileMap)
-
+      setupTiles(root: root)
       
       self.container = SKSpriteNode()
       root.addChild(container)
       self.offset = tileMap.mapSize.height
       let ground = tileMapNode(tilemap: tileMap, level: 0)
-
+      
       for item in ground.enumerated() {
         item.element.physicsBody = SKPhysicsBody(polygonFrom: self.bodyPath)
         item.element.physicsBody?.isDynamic = false
       }
+
+    }
+  
+  func setupTiles(root: SKNode) {
+    let tileSize: CGSize = CGSize(width: 128, height: 64)
+    let testTile = SKTileDefinition(texture: SKTexture(imageNamed: "01"), size: tileSize)
+    let tileGroupRule = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [testTile])
+    let tileGroup = SKTileGroup(rules: [tileGroupRule])
+    let tileSet = SKTileSet(tileGroups: [tileGroup], tileSetType: SKTileSetType.isometric)
+    
+    self.tileMap = SKTileMapNode(tileSet: tileSet, columns: 5, rows: 5, tileSize: tileSize)
+    //      tileMap.fill(with: tileGroup) // fill or set by column/row
+    //      tileMap.setTileGroup(tileGroup, forColumn: 1, row: 1)
+    
+    
+    
+    let path = Bundle.main.path(forResource: "Level1.txt", ofType: nil)
+    do {
+      let fileContents = try String(contentsOfFile:path!, encoding: String.Encoding.utf8)
+      let lines = fileContents.components(separatedBy: "\n")
+      
+      for row in 0..<lines.count {
+        let items = lines[row].components(separatedBy: " ")
+        
+        for column in 0..<items.count {
+          //            let tile = tileGroup.first(where: {$0.name == items[column]})
+          tileMap.setTileGroup(tileGroup, forColumn: column, row: row)
+        }
+      }
+    } catch {
+      print("Error loading map")
     }
     
+    root.addChild(tileMap)
+  }
+  
+  
+  
     //Creating tiles of the map layer for further work with them
     func tileMapNode(tilemap: SKTileMapNode, level: Int) -> [SKSpriteNode] {
         var array = [SKSpriteNode]()
