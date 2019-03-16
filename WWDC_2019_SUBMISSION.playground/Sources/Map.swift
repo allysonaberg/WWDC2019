@@ -22,31 +22,31 @@ public class Map {
         return nsPath
     }
     
-    init(_ root: SKNode) {
+    public init(_ root: SKNode) {
         
-        ground = root.childNode(withName: "ground") as? SKTileMapNode
-        stone = root.childNode(withName: "stone") as? SKTileMapNode
-        level2 = root.childNode(withName: "level2") as? SKTileMapNode
-        
-        offset = self.stone.mapSize.height
-        
-        container = SKSpriteNode()
-        root.addChild(container)
-        
-        let tileBottom = self.tileMapNode(tilemap: stone, level: 0)
-        ////        let tileLevel2 = self.tileMapNode(tilemap: level2, level: 1)
-        for item in tileBottom.enumerated() {
-            
-            // Assign the shape of the physical body
-            item.element.physicsBody = SKPhysicsBody(polygonFrom: self.bodyPath)
-            
-            // Reset all physical parameters of the object
-            item.element.physicsBody?.friction = 0
-            item.element.physicsBody?.restitution = 0
-            item.element.physicsBody?.linearDamping = 0
-            item.element.physicsBody?.angularDamping = 0
-            item.element.physicsBody?.isDynamic = false
-        }
+//        ground = root.childNode(withName: "ground") as? SKTileMapNode
+//        stone = root.childNode(withName: "ground") as? SKTileMapNode
+//        level2 = root.childNode(withName: "level2") as? SKTileMapNode
+//
+//        offset = self.stone.mapSize.height
+//
+//        container = SKSpriteNode()
+//        root.addChild(container)
+//
+//        let tileBottom = self.tileMapNode(tilemap: stone, level: 0)
+//        ////        let tileLevel2 = self.tileMapNode(tilemap: level2, level: 1)
+//        for item in tileBottom.enumerated() {
+//
+//            // Assign the shape of the physical body
+//            item.element.physicsBody = SKPhysicsBody(polygonFrom: self.bodyPath)
+//
+//            // Reset all physical parameters of the object
+//            item.element.physicsBody?.friction = 0
+//            item.element.physicsBody?.restitution = 0
+//            item.element.physicsBody?.linearDamping = 0
+//            item.element.physicsBody?.angularDamping = 0
+//            item.element.physicsBody?.isDynamic = false
+//        }
         
     }
     

@@ -18,12 +18,12 @@ public class Player {
     
     let speed: CGFloat = 150.0
     let map: Map!
-    var player: SKSpriteNode!
+    public var player: SKSpriteNode!
     var lightSource: SKLightNode!
     var textures  : SKTextureAtlas!
     
     
-    init(_ root: SKNode, map: Map) {
+    public init(_ root: SKNode, map: Map) {
         //init player
         self.map = map
         textures = SKTextureAtlas(named: "Player")
@@ -32,7 +32,7 @@ public class Player {
         //        self.camera = setupCamera()
     }
     
-    func updatePlayer(position: CGPoint?) {
+    public func updatePlayer(position: CGPoint?) {
         guard
             let player = player,
             let position = position
