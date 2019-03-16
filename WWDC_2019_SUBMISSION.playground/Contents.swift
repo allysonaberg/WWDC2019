@@ -37,7 +37,7 @@ class GameScene: SKScene {
     
     //handle touches should be a delegate method so that player AND button can implement it
     fileprivate func handleTouches(_ touches: Set<UITouch>) {
-        lastTouch = touches.first?.location(in: self)
+//        lastTouch = touches.first?.location(in: self)
     }
     
     override func didSimulatePhysics() {
