@@ -31,7 +31,7 @@ public class Map {
       root.addChild(container)
       self.offset = tileMap.mapSize.height
       let ground = tileMapNode(tilemap: tileMap, level: 0)
-      
+
       for item in ground.enumerated() {
         item.element.physicsBody = SKPhysicsBody(polygonFrom: self.bodyPath)
         item.element.physicsBody?.isDynamic = false
@@ -41,11 +41,14 @@ public class Map {
   
   func setupTiles(root: SKNode) {
     let tileSize: CGSize = CGSize(width: 128, height: 64)
-    let testTile = SKTileDefinition(texture: SKTexture(imageNamed: "01"), size: tileSize)
-    let tileGroupRule = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [testTile])
-    let tileGroup = SKTileGroup(rules: [tileGroupRule])
-    let tileSet = SKTileSet(tileGroups: [tileGroup], tileSetType: SKTileSetType.isometric)
-    
+    let tile01 = SKTileDefinition(texture: SKTexture(imageNamed: "01"), size: tileSize)
+    let tile02 = SKTileDefinition(texture: SKTexture(imageNamed: "02"), size: tileSize)
+    let tileGroupRule01 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile01])
+    let tileGroup01 = SKTileGroup(rules: [tileGroupRule01])
+    let tileGroupRule02 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile02])
+    let tileGroup02 = SKTileGroup(rules: [tileGroupRule02])
+    let tileSet = SKTileSet(tileGroups: [tileGroup01, tileGroup02], tileSetType: .isometric)
+
     self.tileMap = SKTileMapNode(tileSet: tileSet, columns: 5, rows: 5, tileSize: tileSize)
     //      tileMap.fill(with: tileGroup) // fill or set by column/row
     //      tileMap.setTileGroup(tileGroup, forColumn: 1, row: 1)
@@ -61,8 +64,13 @@ public class Map {
         let items = lines[row].components(separatedBy: " ")
         
         for column in 0..<items.count {
-          //            let tile = tileGroup.first(where: {$0.name == items[column]})
-          tileMap.setTileGroup(tileGroup, forColumn: column, row: row)
+//          let tile = tileMap.tileSet.tileGroups.first(where: {$0.name == items[column]})
+          
+          if items[column] == "01" {
+            tileMap.setTileGroup(tileGroup01, forColumn: column, row: row)
+          } else {
+            tileMap.setTileGroup(tileGroup02, forColumn: column, row: row)
+          }
         }
       }
     } catch {
@@ -79,7 +87,7 @@ public class Map {
         var array = [SKSpriteNode]()
         for col in 0..<tilemap.numberOfColumns {
             for row in 0..<tilemap.numberOfRows {
-                let sprite = SKSpriteNode(texture: SKTexture(imageNamed: "01"))
+                let sprite = SKSpriteNode(texture: tilemap.tileDefinition(atColumn: col, row: row)?.textures.first)
                 sprite.position = tilemap.centerOfTile(atColumn: col, row: row)
                 sprite.zPosition = self.offset - sprite.position.y + tilemap.tileSize.height *  CGFloat(level)
                 self.container.addChild(sprite)
