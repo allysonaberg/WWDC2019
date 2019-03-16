@@ -13,7 +13,7 @@ class GameScene: SKScene {
     
     
     override func didMove(to view: SKView) {
-//        playingMap = Map(self)
+        playingMap = Map(self)
 //        player = Player(self, map: playingMap)
     }
     
