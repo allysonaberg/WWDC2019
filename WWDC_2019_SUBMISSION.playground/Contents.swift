@@ -4,7 +4,7 @@ import PlaygroundSupport
 import SpriteKit
 import GameplayKit
 
-let viewSize = CGSize(width: 800, height: 500)
+let viewSize = CGSize(width: 1200, height: 800)
 
 let sceneView = SKView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: viewSize))
 sceneView.ignoresSiblingOrder = true

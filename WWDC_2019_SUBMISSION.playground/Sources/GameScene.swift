@@ -12,11 +12,9 @@ public class GameScene: SKScene {
   override public init(size: CGSize) {
     
     super.init(size: size)
-    player = Player(self)
     playingMap = Map(self)
     playingMap.container.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
-    
-    
+    player = Player(self, map: playingMap)
   }
   
   required public init?(coder aDecoder: NSCoder) {

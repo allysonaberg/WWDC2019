@@ -17,14 +17,14 @@ enum Direction : String {
 public class Player {
     
     let speed: CGFloat = 150.0
-//    let map: Map!
+    let map: Map!
     public var player: SKSpriteNode!
     var lightSource: SKLightNode!
   
     
-    public init(_ root: SKNode) {
+  public init(_ root: SKNode, map: Map) {
         //init player
-//        self.map = map
+        self.map = map
       
         setupPlayer(root)
     }
@@ -59,7 +59,8 @@ public class Player {
         player.lightingBitMask = 1
         player.shadowedBitMask = 1
         player.shadowCastBitMask = 1
-        
+      
+      player.position = CGPoint(x: map.stone.mapSize.width / 2, y: map.stone.mapSize.height / 2)
         root.addChild(player)
     }
     
@@ -85,8 +86,7 @@ public class Player {
         let direction = self.angleDirection(to.y - self.player.position.y, to.x - self.player.position.x)
         
         self.player.texture = SKTexture(imageNamed: direction.rawValue)
-//        self.player.zPosition =  self.map.offset - self.player.position.y
-      self.player.zPosition =  1000 - self.player.position.y
+        self.player.zPosition =  self.map.offset - self.player.position.y + 1000
       
         var velocity = CGVector(dx: 0, dy: 0)
         let diagSpeed: CGFloat = speed/1.5
