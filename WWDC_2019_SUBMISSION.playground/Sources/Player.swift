@@ -17,19 +17,16 @@ enum Direction : String {
 public class Player {
     
     let speed: CGFloat = 150.0
-    let map: Map!
+//    let map: Map!
     public var player: SKSpriteNode!
     var lightSource: SKLightNode!
-    var textures  : SKTextureAtlas!
+  
     
-    
-    public init(_ root: SKNode, map: Map) {
+    public init(_ root: SKNode) {
         //init player
-        self.map = map
-        textures = SKTextureAtlas(named: "Player")
-        
+//        self.map = map
+      
         setupPlayer(root)
-        //        self.camera = setupCamera()
     }
     
     public func updatePlayer(position: CGPoint?) {
@@ -49,7 +46,7 @@ public class Player {
     }
     
     private func setupPlayer(_ root: SKNode) {
-        player = SKSpriteNode(texture: self.textures.textureNamed("S"))
+        player = SKSpriteNode(imageNamed: "S")
         player.size = CGSize(width: 50, height: 50)
         player.physicsBody = SKPhysicsBody(circleOfRadius: 20.0, center: CGPoint(x: 0.0, y: -30.0))
         player.physicsBody?.friction = 0
@@ -87,9 +84,10 @@ public class Player {
     private func movePlayer(to: CGPoint) {
         let direction = self.angleDirection(to.y - self.player.position.y, to.x - self.player.position.x)
         
-        self.player.texture = self.textures.textureNamed(direction.rawValue)
-        self.player.zPosition =  self.map.offset - self.player.position.y
-        
+        self.player.texture = SKTexture(imageNamed: direction.rawValue)
+//        self.player.zPosition =  self.map.offset - self.player.position.y
+      self.player.zPosition =  1000 - self.player.position.y
+      
         var velocity = CGVector(dx: 0, dy: 0)
         let diagSpeed: CGFloat = speed/1.5
         

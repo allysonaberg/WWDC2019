@@ -32,10 +32,10 @@ public class Map {
       self.offset = tileMap.mapSize.height
       let ground = tileMapNode(tilemap: tileMap, level: 0)
 
-      for item in ground.enumerated() {
-        item.element.physicsBody = SKPhysicsBody(polygonFrom: self.bodyPath)
-        item.element.physicsBody?.isDynamic = false
-      }
+//      for item in ground.enumerated() {
+//        item.element.physicsBody = SKPhysicsBody(polygonFrom: self.bodyPath)
+//        item.element.physicsBody?.isDynamic = false
+//      }
 
     }
   
