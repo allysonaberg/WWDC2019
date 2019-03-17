@@ -1,5 +1,9 @@
 //: A SpriteKit based Playground
 
+
+//BUILD#: 002 -> background is in nodes, but no physics bodies
+
+
 import PlaygroundSupport
 import SpriteKit
 import GameplayKit
@@ -13,8 +17,8 @@ class GameScene: SKScene {
     
     
     override func didMove(to view: SKView) {
-        playingMap = Map(self)
-        player = Player(self)
+      playingMap = Map(self)
+      player = Player(self, map: playingMap)
     }
     
     // MARK: - Touch Handling
@@ -48,11 +52,11 @@ class GameScene: SKScene {
 }
 
 let sceneView = SKView(frame: CGRect(x: 0, y: 0, width: 640, height: 480))
-if let scene = GameScene(fileNamed: "GameScene") {
-    scene.scaleMode = .aspectFill
-    sceneView.presentScene(scene)
-    print("presented scene")
-}
+let scene = GameScene()
+scene.scaleMode = .aspectFill
+sceneView.presentScene(scene)
+print("presented scene")
+
 
 PlaygroundSupport.PlaygroundPage.current.liveView = sceneView
 

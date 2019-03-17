@@ -9,6 +9,7 @@ public class Map {
     
     var container : SKSpriteNode!
     var offset : CGFloat!
+  var root: SKNode!
   
   var tileMap: SKTileMapNode!
     
@@ -27,6 +28,7 @@ public class Map {
     public init(_ root: SKNode) {
       setupTiles(root: root)
       
+      self.root = root
       self.container = SKSpriteNode()
       root.addChild(container)
       self.offset = tileMap.mapSize.height
@@ -94,8 +96,8 @@ public class Map {
                 array.append(sprite)
             }
         }
-       tilemap.isHidden = true
-        return array
+      tilemap.removeFromParent()
+      return array
     }
 }
 
