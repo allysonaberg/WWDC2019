@@ -21,9 +21,7 @@ public class Player {
   public var player: SKSpriteNode!
   var lightSource: SKLightNode!
   
-  
   public init(_ root: SKNode, map: Map) {
-    //init player
     self.map = map
     setupPlayer(root)
   }
@@ -60,20 +58,17 @@ public class Player {
     player.shadowCastBitMask = 1
     
     player.position = CGPoint(x: map.stone.mapSize.width / 2, y: map.stone.mapSize.height / 2)
+    
+    setupLightSource()
     root.addChild(player)
   }
   
   private func setupLightSource() {
     lightSource = SKLightNode()
     lightSource.lightColor = UIColor.white
-    lightSource.falloff = 1.5
+    lightSource.falloff = 4
     
     player.addChild(lightSource)
-  }
-  
-  private func setupCamera() {
-    //camera should either follow the map touch or the player, so it probably shouldn't
-    //be setup here
   }
   
   //this will eventually be determined by a specific control panel?

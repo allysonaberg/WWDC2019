@@ -34,13 +34,24 @@ public class Map {
     
     self.offset = stone.mapSize.height
     
-    let _ = tileMapNode(tilemap: ground, level: -1)
+    let groundmap = tileMapNode(tilemap: ground, level: -1)
     let stonemap = tileMapNode(tilemap: stone, level: 1)
     
     for item in stonemap.enumerated() {
       if item.element.texture != nil {
         item.element.physicsBody = SKPhysicsBody(polygonFrom: self.bodyPath)
         item.element.physicsBody?.isDynamic = false
+        item.element.lightingBitMask = 1
+        item.element.shadowedBitMask = 1
+        item.element.shadowCastBitMask = 1
+      }
+    }
+    
+    for item in groundmap.enumerated() {
+      if item.element.texture != nil {
+//        item.element.lightingBitMask = 1
+//        item.element.shadowedBitMask = 1
+//        item.element.shadowCastBitMask = 1
       }
     }
   }
