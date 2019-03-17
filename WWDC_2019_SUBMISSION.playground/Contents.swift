@@ -1,4 +1,3 @@
-//: A SpriteKit based Playground
 
 import PlaygroundSupport
 import SpriteKit
