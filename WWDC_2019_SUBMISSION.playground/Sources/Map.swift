@@ -3,11 +3,11 @@ import GameplayKit
 
 public class Map {
     
-    var ground: SKTileMapNode!
-    var stone: SKTileMapNode!
-    var level2: SKTileMapNode!
-    
-    var container : SKSpriteNode!
+//    var ground: SKTileMapNode!
+//    var stone: SKTileMapNode!
+//    var level2: SKTileMapNode!
+//
+    public var container : SKSpriteNode!
     var offset : CGFloat!
   
   var tileMap: SKTileMapNode!
@@ -25,21 +25,24 @@ public class Map {
     }
     
     public init(_ root: SKNode) {
+
       setupTiles(root: root)
-      
+
       self.container = SKSpriteNode()
+
       root.addChild(container)
       self.offset = tileMap.mapSize.height
       let ground = tileMapNode(tilemap: tileMap, level: 0)
 
-//      for item in ground.enumerated() {
-//        item.element.physicsBody = SKPhysicsBody(polygonFrom: self.bodyPath)
-//        item.element.physicsBody?.isDynamic = false
-//      }
+      for item in ground.enumerated() {
+        item.element.physicsBody = SKPhysicsBody(polygonFrom: self.bodyPath)
+        item.element.physicsBody?.isDynamic = false
+      }
 
     }
   
   func setupTiles(root: SKNode) {
+    print("setting up tiles")
     let tileSize: CGSize = CGSize(width: 128, height: 64)
     let tile01 = SKTileDefinition(texture: SKTexture(imageNamed: "01"), size: tileSize)
     let tile02 = SKTileDefinition(texture: SKTexture(imageNamed: "02"), size: tileSize)
