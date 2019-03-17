@@ -74,7 +74,7 @@ public class Map {
     
     let tileSet = SKTileSet(tileGroups: [tileGroup01, tileGroup02], tileSetType: .isometric)
     
-    let map = SKTileMapNode(tileSet: tileSet, columns: 11, rows: 10, tileSize: self.tileSize)
+    let map = SKTileMapNode(tileSet: tileSet, columns: 15, rows: 15, tileSize: self.tileSize)
     
     let path = Bundle.main.path(forResource: level, ofType: nil)
     do {

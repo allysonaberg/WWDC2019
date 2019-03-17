@@ -42,6 +42,7 @@ public class Player1 {
     }
   }
   
+  
   private func setupPlayer(_ root: SKNode) {
     player1 = SKSpriteNode(imageNamed: "S")
     player1.size = CGSize(width: 50, height: 50)
