@@ -16,7 +16,7 @@ enum Direction : String {
 
 public class Player {
     
-    let speed: CGFloat = 150.0
+    let speed: CGFloat = 200.0
     let map: Map!
     public var player: SKSpriteNode!
     var lightSource: SKLightNode!

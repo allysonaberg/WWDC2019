@@ -31,10 +31,11 @@ public class Map {
       self.container = SKSpriteNode()
       self.root = root
       root.addChild(container)
+      
       self.offset = stone.mapSize.height
       
-//      let groundmap = tileMapNode(tilemap: ground, level: -1)
-      let stonemap = tileMapNode(tilemap: ground, level: 1)
+      let groundmap = tileMapNode(tilemap: ground, level: -1)
+      let stonemap = tileMapNode(tilemap: stone, level: 1)
 
       for item in stonemap.enumerated() {
         if item.element.texture != nil {
@@ -45,11 +46,11 @@ public class Map {
 
     }
   
+  
   func setupTiles(root: SKNode) {
     self.tileSize = CGSize(width: 128, height: 64)
     self.ground = setupLevels(level: "Level1.txt")
     self.stone = setupLevels(level: "Level2.txt")
-
   }
   
   
@@ -64,8 +65,6 @@ public class Map {
     let tileSet = SKTileSet(tileGroups: [tileGroup01, tileGroup02], tileSetType: .isometric)
     
     let map = SKTileMapNode(tileSet: tileSet, columns: 11, rows: 10, tileSize: self.tileSize)
-//    map.fill(with: tileGroup01) // fill or set by column/row
-    //      tileMap.setTileGroup(tileGroup, forColumn: 1, row: 1)
     
     let path = Bundle.main.path(forResource: level, ofType: nil)
     do {
@@ -77,7 +76,6 @@ public class Map {
 
         for column in 0..<items.count {
           //          let tile = tileMap.tileSet.tileGroups.first(where: {$0.name == items[column]})
-
           if items[column] == "01" {
             map.setTileGroup(tileGroup01, forColumn: column, row: row)
           } else if items[column] == "02" {
@@ -89,12 +87,12 @@ public class Map {
       print("Error loading map")
     }
     return map
-//    self.root.addChild(map)
     
   }
 
     //Creating tiles of the map layer for further work with them
     func tileMapNode(tilemap: SKTileMapNode, level: Int) -> [SKSpriteNode] {
+      print("calling")
         var array = [SKSpriteNode]()
         for col in 0..<tilemap.numberOfColumns {
             for row in 0..<tilemap.numberOfRows {
