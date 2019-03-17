@@ -4,7 +4,7 @@ import GameplayKit
 public class Map {
   
   public var container : SKSpriteNode!
-
+  
   var ground: SKTileMapNode!
   var stone: SKTileMapNode!
   var level2: SKTileMapNode!
@@ -13,38 +13,37 @@ public class Map {
   var tileSize: CGSize!
   
   
-    // The shape of the physical body of each map tile
+  // The shape of the physical body of each map tile
   var bodyPath: CGPath {
-      let nsPath = CGMutablePath()
-      nsPath.move(to: CGPoint(x: 0, y: -64))
-      nsPath.addLine(to: CGPoint(x: -64.0, y: -32.0))
-      nsPath.addLine(to: CGPoint(x: 0.0, y: 0.0))
-      nsPath.addLine(to: CGPoint(x: 64.0, y: -32.0))
-      nsPath.closeSubpath()
-        
-      return nsPath
-  }
+    let nsPath = CGMutablePath()
+    nsPath.move(to: CGPoint(x: 0, y: -64))
+    nsPath.addLine(to: CGPoint(x: -64.0, y: -32.0))
+    nsPath.addLine(to: CGPoint(x: 0.0, y: 0.0))
+    nsPath.addLine(to: CGPoint(x: 64.0, y: -32.0))
+    nsPath.closeSubpath()
     
-    public init(_ root: SKNode) {
-
-      setupTiles(root: root)
-      self.container = SKSpriteNode()
-      self.root = root
-      root.addChild(container)
-      
-      self.offset = stone.mapSize.height
-      
-      let groundmap = tileMapNode(tilemap: ground, level: -1)
-      let stonemap = tileMapNode(tilemap: stone, level: 1)
-
-      for item in stonemap.enumerated() {
-        if item.element.texture != nil {
-          item.element.physicsBody = SKPhysicsBody(polygonFrom: self.bodyPath)
-          item.element.physicsBody?.isDynamic = false
-        }
+    return nsPath
+  }
+  
+  public init(_ root: SKNode) {
+    
+    setupTiles(root: root)
+    self.container = SKSpriteNode()
+    self.root = root
+    root.addChild(container)
+    
+    self.offset = stone.mapSize.height
+    
+    let _ = tileMapNode(tilemap: ground, level: -1)
+    let stonemap = tileMapNode(tilemap: stone, level: 1)
+    
+    for item in stonemap.enumerated() {
+      if item.element.texture != nil {
+        item.element.physicsBody = SKPhysicsBody(polygonFrom: self.bodyPath)
+        item.element.physicsBody?.isDynamic = false
       }
-
     }
+  }
   
   
   func setupTiles(root: SKNode) {
@@ -70,10 +69,10 @@ public class Map {
     do {
       let fileContents = try String(contentsOfFile:path!, encoding: String.Encoding.utf8)
       let lines = fileContents.components(separatedBy: "\n")
-
+      
       for row in 0..<lines.count {
         let items = lines[row].components(separatedBy: " ")
-
+        
         for column in 0..<items.count {
           //          let tile = tileMap.tileSet.tileGroups.first(where: {$0.name == items[column]})
           if items[column] == "01" {
@@ -89,23 +88,23 @@ public class Map {
     return map
     
   }
-
-    //Creating tiles of the map layer for further work with them
-    func tileMapNode(tilemap: SKTileMapNode, level: Int) -> [SKSpriteNode] {
-      print("calling")
-        var array = [SKSpriteNode]()
-        for col in 0..<tilemap.numberOfColumns {
-            for row in 0..<tilemap.numberOfRows {
-                let sprite = SKSpriteNode(texture: tilemap.tileDefinition(atColumn: col, row: row)?.textures.first)
-                sprite.position = tilemap.centerOfTile(atColumn: col, row: row)
-                sprite.zPosition = self.offset - sprite.position.y + tilemap.tileSize.height *  CGFloat(level)
-                self.container.addChild(sprite)
-                array.append(sprite)
-            }
-        }
-       tilemap.isHidden = true
-        return array
+  
+  //Creating tiles of the map layer for further work with them
+  func tileMapNode(tilemap: SKTileMapNode, level: Int) -> [SKSpriteNode] {
+    print("calling")
+    var array = [SKSpriteNode]()
+    for col in 0..<tilemap.numberOfColumns {
+      for row in 0..<tilemap.numberOfRows {
+        let sprite = SKSpriteNode(texture: tilemap.tileDefinition(atColumn: col, row: row)?.textures.first)
+        sprite.position = tilemap.centerOfTile(atColumn: col, row: row)
+        sprite.zPosition = self.offset - sprite.position.y + tilemap.tileSize.height *  CGFloat(level)
+        self.container.addChild(sprite)
+        array.append(sprite)
+      }
     }
+    tilemap.isHidden = true
+    return array
+  }
 }
 
 
