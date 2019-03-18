@@ -7,7 +7,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   public var player: Player!
   public var playingMap: Map!
   public var cameraNode: SKCameraNode!
-  public var timer: CountdownTimer!
+//  public var timer: CountdownTimer!
+  public var lightSource: LightSource!
   var lastTouch: CGPoint? = nil
   
   override public init(size: CGSize) {
@@ -17,8 +18,9 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     playingMap = Map(self)
     playingMap.container.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
     player = Player(self, map: playingMap)
-    timer = CountdownTimer(self)
-    timer.node.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
+//    timer = CountdownTimer(self)
+//    timer.node.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
+    lightSource = LightSource()
     cameraNode = SKCameraNode()
   }
   
@@ -34,7 +36,9 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   // MARK: - Touch Handling
   public override func touchesBegan(_ touches: Set<UITouch>,
                                     with event: UIEvent?) {
+    print("HANDLE TOUCHES")
     handleTouches(touches)
+    lightSource.recordButtonTapped()
   }
   
   public override func touchesMoved(_ touches: Set<UITouch>,
@@ -45,6 +49,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   public override func touchesEnded(_ touches: Set<UITouch>,
                                     with event: UIEvent?) {
     lastTouch = player.player.position
+    lightSource.recordButtonTapped()
     
   }
   
@@ -53,10 +58,10 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   public override func didSimulatePhysics() {
-    if !timer.isRunning {
-      print("STARTING TIMER")
-      timer.startTimer()
-    }
+//    if !timer.isRunning {
+//      print("STARTING TIMER")
+//      timer.startTimer()
+//    }
     
     if player != nil {
       player.updatePlayer(position: lastTouch)
