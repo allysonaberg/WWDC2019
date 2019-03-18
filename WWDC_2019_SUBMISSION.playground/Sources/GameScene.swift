@@ -7,9 +7,10 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   public var player: Player!
   public var playingMap: Map!
   public var cameraNode: SKCameraNode!
-//  public var timer: CountdownTimer!
+  public var timer: CountdownTimer!
   public var lightSource: LightSource!
   var lastTouch: CGPoint? = nil
+  public var label: SKLabelNode!
   
   override public init(size: CGSize) {
     
@@ -18,9 +19,16 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     playingMap = Map(self)
     playingMap.container.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
     player = Player(self, map: playingMap)
-//    timer = CountdownTimer(self)
-//    timer.node.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
+    timer = CountdownTimer(self)
+    timer.node.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
+    label = SKLabelNode()
+    label.text = "LABEL TEXT"
+    label.color = UIColor.red
+    label.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
+    label.zPosition = 1000
+    self.addChild(label)
     lightSource = LightSource()
+    lightSource.recordButtonTapped()
     cameraNode = SKCameraNode()
   }
   
@@ -38,7 +46,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
                                     with event: UIEvent?) {
     print("HANDLE TOUCHES")
     handleTouches(touches)
-    lightSource.recordButtonTapped()
   }
   
   public override func touchesMoved(_ touches: Set<UITouch>,
@@ -49,8 +56,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   public override func touchesEnded(_ touches: Set<UITouch>,
                                     with event: UIEvent?) {
     lastTouch = player.player.position
-    lightSource.recordButtonTapped()
-    
   }
   
   fileprivate func handleTouches(_ touches: Set<UITouch>) {
@@ -58,10 +63,12 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   public override func didSimulatePhysics() {
-//    if !timer.isRunning {
-//      print("STARTING TIMER")
-//      timer.startTimer()
-//    }
+    if lightSource != nil && lightSource.recorder != nil && label != nil {
+      lightSource.recorder.updateMeters()
+      print(lightSource.recorder.averagePower(forChannel: 0))
+      print(label.position)
+      label.text = String(lightSource.recorder.averagePower(forChannel: 0))
+    }
     
     if player != nil {
       player.updatePlayer(position: lastTouch)
@@ -73,7 +80,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   public func didBegin(_ contact: SKPhysicsContact) {
     var firstBody: SKPhysicsBody
     var secondBody: SKPhysicsBody
-    
+
     if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
       firstBody = contact.bodyA
       secondBody = contact.bodyB
@@ -81,7 +88,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
       firstBody = contact.bodyB
       secondBody = contact.bodyA
     }
-    
+
     if firstBody.categoryBitMask == player?.player.physicsBody!.categoryBitMask &&
       secondBody.categoryBitMask == 2 {
       if let node = secondBody.node {

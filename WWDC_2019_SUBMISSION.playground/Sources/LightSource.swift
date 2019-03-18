@@ -19,7 +19,6 @@ public class LightSource {
   }
   
   public func recordButtonTapped() {
-    print("RECORD TAPPED")
     if recorder == nil {
       recordNumber += 1
       
@@ -33,30 +32,18 @@ public class LightSource {
         try recordingSession.setActive(true, options: [])
         recorder = try AVAudioRecorder(url: recordFileName, settings: settings)
         print(recorder.averagePower(forChannel: 0))
+        recorder.isMeteringEnabled = true
         recorder.record()
       } catch {
-        print("ERROR RECORDINg")
         print(error)
       }
-    } else {
-      recorder.stop()
-      recorder = nil
     }
   }
   
-  public func playButtonTapped() {
-    if player == nil {
-      let recordFileName = temporaryDirectoryToKeepRecords.appendingPathComponent("record\(recordNumber).m4a")
-      do {
-        try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-        try AVAudioSession.sharedInstance().setActive(true)
-        player = try AVAudioPlayer(contentsOf: recordFileName)
-        player.play()
-      } catch let error {
-        print(error)
-      }
-    } else {
-      player = nil
+  public func stopButtonTapped() {
+    if recorder != nil {
+      recorder.stop()
+      recorder = nil
     }
   }
 }
