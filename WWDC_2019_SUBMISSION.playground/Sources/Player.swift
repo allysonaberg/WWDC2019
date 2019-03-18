@@ -15,11 +15,11 @@ enum Direction : String {
 }
 
 
-public class Player1 {
+public class Player {
   
-  let speed: CGFloat = 200.0
+  let speed: CGFloat = 300.0
   let map: Map!
-  public var player1: SKSpriteNode!
+  public var player: SKSpriteNode!
   
   public init(_ root: SKNode, map: Map) {
     self.map = map
@@ -28,51 +28,47 @@ public class Player1 {
   
   public func updatePlayer(position: CGPoint?) {
     guard
-      let player1 = player1,
+      let player = player,
       let position = position
       else { return }
     
     
-    let currentPosition = player1.position
+    let currentPosition = player.position
     
     if shouldMove(currentPosition: currentPosition, goalPosition: position) {
       movePlayer(to: position)
     } else {
-      player1.physicsBody?.isResting = true
+      player.physicsBody!.isResting = true
     }
   }
   
   
   private func setupPlayer(_ root: SKNode) {
-    player1 = SKSpriteNode(imageNamed: "S")
-    player1.size = CGSize(width: 50, height: 50)
-    player1.physicsBody = SKPhysicsBody(circleOfRadius: 20.0, center: CGPoint(x: 0.0, y: -30.0))
-    player1.physicsBody?.friction = 0
-    player1.physicsBody?.restitution = 0
-    player1.physicsBody?.linearDamping = 0
-    player1.physicsBody?.angularDamping = 0
-    player1.physicsBody?.allowsRotation = false
-    player1.physicsBody?.affectedByGravity = false
+    player = SKSpriteNode(imageNamed: "S")
+    player.size = CGSize(width: 50, height: 50)
+    player.physicsBody = SKPhysicsBody(circleOfRadius: 20.0, center: CGPoint(x: 0.0, y: 0.0))
+    player.physicsBody!.allowsRotation = false
+    player.physicsBody!.affectedByGravity = false
+    player.physicsBody!.isDynamic = true
+    player.physicsBody!.categoryBitMask = 1
+    player.physicsBody!.contactTestBitMask = 2
     
-    player1.lightingBitMask = 1
-    player1.shadowedBitMask = 1
-    player1.shadowCastBitMask = 1
+    player.position = CGPoint(x: map.stone.mapSize.width / 2, y: map.stone.mapSize.height / 2)
     
-    player1.position = CGPoint(x: map.stone.mapSize.width / 2, y: map.stone.mapSize.height / 2)
+    self.player.zPosition =  self.map.offset - self.player.position.y + 1000
     
-    root.addChild(player1)
+    root.addChild(player)
   }
   
-  //this will eventually be determined by a specific control panel?
   private func shouldMove(currentPosition: CGPoint, goalPosition: CGPoint) -> Bool {
-    return abs(currentPosition.x - goalPosition.x) > player1.frame.width / 2 || abs(currentPosition.y - goalPosition.y) > player1.frame.height / 2
+    return abs(currentPosition.x - goalPosition.x) > player.frame.width / 2 || abs(currentPosition.y - goalPosition.y) > player.frame.height / 2
   }
   
   private func movePlayer(to: CGPoint) {
-    let direction = self.angleDirection(to.y - self.player1.position.y, to.x - self.player1.position.x)
+    let direction = self.angleDirection(to.y - self.player.position.y, to.x - self.player.position.x)
     
-    self.player1.texture = SKTexture(imageNamed: direction.rawValue)
-    self.player1.zPosition =  self.map.offset - self.player1.position.y + 1000
+    self.player.texture = SKTexture(imageNamed: direction.rawValue)
+    self.player.zPosition =  self.map.offset - self.player.position.y + 1000
     
     var velocity = CGVector(dx: 0, dy: 0)
     let diagSpeed: CGFloat = speed/1.5
@@ -89,7 +85,9 @@ public class Player1 {
     case .SouthWest: velocity = CGVector(dx: -diagSpeed, dy: -diagSpeed)
     }
     
-    self.player1.physicsBody?.velocity = velocity
+    if self.player.physicsBody != nil {
+      self.player.physicsBody!.velocity = velocity
+    }
   }
   
   //figure out which direction we're heading...

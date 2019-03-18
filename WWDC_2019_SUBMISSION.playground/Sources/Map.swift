@@ -7,13 +7,12 @@ public class Map {
   
   var ground: SKTileMapNode!
   var stone: SKTileMapNode!
-  var level2: SKTileMapNode!
+  var danger: SKTileMapNode!
   var offset : CGFloat!
   var root: SKNode!
   var tileSize: CGSize!
   
   
-  // The shape of the physical body of each map tile
   var bodyPath: CGPath {
     let nsPath = CGMutablePath()
     nsPath.move(to: CGPoint(x: 0, y: -64))
@@ -26,7 +25,6 @@ public class Map {
   }
   
   public init(_ root: SKNode) {
-    
     setupTiles(root: root)
     self.container = SKSpriteNode()
     self.root = root
@@ -36,22 +34,15 @@ public class Map {
     
     let groundmap = tileMapNode(tilemap: ground, level: -1)
     let stonemap = tileMapNode(tilemap: stone, level: 1)
-    
+
     for item in stonemap.enumerated() {
       if item.element.texture != nil {
         item.element.physicsBody = SKPhysicsBody(polygonFrom: self.bodyPath)
-        item.element.physicsBody?.isDynamic = false
+        item.element.physicsBody!.affectedByGravity = false
+        item.element.physicsBody!.isDynamic = true
+        item.element.physicsBody!.contactTestBitMask = 2
+        item.element.physicsBody!.categoryBitMask = 2
         item.element.lightingBitMask = 1
-        item.element.shadowedBitMask = 1
-        item.element.shadowCastBitMask = 1
-      }
-    }
-    
-    for item in groundmap.enumerated() {
-      if item.element.texture != nil {
-        item.element.lightingBitMask = 1
-        item.element.shadowedBitMask = 1
-        item.element.shadowCastBitMask = 1
       }
     }
   }
@@ -60,19 +51,27 @@ public class Map {
   func setupTiles(root: SKNode) {
     self.tileSize = CGSize(width: 128, height: 64)
     self.ground = setupLevels(level: "Level1.txt")
-    self.stone = setupLevels(level: "Level2.txt")
+    self.stone = setupLevels(level: "Level3.txt")
   }
   
   
   func setupLevels(level: String) -> SKTileMapNode {
     let tile01 = SKTileDefinition(texture: SKTexture(imageNamed: "01"), size: tileSize)
-    let tile02 = SKTileDefinition(texture: SKTexture(imageNamed: "02"), size: tileSize)
     let tileGroupRule01 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile01])
     let tileGroup01 = SKTileGroup(rules: [tileGroupRule01])
+    tileGroup01.name = "01"
+    
+    let tile02 = SKTileDefinition(texture: SKTexture(imageNamed: "02"), size: tileSize)
     let tileGroupRule02 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile02])
     let tileGroup02 = SKTileGroup(rules: [tileGroupRule02])
+    tileGroup01.name = "02"
     
-    let tileSet = SKTileSet(tileGroups: [tileGroup01, tileGroup02], tileSetType: .isometric)
+    let tile03 = SKTileDefinition(texture: SKTexture(imageNamed: "03"), size: tileSize)
+    let tileGroupRule03 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile03])
+    let tileGroup03 = SKTileGroup(rules: [tileGroupRule03])
+    tileGroup01.name = "03"
+    
+    let tileSet = SKTileSet(tileGroups: [tileGroup01, tileGroup02, tileGroup03], tileSetType: .isometric)
     
     let map = SKTileMapNode(tileSet: tileSet, columns: 15, rows: 15, tileSize: self.tileSize)
     
@@ -85,11 +84,14 @@ public class Map {
         let items = lines[row].components(separatedBy: " ")
         
         for column in 0..<items.count {
-          //          let tile = tileMap.tileSet.tileGroups.first(where: {$0.name == items[column]})
           if items[column] == "01" {
             map.setTileGroup(tileGroup01, forColumn: column, row: row)
           } else if items[column] == "02" {
             map.setTileGroup(tileGroup02, forColumn: column, row: row)
+          } else if items[column] == "03" {
+            map.setTileGroup(tileGroup03, forColumn: column, row: row)
+          } else if items[column] == "04" {
+            map.setTileGroup(tileGroup01, forColumn: column, row: row)
           }
         }
       }
@@ -100,9 +102,7 @@ public class Map {
     
   }
   
-  //Creating tiles of the map layer for further work with them
   func tileMapNode(tilemap: SKTileMapNode, level: Int) -> [SKSpriteNode] {
-    print("calling")
     var array = [SKSpriteNode]()
     for col in 0..<tilemap.numberOfColumns {
       for row in 0..<tilemap.numberOfRows {
