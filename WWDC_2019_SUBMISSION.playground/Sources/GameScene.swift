@@ -8,9 +8,10 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   public var playingMap: Map!
   public var cameraNode: SKCameraNode!
   public var timer: CountdownTimer!
-  public var lightSource: LightSource!
+  public var recordingSource: RecordingSource!
   var lastTouch: CGPoint? = nil
   public var label: SKLabelNode!
+  public var lightSource: LightSource!
   
   override public init(size: CGSize) {
     
@@ -19,6 +20,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     playingMap = Map(self)
     playingMap.container.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
     player = Player(self, map: playingMap)
+    lightSource = LightSource()
     timer = CountdownTimer(self)
     timer.node.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
     label = SKLabelNode()
@@ -27,8 +29,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     label.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
     label.zPosition = 1000
     self.addChild(label)
-    lightSource = LightSource()
-    lightSource.recordButtonTapped()
+    recordingSource = RecordingSource()
+    recordingSource.recordButtonTapped()
     cameraNode = SKCameraNode()
   }
   
@@ -39,6 +41,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   public override func didMove(to view: SKView) {
     self.physicsWorld.contactDelegate = self
     self.camera = cameraNode
+    self.player.player.addChild(lightSource.lightSource)
   }
   
   // MARK: - Touch Handling
@@ -63,11 +66,12 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   public override func didSimulatePhysics() {
-    if lightSource != nil && lightSource.recorder != nil && label != nil {
-      lightSource.recorder.updateMeters()
-      print(lightSource.recorder.averagePower(forChannel: 0))
+    if recordingSource?.recorder != nil && label != nil {
+      recordingSource.recorder.updateMeters()
+      print(recordingSource.recorder.averagePower(forChannel: 0))
       print(label.position)
-      label.text = String(lightSource.recorder.averagePower(forChannel: 0))
+      label.text = String(recordingSource.recorder.averagePower(forChannel: 0))
+      lightSource.lightSource.falloff = CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0)) / 60.0)
     }
     
     if player != nil {
@@ -91,9 +95,9 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
 
     if firstBody.categoryBitMask == player?.player.physicsBody!.categoryBitMask &&
       secondBody.categoryBitMask == 2 {
-      if let node = secondBody.node {
-        addLightSource(node)
-      }
+//      if let node = secondBody.node {
+//        addLightSource(node)
+//      }
     }
 
   }

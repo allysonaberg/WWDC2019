@@ -45,6 +45,13 @@ public class Map {
         item.element.lightingBitMask = 1
       }
     }
+    
+    for item in groundmap.enumerated() {
+      if item.element.texture != nil {
+        item.element.lightingBitMask = 1
+        item.element.shadowedBitMask = 1
+      }
+    }
   }
   
   
