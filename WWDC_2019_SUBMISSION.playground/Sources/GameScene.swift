@@ -9,6 +9,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   public var cameraNode: SKCameraNode!
   public var timer: CountdownTimer!
   public var recordingSource: RecordingSource!
+  public var musicPlayer: AudioPlayer!
   var lastTouch: CGPoint? = nil
   public var label: SKLabelNode!
   public var lightSource: LightSource!
@@ -32,6 +33,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     recordingSource = RecordingSource()
     recordingSource.recordButtonTapped()
     cameraNode = SKCameraNode()
+    musicPlayer = AudioPlayer()
   }
   
   required public init?(coder aDecoder: NSCoder) {
