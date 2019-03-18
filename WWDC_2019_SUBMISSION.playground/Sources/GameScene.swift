@@ -7,15 +7,18 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   public var player: Player!
   public var playingMap: Map!
   public var cameraNode: SKCameraNode!
+  public var timer: CountdownTimer!
   var lastTouch: CGPoint? = nil
   
   override public init(size: CGSize) {
     
     super.init(size: size)
+    
     playingMap = Map(self)
     playingMap.container.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
     player = Player(self, map: playingMap)
-    
+    timer = CountdownTimer(self)
+    timer.node.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
     cameraNode = SKCameraNode()
   }
   
@@ -50,6 +53,11 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   public override func didSimulatePhysics() {
+    if !timer.isRunning {
+      print("STARTING TIMER")
+      timer.startTimer()
+    }
+    
     if player != nil {
       player.updatePlayer(position: lastTouch)
       cameraNode.position = player.player.position
