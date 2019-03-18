@@ -34,6 +34,9 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     recordingSource.recordButtonTapped()
     cameraNode = SKCameraNode()
     musicPlayer = AudioPlayer()
+    musicPlayer.soundNode.position = CGPoint(x: size.width, y: size.height)
+    self.addChild(musicPlayer.soundNode)
+    
   }
   
   required public init?(coder aDecoder: NSCoder) {
@@ -43,6 +46,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   public override func didMove(to view: SKView) {
     self.physicsWorld.contactDelegate = self
     self.camera = cameraNode
+//    self.camera?.addChild(musicPlayer.soundNode)
     self.player.player.addChild(lightSource.lightSource)
   }
   
@@ -65,6 +69,17 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   
   fileprivate func handleTouches(_ touches: Set<UITouch>) {
     lastTouch = touches.first?.location(in: self)
+    if lastTouch != nil {
+      let nodes = self.nodes(at: lastTouch!)
+    
+      for node in nodes
+      {
+        if node.name == "volumeButton" {
+          musicPlayer.stopMusic()
+        }
+      }
+    }
+    
   }
   
   public override func didSimulatePhysics() {
