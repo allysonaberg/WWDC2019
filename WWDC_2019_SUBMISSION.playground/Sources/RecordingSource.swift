@@ -10,12 +10,7 @@ public class RecordingSource {
   var recorder: AVAudioRecorder!
   
   public init() {
-//    let lightNode = SKLightNode()
-//    lightNode.lightColor = UIColor.red
-//    lightNode.falloff = 2
-    
     self.recordingSession = AVAudioSession.sharedInstance()
-
   }
   
   public func recordButtonTapped() {
@@ -27,7 +22,6 @@ public class RecordingSource {
       let settings = [AVFormatIDKey: Int(kAudioFormatMPEG4AAC), AVSampleRateKey: 44100, AVNumberOfChannelsKey: 1, AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue]
       recordingSession = AVAudioSession.sharedInstance()
       do {
-        
         try recordingSession.setCategory(.playAndRecord, mode: .default)
         try recordingSession.setActive(true, options: [])
         recorder = try AVAudioRecorder(url: recordFileName, settings: settings)

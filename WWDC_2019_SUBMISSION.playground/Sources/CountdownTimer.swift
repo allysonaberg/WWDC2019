@@ -24,11 +24,12 @@ public class CountdownTimer {
   }
   
   @objc public func updateTimer() {
-    print(node.text)
+    print("changing node text")
     if count > 0 {
       let minutesLeft = String(count/60)
       let secondsLeft = String(count % 60)
-      node.text = minutesLeft + ":" + secondsLeft
+      print("changing node text")
+      self.node.text = minutesLeft + ":" + secondsLeft
       count = count - 1
     } else {
       handleTimesUp()

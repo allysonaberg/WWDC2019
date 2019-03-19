@@ -7,15 +7,16 @@ public class AudioPlayer {
   var music: AVAudioPlayer!
   var soundNode: SKSpriteNode!
   
-  public init() {
-    setupNode()
+  public init(_ root: SKNode) {
+    setupNode(root)
     setupPlayer()
   }
   
-  func setupNode() {
+  func setupNode(_ root: SKNode) {
     self.soundNode = SKSpriteNode(imageNamed: "volume")
     soundNode.name = "volumeButton"
     soundNode.zPosition = 100000
+    root.addChild(soundNode)
   }
   
   func setupPlayer() {
