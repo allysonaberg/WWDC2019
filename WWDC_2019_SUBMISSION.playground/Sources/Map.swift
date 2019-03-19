@@ -49,7 +49,6 @@ public class Map {
     for item in groundmap.enumerated() {
       if item.element.texture != nil {
         if item.element.name == "03" {
-          print("FOUND 03")
           item.element.lightingBitMask = 1
         }
       }
@@ -85,12 +84,12 @@ public class Map {
     tileGroup03.name = "03"
     
     //danger
-    let tile04 = SKTileDefinition(texture: SKTexture(), size: tileSize)
+    let tile04 = SKTileDefinition(texture: SKTexture(imageNamed: "011"), size: tileSize)
     let tileGroupRule04 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile04])
     let tileGroup04 = SKTileGroup(rules: [tileGroupRule04])
     tileGroup04.name = "04"
     
-    let tileSet = SKTileSet(tileGroups: [tileGroup01, tileGroup02, tileGroup03], tileSetType: .isometric)
+    let tileSet = SKTileSet(tileGroups: [tileGroup01, tileGroup02, tileGroup03, tileGroup04], tileSetType: .isometric)
     
     let map = SKTileMapNode(tileSet: tileSet, columns: 22, rows: 22, tileSize: self.tileSize)
     
@@ -131,6 +130,9 @@ public class Map {
         self.container.addChild(sprite)
         if tilemap.tileGroup(atColumn: col, row: row)?.name == "03" {
           sprite.name = "03"
+        }
+        if tilemap.tileGroup(atColumn: col, row: row)?.name == "04" {
+          sprite.name = "04"
         }
         array.append(sprite)
       }
