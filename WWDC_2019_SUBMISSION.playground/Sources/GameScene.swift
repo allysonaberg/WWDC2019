@@ -9,6 +9,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   public var cameraNode: SKCameraNode!
   public var recordingSource: RecordingSource!
   public var musicPlayer: AudioPlayer!
+  public var menuNode: SKSpriteNode!
   var lastTouch: CGPoint? = nil
   public var lightSource: LightSource!
   
@@ -31,7 +32,14 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     recordingSource = RecordingSource()
     
     musicPlayer = AudioPlayer(self)
-    musicPlayer.soundNode.position = CGPoint(x: size.width, y: size.height)
+    musicPlayer.soundNode.position = CGPoint(x: size.width + 500, y: size.height + 300)
+    
+    menuNode = SKSpriteNode()
+    menuNode.size = CGSize(width: 150, height: 80)
+    menuNode.color = UIColor.red
+    menuNode.position = CGPoint(x: size.width + 500, y: size.height + 300)
+    menuNode.name = "menu"
+    self.addChild(menuNode)
     
   }
   
@@ -71,7 +79,10 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
       for node in nodes
       {
         if node.name == "volumeButton" {
-          musicPlayer.stopMusic()
+          musicPlayer.handleTapped()
+        }
+        if node.name == "menu" {
+          handleShowMenu()
         }
       }
     }
@@ -89,7 +100,9 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     if player != nil {
       player.updatePlayer(position: lastTouch)
       cameraNode.position = player.player.position
-      musicPlayer.soundNode.position = CGPoint(x: player.player.position.x + 300, y: player.player.position.y + 300)
+      musicPlayer.soundNode.position = CGPoint(x: player.player.position.x + 500, y: player.player.position.y + 300)
+      menuNode.position = CGPoint(x: player.player.position.x + 600,
+                                  y: player.player.position.y + 400)
     }
   }
 
@@ -128,6 +141,10 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     lightNode.lightColor = UIColor.red
     lightNode.falloff = 2
     parent.addChild(lightNode)
+  }
+  
+  private func handleShowMenu() {
+    print("SHOW MENU")
   }
 
 }
