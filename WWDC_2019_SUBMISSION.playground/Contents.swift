@@ -1,18 +1,18 @@
 
 import PlaygroundSupport
 import SpriteKit
-import GameplayKit
 
-let viewSize = CGSize(width: 1200, height: 800)
+//TODO: this should probably store both the menu and game scene and switch between them
+//rather than reinitializing
+let viewSize = CGSize(width: 1024, height: 768)
 
 let sceneView = SKView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: viewSize))
-sceneView.backgroundColor = UIColor(red: 250, green: 242, blue: 255, alpha: 0.5)
 sceneView.ignoresSiblingOrder = true
-//let gameScene = GameScene(size: viewSize)
-//sceneView.presentScene(gameScene)
+
 let menuScene = MenuScene(size: viewSize)
+menuScene.scaleMode = .aspectFill
+
 sceneView.presentScene(menuScene)
 
 PlaygroundPage.current.liveView = sceneView
-PlaygroundPage.current.needsIndefiniteExecution = true
 

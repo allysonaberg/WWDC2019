@@ -156,7 +156,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   private func handleShowMenu() {
     let sKView = self.view?.scene?.view
     let menuScene = MenuScene(size: CGSize(width: 1200, height: 800))
-
+    menuScene.scaleMode = .aspectFill
     sKView?.presentScene(menuScene)
   }
 

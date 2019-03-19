@@ -1,35 +1,40 @@
 import SpriteKit
-import GameplayKit
 
 public class MenuScene: SKScene {
 
-  public var titleLabel: SKLabelNode!
-  public var playButton: SKLabelNode!
+  let gameTitle: String = "In The Dark"
+  
+  lazy var titleLabel: SKLabelNode = {
+    let label = SKLabelNode(text: gameTitle)
+    label.fontSize = 40
+    label.fontColor = blackColor
+    //todo: fix dynamic sizing placement
+    label.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
+    label.zPosition = 100000
+    return label
+  }()
+  
+  lazy var playButton: SKLabelNode = {
+    let button = SKLabelNode(text: "PLAY")
+    button.fontColor = redColor
+    button.fontSize = 30
+    //todo: fix dynamic sizing placement
+    button.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2 - 100)
+    button.zPosition = 100000
+    button.name = "playButton"
+    return button
+  }()
   
   override public init(size: CGSize) {
   
     super.init(size: size)
-    self.backgroundColor = UIColor.white
     
-    titleLabel = SKLabelNode(text: "In The Dark")
-    titleLabel.fontSize = 40
-    titleLabel.fontColor = UIColor.black
-    titleLabel.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
-
-    titleLabel.zPosition = 100000
+    self.backgroundColor = whiteColor
     self.addChild(titleLabel)
-    
-    playButton = SKLabelNode(text: "PLAY")
-    playButton.fontColor = UIColor.red
-    playButton.fontSize = 30
-    playButton.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
-    playButton.position.y = titleLabel.position.y - 100
-    playButton.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2 - 100)
-    playButton.zPosition = 100000
-    playButton.name = "playButton"
     self.addChild(playButton)
   }
   
+
   required public init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
@@ -42,24 +47,21 @@ public class MenuScene: SKScene {
   }
   
 
-  fileprivate func handleTouches(_ touches: Set<UITouch>) {
-    let lastTouch = touches.first?.location(in: self)
-    if lastTouch != nil {
-      let nodes = self.nodes(at: lastTouch!)
-      
-      for node in nodes
-      {
-        if node.name == "playButton" {
-          startPlaying()
-        }
-      }
-    }
-  }
-  
   public func startPlaying() {
     let sKView = self.view?.scene?.view
     let gameScene = GameScene(size: CGSize(width: 1200, height: 800))
-    
+    gameScene.scaleMode = .aspectFill
     sKView?.presentScene(gameScene)
   }
+  
+  
+  private func handleTouches(_ touches: Set<UITouch>) {
+    guard let lastTouch = touches.first?.location(in: self) else { return }
+    
+    let nodes = self.nodes(at: lastTouch)
+    for node in nodes where node.name == "playButton" {
+      startPlaying()
+    }
+  }
+  
 }
