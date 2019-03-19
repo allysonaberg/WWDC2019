@@ -145,6 +145,11 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   
   private func handleShowMenu() {
     print("SHOW MENU")
+    let sKView = self.view?.scene?.view
+    let menuScene = MenuScene(size: CGSize(width: 1200, height: 800))
+
+    
+    sKView?.presentScene(scene)
   }
 
 }
