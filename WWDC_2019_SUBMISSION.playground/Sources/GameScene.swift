@@ -9,7 +9,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   public var cameraNode: SKCameraNode!
   public var recordingSource: RecordingSource!
   public var musicPlayer: AudioPlayer!
-  public var menuNode: SKSpriteNode!
+  public var menuNode: SKLabelNode!
   var lastTouch: CGPoint? = nil
   public var lightSource: LightSource!
   
@@ -19,8 +19,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   override public init(size: CGSize) {
     
     super.init(size: size)
-
-
     
     playingMap = Map(self)
     playingMap.container.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
@@ -37,11 +35,12 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     musicPlayer = AudioPlayer(self)
     musicPlayer.soundNode.position = CGPoint(x: size.width + 500, y: size.height + 300)
     
-    menuNode = SKSpriteNode()
-    menuNode.size = CGSize(width: 150, height: 80)
-    menuNode.color = UIColor.red
-    menuNode.position = CGPoint(x: size.width + 500, y: size.height + 300)
+    menuNode = SKLabelNode(text: "MENU")
+    menuNode.fontSize = 25
+    menuNode.fontColor = UIColor.red
+    menuNode.position = CGPoint(x: musicPlayer.soundNode.position.x, y: musicPlayer.soundNode.position.y - 150)
     menuNode.name = "menu"
+    menuNode.zPosition = 100000
     self.addChild(menuNode)
     
     let gradientLayer = CAGradientLayer()
@@ -110,8 +109,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
       player.updatePlayer(position: lastTouch)
       cameraNode.position = player.player.position
       musicPlayer.soundNode.position = CGPoint(x: player.player.position.x + 500, y: player.player.position.y + 300)
-      menuNode.position = CGPoint(x: player.player.position.x + 600,
-                                  y: player.player.position.y + 400)
+      menuNode.position = CGPoint(x: player.player.position.x + 300,
+                                  y: player.player.position.y + 100)
     }
   }
 
@@ -155,12 +154,10 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   private func handleShowMenu() {
-    print("SHOW MENU")
     let sKView = self.view?.scene?.view
     let menuScene = MenuScene(size: CGSize(width: 1200, height: 800))
 
-    
-    sKView?.presentScene(scene)
+    sKView?.presentScene(menuScene)
   }
 
 }
