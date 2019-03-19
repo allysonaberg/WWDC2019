@@ -42,17 +42,18 @@ public class Map {
         item.element.physicsBody!.isDynamic = false
         item.element.physicsBody!.contactTestBitMask = 2
         item.element.physicsBody!.categoryBitMask = 2
-      
       }
     }
     
     for item in groundmap.enumerated() {
       if item.element.texture != nil {
         if item.element.name == "03" {
+          print("found 03")
           item.element.lightingBitMask = 1
         }
       }
     }
+    
   }
   
   
@@ -78,7 +79,7 @@ public class Map {
     tileGroup02.name = "02"
     
     //item
-    let tile03 = SKTileDefinition(texture: SKTexture(imageNamed: "022"), size: tileSize)
+    let tile03 = SKTileDefinition(texture: SKTexture(imageNamed: "02"), size: tileSize)
     let tileGroupRule03 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile03])
     let tileGroup03 = SKTileGroup(rules: [tileGroupRule03])
     tileGroup03.name = "03"

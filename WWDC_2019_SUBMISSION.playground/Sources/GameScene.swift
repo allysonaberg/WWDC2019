@@ -15,7 +15,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   override public init(size: CGSize) {
     
     super.init(size: size)
-    self.backgroundColor = UIColor.black
+    self.backgroundColor = UIColor.white
 
     
     playingMap = Map(self)
@@ -42,7 +42,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   public override func didMove(to view: SKView) {
     self.physicsWorld.contactDelegate = self
     self.camera = cameraNode
-//    self.camera?.addChild(musicPlayer.soundNode)
     self.player.player.addChild(lightSource.lightSource)
     self.recordingSource.recordButtonTapped()
   }
@@ -90,6 +89,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     if player != nil {
       player.updatePlayer(position: lastTouch)
       cameraNode.position = player.player.position
+      musicPlayer.soundNode.position = CGPoint(x: player.player.position.x + 300, y: player.player.position.y + 300)
     }
   }
 
@@ -120,7 +120,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   public func didEnd(_ contact: SKPhysicsContact) {
-    self.backgroundColor = UIColor.black
+    self.backgroundColor = UIColor.white
   }
 
   private func addLightSource(_ parent: SKNode) {
