@@ -73,7 +73,7 @@ public class Map {
     tileGroup01.name = "01"
     
     //white ground
-    let tile02 = SKTileDefinition(texture: SKTexture(imageNamed: "02"), size: tileSize)
+    let tile02 = SKTileDefinition(texture: SKTexture(imageNamed: "01"), size: tileSize)
     let tileGroupRule02 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile02])
     let tileGroup02 = SKTileGroup(rules: [tileGroupRule02])
     tileGroup02.name = "02"
@@ -85,7 +85,7 @@ public class Map {
     tileGroup03.name = "03"
     
     //danger
-    let tile04 = SKTileDefinition(texture: SKTexture(imageNamed: "011"), size: tileSize)
+    let tile04 = SKTileDefinition(texture: SKTexture(imageNamed: "01"), size: tileSize)
     let tileGroupRule04 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile04])
     let tileGroup04 = SKTileGroup(rules: [tileGroupRule04])
     tileGroup04.name = "04"

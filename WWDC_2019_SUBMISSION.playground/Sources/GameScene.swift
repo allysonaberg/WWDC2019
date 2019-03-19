@@ -13,10 +13,13 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   var lastTouch: CGPoint? = nil
   public var lightSource: LightSource!
   
+  let colorBottom = UIColor(red: 58/255, green: 187/255, blue: 196/255, alpha: 1.0) /* #3abbc4 */
+  let colorTop = UIColor(red: 158/255, green: 224/255, blue: 229/255, alpha: 1.0) /* #9ee0e5 */
+  
   override public init(size: CGSize) {
     
     super.init(size: size)
-    self.backgroundColor = UIColor.white
+
 
     
     playingMap = Map(self)
@@ -40,6 +43,12 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     menuNode.position = CGPoint(x: size.width + 500, y: size.height + 300)
     menuNode.name = "menu"
     self.addChild(menuNode)
+    
+    let gradientLayer = CAGradientLayer()
+    gradientLayer.colors = [colorTop, colorBottom]
+    gradientLayer.locations = [0.0, 1.0]
+    gradientLayer.frame.size = size
+    self.view?.layer.addSublayer(gradientLayer)
     
   }
   
@@ -124,7 +133,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     if firstBody.categoryBitMask == player?.player.physicsBody!.categoryBitMask &&
       secondBody.categoryBitMask == 2 {
       print("CONTACT")
-      self.backgroundColor = UIColor.red
+//      self.backgroundColor = UIColor.red
 //      if let node = secondBody.node {
 //        addLightSource(node)
 //      }
@@ -133,7 +142,9 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   public func didEnd(_ contact: SKPhysicsContact) {
-    self.backgroundColor = UIColor.white
+//    self.backgroundColor = UIColor.black
+//    self.backgroundColor = UIColor(red: 133/255, green: 193/255, blue: 198/255, alpha: 1.0) /* #85c1c6 */
+
   }
 
   private func addLightSource(_ parent: SKNode) {

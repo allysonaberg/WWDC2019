@@ -8,6 +8,7 @@ public class AudioPlayer {
   var soundNode: SKSpriteNode!
   public var isOn: Bool!
   
+
   public init(_ root: SKNode) {
     setupNode(root)
     setupPlayer()
