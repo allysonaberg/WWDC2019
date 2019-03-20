@@ -6,7 +6,7 @@ public class AudioPlayer {
   
   var music: AVAudioPlayer!
   var soundNode: SKSpriteNode!
-  public var isOn: Bool!
+  public var isOn: Bool! = false
   
 
   public init(_ root: SKNode) {
@@ -16,10 +16,9 @@ public class AudioPlayer {
   
   func setupNode(_ root: SKNode) {
     self.soundNode = SKSpriteNode(imageNamed: "speaker")
-    soundNode.name = "volumeButton"
+    soundNode.name = volumeButtonName
     soundNode.zPosition = 100000
     soundNode.size = CGSize(width: 80, height: 80)
-    self.isOn = false
     root.addChild(soundNode)
   }
   
@@ -30,8 +29,6 @@ public class AudioPlayer {
       guard let url = url else { return }
         music = try AVAudioPlayer(contentsOf: url)
         music.prepareToPlay()
-        music.play()
-      self.isOn = true
     } catch let error {
       print(error)
     }
@@ -39,7 +36,6 @@ public class AudioPlayer {
   
   
   public func handleTapped() {
-    print(isOn)
     if isOn {
       music.stop()
       self.isOn = false

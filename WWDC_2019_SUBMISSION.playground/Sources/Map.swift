@@ -48,7 +48,6 @@ public class Map {
     for item in groundmap.enumerated() {
       if item.element.texture != nil {
         if item.element.name == "03" {
-          print("found 03")
           item.element.lightingBitMask = 1
         }
       }

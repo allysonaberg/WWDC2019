@@ -24,7 +24,6 @@ public class CountdownTimer {
   }
   
   @objc public func updateTimer() {
-    print("changing node text")
     if count > 0 {
       let minutesLeft = String(count/60)
       let secondsLeft = String(count % 60)

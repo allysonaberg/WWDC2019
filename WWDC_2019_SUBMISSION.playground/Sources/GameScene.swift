@@ -1,21 +1,26 @@
 import SpriteKit
 import GameplayKit
 
+//TODO: figure out zPosition
+//TODO: figure out dynamic positioning / sizes
+//TODO: fix force unwrapping
 public class GameScene: SKScene, SKPhysicsContactDelegate {
   
-  // MARK: - Instance Variables
-  public var player: Player!
-  public var playingMap: Map!
-  public var cameraNode: SKCameraNode!
-  public var recordingSource: RecordingSource!
-  public var musicPlayer: AudioPlayer!
-  public var menuNode: SKLabelNode!
+  let menuButtonText = "MENU"
+  let menuButtonName = "Menu"
+  let volumeButtonName = "volumeButton"
+  
+  // Instance Variables
+  var player: Player!
+  var playingMap: Map!
+  var cameraNode: SKCameraNode!
+  var recordingSource: RecordingSource!
+  var musicPlayer: AudioPlayer!
+  var menuNode: SKLabelNode!
+  var lightSource: LightSource!
   var lastTouch: CGPoint? = nil
-  public var lightSource: LightSource!
-  
-  let colorBottom = UIColor(red: 58/255, green: 187/255, blue: 196/255, alpha: 1.0) /* #3abbc4 */
-  let colorTop = UIColor(red: 158/255, green: 224/255, blue: 229/255, alpha: 1.0) /* #9ee0e5 */
-  
+
+  // Initialization
   override public init(size: CGSize) {
     
     super.init(size: size)
@@ -25,7 +30,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     
     player = Player(self, map: playingMap)
     player.player.position = CGPoint(x: 400, y: 400)
-
+    
     lightSource = LightSource()
     
     cameraNode = SKCameraNode()
@@ -44,7 +49,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     self.addChild(menuNode)
     
     let gradientLayer = CAGradientLayer()
-    gradientLayer.colors = [colorTop, colorBottom]
+    gradientLayer.colors = [gradientColorTop, gradientColorBottom]
     gradientLayer.locations = [0.0, 1.0]
     gradientLayer.frame.size = size
     self.view?.layer.addSublayer(gradientLayer)
@@ -83,7 +88,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     lastTouch = touches.first?.location(in: self)
     if lastTouch != nil {
       let nodes = self.nodes(at: lastTouch!)
-    
+      
       for node in nodes
       {
         if node.name == "volumeButton" {
@@ -113,12 +118,12 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
                                   y: player.player.position.y + 100)
     }
   }
-
-
+  
+  
   public func didBegin(_ contact: SKPhysicsContact) {
     var firstBody: SKPhysicsBody
     var secondBody: SKPhysicsBody
-
+    
     if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
       firstBody = contact.bodyA
       secondBody = contact.bodyB
@@ -126,31 +131,15 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
       firstBody = contact.bodyB
       secondBody = contact.bodyA
     }
-
+    
     print(firstBody.categoryBitMask)
     print(secondBody.categoryBitMask)
     if firstBody.categoryBitMask == player?.player.physicsBody!.categoryBitMask &&
       secondBody.categoryBitMask == 2 {
       print("CONTACT")
-//      self.backgroundColor = UIColor.red
-//      if let node = secondBody.node {
-//        addLightSource(node)
-//      }
+      //      self.backgroundColor = UIColor.red
     }
-
-  }
-  
-  public func didEnd(_ contact: SKPhysicsContact) {
-//    self.backgroundColor = UIColor.black
-//    self.backgroundColor = UIColor(red: 133/255, green: 193/255, blue: 198/255, alpha: 1.0) /* #85c1c6 */
-
-  }
-
-  private func addLightSource(_ parent: SKNode) {
-    let lightNode = SKLightNode()
-    lightNode.lightColor = UIColor.red
-    lightNode.falloff = 2
-    parent.addChild(lightNode)
+    
   }
   
   private func handleShowMenu() {
