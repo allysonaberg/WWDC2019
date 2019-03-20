@@ -7,7 +7,7 @@ import GameplayKit
 public class GameScene: SKScene, SKPhysicsContactDelegate {
   
   let menuButtonText = "MENU"
-  let menuButtonName = "Menu"
+  let menuButtonName = "menu"
   let volumeButtonName = "volumeButton"
   
   // Instance Variables
@@ -39,25 +39,22 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     
     musicPlayer = AudioPlayer(self)
     musicPlayer.soundNode.position = CGPoint(x: size.width + 500, y: size.height + 300)
-    
-    menuNode = SKLabelNode(text: "MENU")
-    menuNode.fontSize = 25
-    menuNode.fontColor = UIColor.red
-    menuNode.position = CGPoint(x: musicPlayer.soundNode.position.x, y: musicPlayer.soundNode.position.y - 150)
-    menuNode.name = "menu"
-    menuNode.zPosition = 100000
-    self.addChild(menuNode)
-    
-    let gradientLayer = CAGradientLayer()
-    gradientLayer.colors = [gradientColorTop, gradientColorBottom]
-    gradientLayer.locations = [0.0, 1.0]
-    gradientLayer.frame.size = size
-    self.view?.layer.addSublayer(gradientLayer)
-    
+  
+    setupMenuNode()
   }
   
   required public init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func setupMenuNode() {
+    menuNode = SKLabelNode(text: menuButtonText)
+    menuNode.fontSize = 25
+    menuNode.fontColor = redColor
+    menuNode.position = CGPoint(x: musicPlayer.soundNode.position.x, y: musicPlayer.soundNode.position.y - 150)
+    menuNode.name = menuButtonName
+    menuNode.zPosition = 100000
+    self.addChild(menuNode)
   }
   
   public override func didMove(to view: SKView) {
@@ -70,7 +67,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   // MARK: - Touch Handling
   public override func touchesBegan(_ touches: Set<UITouch>,
                                     with event: UIEvent?) {
-    print("HANDLE TOUCHES")
     handleTouches(touches)
   }
   
@@ -91,10 +87,10 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
       
       for node in nodes
       {
-        if node.name == "volumeButton" {
+        if node.name == volumeButtonName {
           musicPlayer.handleTapped()
         }
-        if node.name == "menu" {
+        if node.name == menuButtonName {
           handleShowMenu()
         }
       }
@@ -119,6 +115,15 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     }
   }
   
+  private func handleShowMenu() {
+    let sKView = self.view?.scene?.view
+    let menuScene = MenuScene(size: standardScreenSize)
+    menuScene.scaleMode = .aspectFill
+    sKView?.presentScene(menuScene)
+  }
+
+  
+  //SKPhysicsContactDelegateMethods
   
   public func didBegin(_ contact: SKPhysicsContact) {
     var firstBody: SKPhysicsBody
@@ -136,17 +141,13 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     print(secondBody.categoryBitMask)
     if firstBody.categoryBitMask == player?.player.physicsBody!.categoryBitMask &&
       secondBody.categoryBitMask == 2 {
-      print("CONTACT")
-      //      self.backgroundColor = UIColor.red
+            self.backgroundColor = redColor
     }
     
   }
   
-  private func handleShowMenu() {
-    let sKView = self.view?.scene?.view
-    let menuScene = MenuScene(size: CGSize(width: 1200, height: 800))
-    menuScene.scaleMode = .aspectFill
-    sKView?.presentScene(menuScene)
+  public func didEnd(_ contact: SKPhysicsContact) {
+    self.backgroundColor = blackColor
   }
-
+  
 }
