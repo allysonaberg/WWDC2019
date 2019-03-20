@@ -27,9 +27,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     
     playingMap = Map(self)
     playingMap.container.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
-    
     player = Player(self, map: playingMap)
-    player.player.position = CGPoint(x: 400, y: 400)
+    player.player.position = CGPoint(x: self.size.width / 2 , y: self.size.height / 2 + 200)
     
     lightSource = LightSource()
     
@@ -38,7 +37,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     recordingSource = RecordingSource()
     
     musicPlayer = AudioPlayer(self)
-    musicPlayer.soundNode.position = CGPoint(x: self.size.width + 500, y: self.size.height + 300)
+    musicPlayer.soundNode.position = CGPoint(x: self.size.width - (musicPlayer.soundNode.size.width / 2), y: self.size.height - (musicPlayer.soundNode.size.height / 2))
   
     setupMenuNode()
   }
@@ -51,7 +50,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     menuNode = SKLabelNode(text: menuButtonText)
     menuNode.fontSize = 25
     menuNode.fontColor = redColor
-    menuNode.position = CGPoint(x: self.size.width, y: self.size.height)
     menuNode.name = menuButtonName
     menuNode.zPosition = 100000
     self.addChild(menuNode)
@@ -112,9 +110,9 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     if player != nil {
       player.updatePlayer(position: lastTouch)
       cameraNode.position = player.player.position
-      musicPlayer.soundNode.position = CGPoint(x: player.player.position.x + 500, y: player.player.position.y + 300)
+      musicPlayer.soundNode.position = CGPoint(x: player.player.position.x + 450, y: player.player.position.y + 250)
       menuNode.position = CGPoint(x: player.player.position.x + 300,
-                                  y: player.player.position.y + 100)
+                                  y: player.player.position.y + 250)
     }
   }
   

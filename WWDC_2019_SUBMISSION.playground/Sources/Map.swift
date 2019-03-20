@@ -63,25 +63,25 @@ public class Map {
   func setupLevels(level: String) -> SKTileMapNode {
     
     //white ground
-    let tile01 = SKTileDefinition(texture: SKTexture(imageNamed: "01"), size: tileSize)
+    let tile01 = SKTileDefinition(texture: SKTexture(imageNamed: "01a"), size: tileSize)
     let tileGroupRule01 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile01])
     let tileGroup01 = SKTileGroup(rules: [tileGroupRule01])
     tileGroup01.name = "01"
     
     //white ground
-    let tile02 = SKTileDefinition(texture: SKTexture(imageNamed: "01"), size: tileSize)
+    let tile02 = SKTileDefinition(texture: SKTexture(imageNamed: "01a"), size: tileSize)
     let tileGroupRule02 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile02])
     let tileGroup02 = SKTileGroup(rules: [tileGroupRule02])
     tileGroup02.name = "02"
     
     //item
-    let tile03 = SKTileDefinition(texture: SKTexture(imageNamed: "02"), size: tileSize)
+    let tile03 = SKTileDefinition(texture: SKTexture(imageNamed: "02a"), size: tileSize)
     let tileGroupRule03 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile03])
     let tileGroup03 = SKTileGroup(rules: [tileGroupRule03])
     tileGroup03.name = "03"
     
     //danger
-    let tile04 = SKTileDefinition(texture: SKTexture(imageNamed: "01"), size: tileSize)
+    let tile04 = SKTileDefinition(texture: SKTexture(imageNamed: "01a"), size: tileSize)
     let tileGroupRule04 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile04])
     let tileGroup04 = SKTileGroup(rules: [tileGroupRule04])
     tileGroup04.name = "04"
