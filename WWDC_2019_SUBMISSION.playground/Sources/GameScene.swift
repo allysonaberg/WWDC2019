@@ -9,7 +9,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   
   let menuButtonText = "MENU"
   let menuButtonName = "menu"
-  let volumeButtonName = "volumeButton"
   
   // Instance Variables
   var player: Player!
@@ -39,7 +38,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     recordingSource = RecordingSource()
     
     musicPlayer = AudioPlayer(self)
-    musicPlayer.soundNode.position = CGPoint(x: size.width + 500, y: size.height + 300)
+    musicPlayer.soundNode.position = CGPoint(x: self.size.width + 500, y: self.size.height + 300)
   
     setupMenuNode()
   }
@@ -52,7 +51,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     menuNode = SKLabelNode(text: menuButtonText)
     menuNode.fontSize = 25
     menuNode.fontColor = redColor
-    menuNode.position = CGPoint(x: musicPlayer.soundNode.position.x, y: musicPlayer.soundNode.position.y - 150)
+    menuNode.position = CGPoint(x: self.size.width, y: self.size.height)
     menuNode.name = menuButtonName
     menuNode.zPosition = 100000
     self.addChild(menuNode)
@@ -62,7 +61,10 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     self.physicsWorld.contactDelegate = self
     self.camera = cameraNode
     self.player.player.addChild(lightSource.lightSource)
+    
     self.recordingSource.recordButtonTapped()
+    self.musicPlayer.startMusic()
+
   }
   
   // MARK: - Touch Handling
@@ -118,6 +120,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   
   private func handleShowMenu() {
     recordingSource?.recorder.stop()
+    musicPlayer.stopMusic()
     
     let sKView = self.view?.scene?.view
     let menuScene = MenuScene(size: standardScreenSize)

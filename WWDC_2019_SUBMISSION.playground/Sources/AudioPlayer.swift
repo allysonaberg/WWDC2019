@@ -41,4 +41,12 @@ public class AudioPlayer {
     }
   }
   
+  public func stopMusic() {
+    music.stop()
+  }
+  
+  public func startMusic() {
+    music.play()
+  }
+  
 }

@@ -46,9 +46,7 @@ public class Map {
     
     for item in groundmap.enumerated() {
       if item.element.texture != nil {
-        if item.element.name == "03" {
-          item.element.lightingBitMask = 1
-        }
+        if item.element.name == "03" { item.element.lightingBitMask = 1 }
       }
     }
     
@@ -127,12 +125,8 @@ public class Map {
         sprite.position = tilemap.centerOfTile(atColumn: col, row: row)
         sprite.zPosition = self.offset - sprite.position.y + tilemap.tileSize.height *  CGFloat(level)
         self.container.addChild(sprite)
-        if tilemap.tileGroup(atColumn: col, row: row)?.name == "03" {
-          sprite.name = "03"
-        }
-        if tilemap.tileGroup(atColumn: col, row: row)?.name == "04" {
-          sprite.name = "04"
-        }
+        if tilemap.tileGroup(atColumn: col, row: row)?.name == "03" { sprite.name = "03" }
+        else if tilemap.tileGroup(atColumn: col, row: row)?.name == "04" { sprite.name = "04" }
         array.append(sprite)
       }
     }
