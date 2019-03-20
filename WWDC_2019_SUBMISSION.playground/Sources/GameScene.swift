@@ -152,7 +152,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   public func didEnd(_ contact: SKPhysicsContact) {
-    self.backgroundColor = blackColor
+    self.backgroundColor = whiteColor
   }
   
 }
