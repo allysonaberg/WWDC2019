@@ -1,14 +1,12 @@
 import SpriteKit
 import AVFoundation
 
-//TODO: convert this to a struct?
 public class AudioPlayer {
   
   var music: AVAudioPlayer!
   var soundNode: SKSpriteNode!
-  public var isOn: Bool! = false
+  var isOn: Bool! = false
   
-
   public init(_ root: SKNode) {
     setupNode(root)
     setupPlayer()
@@ -24,7 +22,6 @@ public class AudioPlayer {
   
   func setupPlayer() {
     let url = Bundle.main.url(forResource: "song", withExtension: "mp3")
-    
     do {
       guard let url = url else { return }
         music = try AVAudioPlayer(contentsOf: url)
@@ -34,14 +31,13 @@ public class AudioPlayer {
     }
   }
   
-  
   public func handleTapped() {
     if isOn {
       music.stop()
-      self.isOn = false
+      isOn = false
     } else {
       music.play()
-      self.isOn = true
+      isOn = true
     }
   }
   

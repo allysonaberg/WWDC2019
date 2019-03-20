@@ -38,7 +38,6 @@ public class Map {
     for item in stonemap.enumerated() {
       if item.element.texture != nil {
         item.element.physicsBody = SKPhysicsBody(polygonFrom: self.bodyPath)
-//        item.element.physicsBody!.affectedByGravity = false
         item.element.physicsBody!.isDynamic = false
         item.element.physicsBody!.contactTestBitMask = 2
         item.element.physicsBody!.categoryBitMask = 2
@@ -137,7 +136,6 @@ public class Map {
         array.append(sprite)
       }
     }
-    //todo: remove from parent
     tilemap.isHidden = true
     return array
   }

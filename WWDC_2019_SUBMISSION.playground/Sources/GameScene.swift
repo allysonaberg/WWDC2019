@@ -4,6 +4,7 @@ import GameplayKit
 //TODO: figure out zPosition
 //TODO: figure out dynamic positioning / sizes
 //TODO: fix force unwrapping
+//TODO: recorder and audio player cleanup
 public class GameScene: SKScene, SKPhysicsContactDelegate {
   
   let menuButtonText = "MENU"
@@ -116,6 +117,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   private func handleShowMenu() {
+    recordingSource?.recorder.stop()
+    
     let sKView = self.view?.scene?.view
     let menuScene = MenuScene(size: standardScreenSize)
     menuScene.scaleMode = .aspectFill
@@ -124,7 +127,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
 
   
   //SKPhysicsContactDelegateMethods
-  
   public func didBegin(_ contact: SKPhysicsContact) {
     var firstBody: SKPhysicsBody
     var secondBody: SKPhysicsBody
