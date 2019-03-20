@@ -18,6 +18,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   var musicPlayer: AudioPlayer!
   var menuNode: SKLabelNode!
   var lightSource: LightSource!
+  var gradientNode: SKSpriteNode!
   var lastTouch: CGPoint? = nil
 
   // Initialization
@@ -55,6 +56,37 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     self.addChild(menuNode)
   }
   
+  private func setupGradientBackground() {
+    let gradientLayer = CAGradientLayer()
+    guard let size = self.view?.frame.size, let origin = self.view?.frame.origin else { return }
+    gradientLayer.frame.size = size
+    gradientLayer.frame.origin = origin
+    
+    gradientLayer.colors = [gradientColorTop, gradientColorBottom]
+//    self.gradientNode = layerToNode(layer: gradientLayer)
+    UIGraphicsBeginImageContext(self.frame.size)
+    self.view?.layer.render(in: UIGraphicsGetCurrentContext()!)
+    let background = UIGraphicsGetImageFromCurrentImageContext()!
+    UIGraphicsEndImageContext()
+    
+    self.gradientNode = SKSpriteNode()
+    gradientNode.texture = SKTexture(image: background)
+    gradientNode.size = standardScreenSize
+    gradientNode.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
+    gradientNode.zPosition = 2000000
+    print(gradientNode.texture)
+    addChild(gradientNode)
+  }
+  
+  private func layerToNode(layer: CAGradientLayer) -> SKSpriteNode {
+    UIGraphicsBeginImageContext(self.frame.size)
+    self.view?.layer.render(in: UIGraphicsGetCurrentContext()!)
+    let background = UIGraphicsGetImageFromCurrentImageContext()!
+    UIGraphicsEndImageContext()
+    
+    return SKSpriteNode(texture: SKTexture(image: background))
+  }
+  
   public override func didMove(to view: SKView) {
     self.physicsWorld.contactDelegate = self
     self.camera = cameraNode
@@ -62,6 +94,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     
     self.recordingSource.recordButtonTapped()
     self.musicPlayer.startMusic()
+    setupGradientBackground()
 
   }
   
@@ -82,17 +115,19 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   fileprivate func handleTouches(_ touches: Set<UITouch>) {
-    lastTouch = touches.first?.location(in: self)
-    if lastTouch != nil {
-      let nodes = self.nodes(at: lastTouch!)
+    let location = touches.first?.location(in: self)
+    if location != nil {
+      let nodes = self.nodes(at: location!)
       
       for node in nodes
       {
         if node.name == volumeButtonName {
           musicPlayer.handleTapped()
-        }
-        if node.name == menuButtonName {
+        } else if node.name == menuButtonName {
           handleShowMenu()
+        } else {
+          //player movement
+          lastTouch = touches.first?.location(in: self)
         }
       }
     }
@@ -144,13 +179,13 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     print(secondBody.categoryBitMask)
     if firstBody.categoryBitMask == player?.player.physicsBody!.categoryBitMask &&
       secondBody.categoryBitMask == 2 {
-            self.backgroundColor = redColor
+//            self.backgroundColor = redColor
     }
     
   }
   
   public func didEnd(_ contact: SKPhysicsContact) {
-    self.backgroundColor = whiteColor
+//    self.backgroundColor = whiteColor
   }
   
 }

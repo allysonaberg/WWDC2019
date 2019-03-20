@@ -10,6 +10,8 @@ public class LightSource {
   public init() {
     self.lightSource = SKLightNode()
     lightSource.lightColor = UIColor.white
+    lightSource.ambientColor = redColor
+    lightSource.shadowColor = redColor
     lightSource.falloff = 2
   }
 }

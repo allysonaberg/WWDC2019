@@ -16,9 +16,7 @@ public class MenuScene: SKScene {
   
   override public init(size: CGSize) {
     super.init(size: size)
-    
-    self.backgroundColor = whiteColor
-    
+        
     setupTitleLabel()
     setupPlayButton()
   }
