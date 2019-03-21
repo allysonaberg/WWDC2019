@@ -45,7 +45,7 @@ public class Map {
       if item.element.texture != nil {
         if item.element.name == "01" { item.element.lightingBitMask = 1 }
         else if item.element.name == "03" {
-          let defaultsTexture = SKTexture(imageNamed: "mask")
+          let defaultsTexture = SKTexture(imageNamed: "shape")
           item.element.physicsBody = SKPhysicsBody(texture: defaultsTexture, size: defaultsTexture.size())
           if let physicsBody = item.element.physicsBody {
             physicsBody.isDynamic = false
