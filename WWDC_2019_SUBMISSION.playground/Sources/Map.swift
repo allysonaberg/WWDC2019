@@ -47,6 +47,12 @@ public class Map {
     for item in groundmap.enumerated() {
       if item.element.texture != nil {
         if item.element.name == "01" { item.element.lightingBitMask = 1 }
+        else if item.element.name == "03" {
+          item.element.physicsBody = SKPhysicsBody(polygonFrom: self.bodyPath)
+          item.element.physicsBody!.isDynamic = false
+          item.element.physicsBody!.contactTestBitMask = 2
+          item.element.physicsBody!.categoryBitMask = 2
+        }
       }
     }
     
@@ -75,7 +81,7 @@ public class Map {
     tileGroup02.name = "02"
     
     //invisible wall
-    let tile03 = SKTileDefinition(texture: SKTexture(imageNamed: "03"), size: tileSize)
+    let tile03 = SKTileDefinition(texture: SKTexture(imageNamed: "011"), size: tileSize)
     let tileGroupRule03 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile03])
     let tileGroup03 = SKTileGroup(rules: [tileGroupRule03])
     tileGroup03.name = "03"
@@ -134,6 +140,10 @@ public class Map {
         sprite.zPosition = self.offset - sprite.position.y + tilemap.tileSize.height *  CGFloat(level)
         self.container.addChild(sprite)
         if tilemap.tileGroup(atColumn: col, row: row)?.name == "01" { sprite.name = "01" }
+        else if tilemap.tileGroup(atColumn: col, row: row)?.name == "03" {
+          sprite.name = "03"
+          sprite.zPosition = self.offset - sprite.position.y + tilemap.tileSize.height *  CGFloat(1)
+        }
         array.append(sprite)
       }
     }
