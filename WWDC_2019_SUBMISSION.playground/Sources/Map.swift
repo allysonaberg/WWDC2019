@@ -56,7 +56,7 @@ public class Map {
   func setupTiles(root: SKNode) {
     self.tileSize = CGSize(width: 128, height: 64)
     self.ground = setupLevels(level: "Level1.txt")
-    self.stone = setupLevels(level: "Level3.txt")
+    self.stone = setupLevels(level: "Level2.txt")
   }
   
   
@@ -80,15 +80,21 @@ public class Map {
     let tileGroup03 = SKTileGroup(rules: [tileGroupRule03])
     tileGroup03.name = "03"
     
-    //danger
-    let tile04 = SKTileDefinition(texture: SKTexture(imageNamed: "01a"), size: tileSize)
+    //danger left
+    let tile04 = SKTileDefinition(texture: SKTexture(imageNamed: "02_half"), size: tileSize)
     let tileGroupRule04 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile04])
     let tileGroup04 = SKTileGroup(rules: [tileGroupRule04])
     tileGroup04.name = "04"
     
-    let tileSet = SKTileSet(tileGroups: [tileGroup01, tileGroup02, tileGroup03, tileGroup04], tileSetType: .isometric)
+    //danger right
+    let tile05 = SKTileDefinition(texture: SKTexture(imageNamed: "02_half_right"), size: tileSize)
+    let tileGroupRule05 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile05])
+    let tileGroup05 = SKTileGroup(rules: [tileGroupRule05])
+    tileGroup05.name = "05"
     
-    let map = SKTileMapNode(tileSet: tileSet, columns: 22, rows: 22, tileSize: self.tileSize)
+    let tileSet = SKTileSet(tileGroups: [tileGroup01, tileGroup02, tileGroup03, tileGroup04, tileGroup05], tileSetType: .isometric)
+    
+    let map = SKTileMapNode(tileSet: tileSet, columns: 40, rows: 20, tileSize: self.tileSize)
     
     let path = Bundle.main.path(forResource: level, ofType: nil)
     do {
@@ -107,6 +113,8 @@ public class Map {
             map.setTileGroup(tileGroup03, forColumn: column, row: row)
           } else if items[column] == "04" {
             map.setTileGroup(tileGroup04, forColumn: column, row: row)
+          } else if items[column] == "05" {
+            map.setTileGroup(tileGroup05, forColumn: column, row: row)
           }
         }
       }
@@ -127,6 +135,7 @@ public class Map {
         self.container.addChild(sprite)
         if tilemap.tileGroup(atColumn: col, row: row)?.name == "03" { sprite.name = "03" }
         else if tilemap.tileGroup(atColumn: col, row: row)?.name == "04" { sprite.name = "04" }
+        else if tilemap.tileGroup(atColumn: col, row: row)?.name == "05" { sprite.name = "05" }
         array.append(sprite)
       }
     }
