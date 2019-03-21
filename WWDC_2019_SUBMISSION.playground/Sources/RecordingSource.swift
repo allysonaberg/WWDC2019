@@ -25,7 +25,6 @@ public class RecordingSource {
         try recordingSession.setCategory(.playAndRecord, mode: .default)
         try recordingSession.setActive(true, options: [])
         recorder = try AVAudioRecorder(url: recordFileName, settings: settings)
-        print(recorder.averagePower(forChannel: 0))
         recorder.isMeteringEnabled = true
         recorder.record()
       } catch {

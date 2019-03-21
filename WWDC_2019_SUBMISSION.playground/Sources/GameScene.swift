@@ -29,7 +29,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     playingMap = Map(self)
     playingMap.container.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
     player = Player(self, map: playingMap)
-    player.player.position = CGPoint(x: self.size.width / 2 , y: self.size.height / 2 + 200)
+    player.player.position = CGPoint(x: self.size.width / 2 - 500 , y: self.size.height / 2 - 400 )
     
     lightSource = LightSource()
     
