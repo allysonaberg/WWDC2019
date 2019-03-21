@@ -12,7 +12,6 @@ public class Map {
   var root: SKNode!
   var tileSize: CGSize!
 
-
   public init(_ root: SKNode) {
     setupTiles(root: root)
     self.container = SKSpriteNode()
@@ -33,16 +32,26 @@ public class Map {
 //      }
 //    }
 
+
+//    for item in stonemap.enumerated() {
+//      if item.element.texture != nil {
+//        item.element.physicsBody!.isDynamic = false
+//        item.element.physicsBody!.contactTestBitMask = 2
+//        item.element.physicsBody!.categoryBitMask = 2
+//      }
+//    }
+//
     for item in groundmap.enumerated() {
       if item.element.texture != nil {
         if item.element.name == "01" { item.element.lightingBitMask = 1 }
         else if item.element.name == "03" {
-          //in the case of invisible nodes...
           let defaultsTexture = SKTexture(imageNamed: "mask")
-          item.element.physicsBody = SKPhysicsBody(texture: defaultsTexture, alphaThreshold: 50, size: defaultsTexture.size())
-          item.element.physicsBody!.isDynamic = false
-          item.element.physicsBody!.contactTestBitMask = 2
-          item.element.physicsBody!.categoryBitMask = 2
+          item.element.physicsBody = SKPhysicsBody(texture: defaultsTexture, size: defaultsTexture.size())
+          if let physicsBody = item.element.physicsBody {
+            physicsBody.isDynamic = false
+            physicsBody.contactTestBitMask = 2
+            physicsBody.categoryBitMask = 2
+          }
         }
       }
     }
