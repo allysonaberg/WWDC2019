@@ -13,16 +13,6 @@ public class Map {
   var tileSize: CGSize!
   
   
-  var bodyPath: CGPath {
-    let nsPath = CGMutablePath()
-    nsPath.move(to: CGPoint(x: 0, y: -64))
-    nsPath.addLine(to: CGPoint(x: -64.0, y: -32.0))
-    nsPath.addLine(to: CGPoint(x: 0.0, y: 0.0))
-    nsPath.addLine(to: CGPoint(x: 64.0, y: -32.0))
-    nsPath.closeSubpath()
-    
-    return nsPath
-  }
   
   public init(_ root: SKNode) {
     setupTiles(root: root)
@@ -35,23 +25,25 @@ public class Map {
     let groundmap = tileMapNode(tilemap: ground, level: -1)
     let stonemap = tileMapNode(tilemap: stone, level: 1)
 
-    for item in stonemap.enumerated() {
-      if item.element.texture != nil {
-        item.element.physicsBody = SKPhysicsBody(polygonFrom: self.bodyPath)
-        item.element.physicsBody!.isDynamic = false
-        item.element.physicsBody!.contactTestBitMask = 2
-        item.element.physicsBody!.categoryBitMask = 2
-      }
-    }
-    
+//    for item in stonemap.enumerated() {
+//      if item.element.texture != nil {
+//        item.element.physicsBody!.isDynamic = false
+//        item.element.physicsBody!.contactTestBitMask = 2
+//        item.element.physicsBody!.categoryBitMask = 2
+//      }
+//    }
+//
     for item in groundmap.enumerated() {
       if item.element.texture != nil {
         if item.element.name == "01" { item.element.lightingBitMask = 1 }
         else if item.element.name == "03" {
-          item.element.physicsBody = SKPhysicsBody(polygonFrom: self.bodyPath)
-          item.element.physicsBody!.isDynamic = false
-          item.element.physicsBody!.contactTestBitMask = 2
-          item.element.physicsBody!.categoryBitMask = 2
+          let defaultsTexture = SKTexture(imageNamed: "mask")
+          item.element.physicsBody = SKPhysicsBody(texture: defaultsTexture, size: defaultsTexture.size())
+          if let physicsBody = item.element.physicsBody {
+            physicsBody.isDynamic = false
+            physicsBody.contactTestBitMask = 2
+            physicsBody.categoryBitMask = 2
+          }
         }
       }
     }
