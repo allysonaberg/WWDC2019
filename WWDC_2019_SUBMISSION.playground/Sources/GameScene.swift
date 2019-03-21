@@ -38,7 +38,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     recordingSource = RecordingSource()
     
     musicPlayer = AudioPlayer(self)
-    musicPlayer.soundNode.position = CGPoint(x: self.size.width - (musicPlayer.soundNode.size.width / 2), y: self.size.height - (musicPlayer.soundNode.size.height / 2))
   
     setupMenuNode()
   }
@@ -50,10 +49,10 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   private func setupMenuNode() {
     menuNode = SKLabelNode(text: menuButtonText)
     menuNode.fontSize = 25
-    menuNode.fontColor = redColor
+    menuNode.fontColor = whiteColor
     menuNode.name = menuButtonName
     menuNode.zPosition = 100000
-    self.addChild(menuNode)
+//    self.addChild(menuNode)
   }
   
   private func setupGradientBackground() {
@@ -62,8 +61,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     gradientLayer.frame.size = size
     gradientLayer.frame.origin = origin
     
-    gradientLayer.colors = [gradientColorTop, gradientColorBottom]
-//    self.gradientNode = layerToNode(layer: gradientLayer)
+    gradientLayer.colors = [redColor, whiteColor]
     UIGraphicsBeginImageContext(self.frame.size)
     self.view?.layer.render(in: UIGraphicsGetCurrentContext()!)
     let background = UIGraphicsGetImageFromCurrentImageContext()!
@@ -74,8 +72,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     gradientNode.size = standardScreenSize
     gradientNode.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
     gradientNode.zPosition = 2000000
-    print(gradientNode.texture)
-    addChild(gradientNode)
+    self.addChild(gradientNode)
   }
   
   private func layerToNode(layer: CAGradientLayer) -> SKSpriteNode {
@@ -88,10 +85,14 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   public override func didMove(to view: SKView) {
+    let topRightCornerConstraint = SKConstraint.distance(SKRange(constantValue: 100), to: CGPoint(x: self.frame.maxX, y: self.frame.maxY))
+    let topLeftCornerConstraint = SKConstraint.distance(SKRange(constantValue: 100), to: CGPoint(x: self.frame.minX, y: self.frame.maxY))
     self.physicsWorld.contactDelegate = self
     self.camera = cameraNode
+    self.addChild(menuNode)
+    self.addChild(musicPlayer.soundNode)
     self.player.player.addChild(lightSource.lightSource)
-    
+    self.addChild(cameraNode)
     self.recordingSource.recordButtonTapped()
     self.musicPlayer.startMusic()
     setupGradientBackground()
@@ -145,9 +146,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     if player != nil {
       player.updatePlayer(position: lastTouch)
       cameraNode.position = player.player.position
-      musicPlayer.soundNode.position = CGPoint(x: player.player.position.x + 450, y: player.player.position.y + 250)
-      menuNode.position = CGPoint(x: player.player.position.x + 300,
-                                  y: player.player.position.y + 250)
+      menuNode.position = CGPoint(x: cameraNode.position.x - self.frame.midX / 1.5, y: cameraNode.position.y + self.frame.midY / 1.5 )
+      musicPlayer.soundNode.position = CGPoint(x: cameraNode.position.x + self.frame.midX / 1.5, y: cameraNode.position.y + self.frame.midY / 1.5)
     }
   }
   

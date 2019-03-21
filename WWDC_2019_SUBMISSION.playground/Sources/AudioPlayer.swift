@@ -13,11 +13,11 @@ public class AudioPlayer {
   }
   
   func setupNode(_ root: SKNode) {
-    self.soundNode = SKSpriteNode(imageNamed: "speaker")
+    self.soundNode = SKSpriteNode(imageNamed: "volume")
     soundNode.name = volumeButtonName
     soundNode.zPosition = 100000
-    soundNode.size = CGSize(width: 80, height: 80)
-    root.addChild(soundNode)
+    soundNode.size = CGSize(width: 60, height: 60)
+//    root.addChild(soundNode)
   }
   
   func setupPlayer() {
@@ -33,20 +33,22 @@ public class AudioPlayer {
   
   public func handleTapped() {
     if isOn {
-      music.stop()
+      stopMusic()
       isOn = false
     } else {
-      music.play()
+      startMusic()
       isOn = true
     }
   }
   
   public func stopMusic() {
     music.stop()
+    soundNode.texture = SKTexture(imageNamed: "volume_mute")
   }
   
   public func startMusic() {
     music.play()
+    soundNode.texture = SKTexture(imageNamed: "volume")
   }
   
 }
