@@ -46,7 +46,7 @@ public class Map {
     
     for item in groundmap.enumerated() {
       if item.element.texture != nil {
-        if item.element.name == "03" { item.element.lightingBitMask = 1 }
+        if item.element.name == "01" { item.element.lightingBitMask = 1 }
       }
     }
     
@@ -62,39 +62,39 @@ public class Map {
   
   func setupLevels(level: String) -> SKTileMapNode {
     
-    //white ground
-    let tile01 = SKTileDefinition(texture: SKTexture(imageNamed: "01a"), size: tileSize)
+    //item
+    let tile01 = SKTileDefinition(texture: SKTexture(imageNamed: "01"), size: tileSize)
     let tileGroupRule01 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile01])
     let tileGroup01 = SKTileGroup(rules: [tileGroupRule01])
     tileGroup01.name = "01"
     
-    //white ground
-    let tile02 = SKTileDefinition(texture: SKTexture(imageNamed: "01a"), size: tileSize)
+    //ground
+    let tile02 = SKTileDefinition(texture: SKTexture(imageNamed: "02"), size: tileSize)
     let tileGroupRule02 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile02])
     let tileGroup02 = SKTileGroup(rules: [tileGroupRule02])
     tileGroup02.name = "02"
     
-    //item
-    let tile03 = SKTileDefinition(texture: SKTexture(imageNamed: "01"), size: tileSize)
+    //invisible wall
+    let tile03 = SKTileDefinition(texture: SKTexture(imageNamed: "03"), size: tileSize)
     let tileGroupRule03 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile03])
     let tileGroup03 = SKTileGroup(rules: [tileGroupRule03])
     tileGroup03.name = "03"
     
     //danger left
-    let tile04 = SKTileDefinition(texture: SKTexture(imageNamed: "02_half"), size: tileSize)
+    let tile04 = SKTileDefinition(texture: SKTexture(imageNamed: "03"), size: tileSize)
     let tileGroupRule04 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile04])
     let tileGroup04 = SKTileGroup(rules: [tileGroupRule04])
     tileGroup04.name = "04"
     
     //danger right
-    let tile05 = SKTileDefinition(texture: SKTexture(imageNamed: "02_half_right"), size: tileSize)
+    let tile05 = SKTileDefinition(texture: SKTexture(imageNamed: "03"), size: tileSize)
     let tileGroupRule05 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile05])
     let tileGroup05 = SKTileGroup(rules: [tileGroupRule05])
     tileGroup05.name = "05"
     
     let tileSet = SKTileSet(tileGroups: [tileGroup01, tileGroup02, tileGroup03, tileGroup04, tileGroup05], tileSetType: .isometric)
     
-    let map = SKTileMapNode(tileSet: tileSet, columns: 40, rows: 20, tileSize: self.tileSize)
+    let map = SKTileMapNode(tileSet: tileSet, columns: 40, rows: 40, tileSize: self.tileSize)
     
     let path = Bundle.main.path(forResource: level, ofType: nil)
     do {
@@ -133,9 +133,7 @@ public class Map {
         sprite.position = tilemap.centerOfTile(atColumn: col, row: row)
         sprite.zPosition = self.offset - sprite.position.y + tilemap.tileSize.height *  CGFloat(level)
         self.container.addChild(sprite)
-        if tilemap.tileGroup(atColumn: col, row: row)?.name == "03" { sprite.name = "03" }
-        else if tilemap.tileGroup(atColumn: col, row: row)?.name == "04" { sprite.name = "04" }
-        else if tilemap.tileGroup(atColumn: col, row: row)?.name == "05" { sprite.name = "05" }
+        if tilemap.tileGroup(atColumn: col, row: row)?.name == "01" { sprite.name = "01" }
         array.append(sprite)
       }
     }
