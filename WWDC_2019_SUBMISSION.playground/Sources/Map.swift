@@ -66,7 +66,7 @@ public class Map {
     let tileGroup03 = SKTileGroup(rules: [tileGroupRule03])
     tileGroup03.name = "03"
 
-    let tileSet = SKTileSet(tileGroups: [tileGroup01, tileGroup02, tileGroup03, tileGroup04, tileGroup05], tileSetType: .isometric)
+    let tileSet = SKTileSet(tileGroups: [tileGroup01, tileGroup02, tileGroup03], tileSetType: .isometric)
 
     let map = SKTileMapNode(tileSet: tileSet, columns: 40, rows: 40, tileSize: self.tileSize)
 

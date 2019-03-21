@@ -10,6 +10,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   let menuButtonText = "MENU"
   let menuButtonName = "menu"
   
+  public var hasShownTutorial: Bool = false
+  
   // Instance Variables
   var player: Player!
   var playingMap: Map!
@@ -20,11 +22,17 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   var lightSource: LightSource!
   var gradientNode: SKSpriteNode!
   var lastTouch: CGPoint? = nil
+  
+  var tutorial: Tutorial!
 
   // Initialization
   override public init(size: CGSize) {
     
     super.init(size: size)
+    
+    tutorial = Tutorial(self, size: size)
+    tutorial.zPosition = 10000000000000
+    self.addChild(tutorial)
     
     playingMap = Map(self)
     playingMap.container.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
@@ -102,7 +110,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   // MARK: - Touch Handling
   public override func touchesBegan(_ touches: Set<UITouch>,
                                     with event: UIEvent?) {
-    handleTouches(touches)
+      handleTouches(touches)
   }
   
   public override func touchesMoved(_ touches: Set<UITouch>,
@@ -116,21 +124,26 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   fileprivate func handleTouches(_ touches: Set<UITouch>) {
-    let location = touches.first?.location(in: self)
-    if location != nil {
-      let nodes = self.nodes(at: location!)
+    
+    if hasShownTutorial {
+      let location = touches.first?.location(in: self)
+      if location != nil {
+        let nodes = self.nodes(at: location!)
       
-      for node in nodes
-      {
-        if node.name == volumeButtonName {
-          musicPlayer.handleTapped()
-        } else if node.name == menuButtonName {
-          handleShowMenu()
-        } else {
-          //player movement
-          lastTouch = touches.first?.location(in: self)
+        for node in nodes
+        {
+          if node.name == volumeButtonName {
+            musicPlayer.handleTapped()
+          } else if node.name == menuButtonName {
+            handleShowMenu()
+          } else {
+            //player movement
+            lastTouch = touches.first?.location(in: self)
+          }
         }
       }
+    } else {
+      tutorial.handleInteraction(touches)
     }
     
   }
