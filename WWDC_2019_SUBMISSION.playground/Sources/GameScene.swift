@@ -155,7 +155,9 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     
     if player != nil {
       player.updatePlayer(position: lastTouch)
-      cameraNode.position = player.player.position
+      cameraNode.position.x += (player.player.position.x - cameraNode.position.x) / 10
+      cameraNode.position.y += (player.player.position.y - cameraNode.position.y) / 10
+//      cameraNode.position += (player.player.position - cameraNode.position) / 10
       menuNode.position = CGPoint(x: cameraNode.position.x + self.frame.midX / 1.5 + 100, y: cameraNode.position.y + self.frame.midY / 1.5 )
       musicPlayer.soundNode.position = CGPoint(x: cameraNode.position.x + self.frame.midX / 1.5, y: cameraNode.position.y + self.frame.midY / 1.5)
     }
