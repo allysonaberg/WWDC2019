@@ -64,14 +64,13 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   private func setupGradientBackground() {
-    let topColor = gradientColorBottom
-    let bottomColor = UIColor.red
+    let topColor = gradientColorTop
+    let bottomColor = gradientColorBottom
     
     let texture = SKTexture(size: self.playingMap.ground!.mapSize, startColor: topColor, endcolor: bottomColor)
     self.gradientNode = SKSpriteNode(texture: texture)
-    gradientNode.size = self.playingMap.ground!.mapSize
     gradientNode.zPosition = -1
-    gradientNode.alpha = 0.5
+    gradientNode.alpha = 1
     
     self.addChild(gradientNode)
   }
@@ -142,11 +141,15 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   public override func didSimulatePhysics() {
-    if recordingSource?.recorder != nil {
+    if recordingSource?.recorder != nil   {
       recordingSource.recorder.updateMeters()
       //need this to be sensitive...
       //generally, the numbers hover around -20->-40 db, this is just a random equation that makes it sensitive
-      lightSource.lightSource.falloff = CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0)) / 10.0)
+      if CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0))) < 30.0 {
+        lightSource.lightSource.falloff = CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0)) / 8)
+      } else {
+        lightSource.lightSource.falloff = 50
+      }
     }
     
     if player != nil {
