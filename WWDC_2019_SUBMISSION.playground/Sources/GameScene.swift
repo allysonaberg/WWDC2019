@@ -84,6 +84,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     return SKSpriteNode(texture: SKTexture(image: background))
   }
   
+  
   public override func didMove(to view: SKView) {
     let topRightCornerConstraint = SKConstraint.distance(SKRange(constantValue: 100), to: CGPoint(x: self.frame.maxX, y: self.frame.maxY))
     let topLeftCornerConstraint = SKConstraint.distance(SKRange(constantValue: 100), to: CGPoint(x: self.frame.minX, y: self.frame.maxY))
@@ -145,11 +146,11 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
       recordingSource.recorder.updateMeters()
       //need this to be sensitive...
       //generally, the numbers hover around -20->-40 db, this is just a random equation that makes it sensitive
-      if CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0))) < 30.0 {
+//      if CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0))) < 30.0 {
         lightSource.lightSource.falloff = CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0)) / 8)
-      } else {
-        lightSource.lightSource.falloff = 50
-      }
+//      } else {
+//        lightSource.lightSource.falloff = 50
+//      }
     }
     
     if player != nil {
