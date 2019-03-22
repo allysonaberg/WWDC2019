@@ -8,8 +8,10 @@ public var blackColor = UIColor.black
 public var redColor = UIColor.red
 public var dangerColor = UIColor.red
 
-public var gradientColorBottom = UIColor(red: 58/255, green: 187/255, blue: 196/255, alpha: 1.0) /* #3abbc4 */
-public var gradientColorTop = UIColor(red: 158/255, green: 224/255, blue: 229/255, alpha: 1.0) /* #9ee0e5 */
+public var gradientColorBottom = UIColor(red: 252/255, green: 202/255, blue: 40/255, alpha: 1.0) /* #fcca28 */
+
+
+public var gradientColorTop = UIColor.white
 
 
 public let gameTitle: String = "In The Dark"

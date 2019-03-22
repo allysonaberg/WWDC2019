@@ -64,22 +64,15 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   private func setupGradientBackground() {
-    let gradientLayer = CAGradientLayer()
-    guard let size = self.view?.frame.size, let origin = self.view?.frame.origin else { return }
-    gradientLayer.frame.size = size
-    gradientLayer.frame.origin = origin
+    let topColor = gradientColorBottom
+    let bottomColor = UIColor.red
     
-    gradientLayer.colors = [redColor, whiteColor]
-    UIGraphicsBeginImageContext(self.frame.size)
-    self.view?.layer.render(in: UIGraphicsGetCurrentContext()!)
-    let background = UIGraphicsGetImageFromCurrentImageContext()!
-    UIGraphicsEndImageContext()
+    let texture = SKTexture(size: self.playingMap.ground!.mapSize, startColor: topColor, endcolor: bottomColor)
+    self.gradientNode = SKSpriteNode(texture: texture)
+    gradientNode.size = self.playingMap.ground!.mapSize
+    gradientNode.zPosition = -1
+    gradientNode.alpha = 0.5
     
-    self.gradientNode = SKSpriteNode()
-    gradientNode.texture = SKTexture(image: background)
-    gradientNode.size = standardScreenSize
-    gradientNode.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
-    gradientNode.zPosition = 2000000
     self.addChild(gradientNode)
   }
   
@@ -208,4 +201,27 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
 //    self.backgroundColor = whiteColor
   }
   
+}
+
+extension SKTexture {
+  
+  convenience init(size: CGSize, startColor: SKColor, endcolor: SKColor) {
+    let context = CIContext(options: nil)
+    let filter = CIFilter(name: "CILinearGradient")!
+    
+    filter.setDefaults()
+
+    let startVector: CIVector = CIVector(x: size.width/2, y:0)
+    let endVector: CIVector = CIVector(x: size.width/2, y:size.height)
+    
+    filter.setValue(startVector, forKey: "inputPoint0")
+    filter.setValue(endVector, forKey: "inputPoint1")
+    filter.setValue(CIColor(color: startColor), forKey: "inputColor0")
+    filter.setValue(CIColor(color: endcolor), forKey: "inputColor1")
+    
+    let image = context.createCGImage(filter.outputImage!, from: CGRect(origin: .zero, size: size))
+    
+    self.init(cgImage: image!)
+    
+  }
 }

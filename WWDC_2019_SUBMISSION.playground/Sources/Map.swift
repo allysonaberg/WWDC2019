@@ -58,13 +58,13 @@ public class Map {
   func setupLevels(level: String) -> SKTileMapNode {
 
     //item
-    let tile01 = SKTileDefinition(texture: SKTexture(imageNamed: "01"), size: tileSize)
+    let tile01 = SKTileDefinition(texture: SKTexture(imageNamed: "02"), size: tileSize)
     let tileGroupRule01 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile01])
     let tileGroup01 = SKTileGroup(rules: [tileGroupRule01])
     tileGroup01.name = "01"
 
     //ground
-    let tile02 = SKTileDefinition(texture: SKTexture(imageNamed: "02"), size: tileSize)
+    let tile02 = SKTileDefinition(texture: SKTexture(imageNamed: "01_real"), size: tileSize)
     let tileGroupRule02 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile02])
     let tileGroup02 = SKTileGroup(rules: [tileGroupRule02])
     tileGroup02.name = "02"
