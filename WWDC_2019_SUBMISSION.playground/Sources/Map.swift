@@ -6,8 +6,6 @@ public class Map {
   public var container : SKSpriteNode!
 
   var ground: SKTileMapNode!
-//  var stone: SKTileMapNode!
-  var danger: SKTileMapNode!
   var offset : CGFloat!
   var root: SKNode!
   var tileSize: CGSize!
@@ -126,7 +124,7 @@ public class Map {
         array.append(sprite)
       }
     }
-    tilemap.isHidden = true
+    tilemap.removeFromParent()
     return array
   }
 }
