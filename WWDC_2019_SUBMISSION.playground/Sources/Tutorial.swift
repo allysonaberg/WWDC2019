@@ -21,7 +21,8 @@ class Tutorial: SKNode {
   ]
   
   //todo: do I need to add text and continueButton as children?
-  init(_ root: GameScene, size: CGSize) {
+  init(_ root: GameScene) {
+    print("setting up tutorial")
     self.root = root
     
     self.page = 0
@@ -50,7 +51,7 @@ class Tutorial: SKNode {
     self.addChild(playButton)
     
     let overlay = SKSpriteNode()
-    overlay.size = size
+    overlay.size = standardScreenSize
     overlay.color = blackColor
     overlay.alpha = 0.9
     self.addChild(overlay)

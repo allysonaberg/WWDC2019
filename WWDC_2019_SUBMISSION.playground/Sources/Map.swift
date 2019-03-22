@@ -33,6 +33,15 @@ public class Map {
             physicsBody.contactTestBitMask = 2
             physicsBody.categoryBitMask = 2
           }
+        } else if item.element.name == "04" {
+          let defaultsTexture = SKTexture(imageNamed: "shape")
+          item.element.physicsBody = SKPhysicsBody(texture: defaultsTexture, size: defaultsTexture.size())
+          if let physicsBody = item.element.physicsBody {
+            print("setting 3")
+            physicsBody.isDynamic = false
+            physicsBody.contactTestBitMask = 2
+            physicsBody.categoryBitMask = 3
+          }
         }
       }
     }
@@ -65,8 +74,14 @@ public class Map {
     let tileGroupRule03 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile03])
     let tileGroup03 = SKTileGroup(rules: [tileGroupRule03])
     tileGroup03.name = "03"
+    
+    //WINNNER!
+    let tile04 = SKTileDefinition(texture: SKTexture(imageNamed: "011"), size: tileSize)
+    let tileGroupRule04 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile04])
+    let tileGroup04 = SKTileGroup(rules: [tileGroupRule04])
+    tileGroup04.name = "04"
 
-    let tileSet = SKTileSet(tileGroups: [tileGroup01, tileGroup02, tileGroup03], tileSetType: .isometric)
+    let tileSet = SKTileSet(tileGroups: [tileGroup01, tileGroup02, tileGroup03, tileGroup04], tileSetType: .isometric)
 
     let map = SKTileMapNode(tileSet: tileSet, columns: 40, rows: 40, tileSize: self.tileSize)
 
@@ -85,6 +100,8 @@ public class Map {
             map.setTileGroup(tileGroup02, forColumn: column, row: row)
           } else if items[column] == "03" {
             map.setTileGroup(tileGroup03, forColumn: column, row: row)
+          } else if items[column] == "04" {
+            map.setTileGroup(tileGroup04, forColumn: column, row: row)
           }
         }
       }
@@ -105,6 +122,7 @@ public class Map {
         self.container.addChild(sprite)
         if tilemap.tileGroup(atColumn: col, row: row)?.name == "01" { sprite.name = "01" }
         else if tilemap.tileGroup(atColumn: col, row: row)?.name == "03" { sprite.name = "03" }
+        else if tilemap.tileGroup(atColumn: col, row: row)?.name == "04" { sprite.name = "04" }
         array.append(sprite)
       }
     }

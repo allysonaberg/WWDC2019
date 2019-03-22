@@ -30,7 +30,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     
     super.init(size: size)
     
-    tutorial = Tutorial(self, size: size)
+    tutorial = Tutorial(self)
     tutorial.zPosition = 10000000000000
     self.addChild(tutorial)
     
@@ -174,6 +174,9 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     sKView?.presentScene(menuScene)
   }
 
+  private func handleWin() {
+    handleShowMenu()
+  }
   
   //SKPhysicsContactDelegateMethods
   public func didBegin(_ contact: SKPhysicsContact) {
@@ -193,6 +196,10 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     if firstBody.categoryBitMask == player?.player.physicsBody!.categoryBitMask &&
       secondBody.categoryBitMask == 2 {
 //            self.backgroundColor = redColor
+    } else if firstBody.categoryBitMask == player?.player.physicsBody!.categoryBitMask &&
+      secondBody.categoryBitMask == 3 {
+      print("HANDLEWIN")
+      handleWin()
     }
     
   }

@@ -16,7 +16,8 @@ public class MenuScene: SKScene {
   
   override public init(size: CGSize) {
     super.init(size: size)
-        
+    
+    self.backgroundColor = whiteColor
     setupTitleLabel()
     setupPlayButton()
   }
@@ -28,7 +29,7 @@ public class MenuScene: SKScene {
   //setup
   private func setupTitleLabel() {
     titleLabel = SKLabelNode(text: gameTitle)
-    titleLabel.fontSize = 40
+    titleLabel.fontSize = 50
     titleLabel.fontColor = blackColor
     titleLabel.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
     titleLabel.zPosition = 100000
@@ -38,7 +39,7 @@ public class MenuScene: SKScene {
   private func setupPlayButton() {
     self.playButton = SKLabelNode(text: buttonTitle)
     playButton.fontColor = redColor
-    playButton.fontSize = 30
+    playButton.fontSize = 40
     playButton.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2 - 100)
     playButton.zPosition = 100000
     playButton.name = playButtonName
@@ -63,6 +64,7 @@ public class MenuScene: SKScene {
   }
   
   private func startPlaying() {
+    print("start playing")
     guard let sKView = self.view?.scene?.view else { return }
     let gameScene = GameScene(size: standardScreenSize)
     gameScene.scaleMode = .aspectFill
