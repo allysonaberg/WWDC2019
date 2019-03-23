@@ -10,7 +10,7 @@ let viewSize = CGSize(width: 1024, height: 768)
 let sceneView = SKView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: viewSize))
 sceneView.ignoresSiblingOrder = true
 sceneView.showsNodeCount = true
-sceneView.showsPhysics = true
+
 let menuScene = MenuScene(size: viewSize)
 menuScene.scaleMode = .aspectFill
 sceneView.presentScene(menuScene)
