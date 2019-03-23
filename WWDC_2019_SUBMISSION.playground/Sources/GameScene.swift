@@ -50,7 +50,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     
     recordingSource = RecordingSource()
     
-    musicPlayer = AudioPlayer(self)
+    musicPlayer = AudioPlayer()
   
     setupMenuNode()
     
