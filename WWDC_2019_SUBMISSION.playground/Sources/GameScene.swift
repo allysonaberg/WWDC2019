@@ -12,7 +12,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   
   public var hasShownTutorial: Bool = false
   lazy var startingPosition: CGPoint = {
-    guard let startingPosition = self.playingMap.startingPosition else { return CGPoint(x: self.size.width / 2, y: self.size.height / 2)}
+    guard let startingPosition = self.playingMap.startingPosition else { return CGPoint(x: self.size.width / 2 - 500 , y: self.size.height / 2 - 400 )
+}
     return startingPosition
   }()
   
@@ -40,7 +41,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     playingMap = Map(self)
     playingMap.container.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
     player = Player(self, map: playingMap)
-    
+    player.player.position = CGPoint(x: self.size.width / 2 - 500 , y: self.size.height / 2 - 400 )
+
     lightSource = LightSource()
     
     cameraNode = SKCameraNode()
@@ -156,15 +158,13 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
       recordingSource.recorder.updateMeters()
       //need this to be sensitive...
       //generally, the numbers hover around -20->-40 db, this is just a random equation that makes it sensitive
-//      if CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0))) < 30.0 {
-        lightSource.lightSource.falloff = CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0)) / 10)
-//      } else {
-//        lightSource.lightSource.falloff = 50
-//      }
+      //if CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0))) < 30.0 {
+      //LOWER = more light
+      //1.08 just looks good...
+      lightSource.lightSource.falloff = pow(1.08, CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0))))
     }
     
     if player != nil {
-      player.player.position = startingPosition
       player.updatePlayer(position: lastTouch)
       cameraNode.position.x += (player.player.position.x - cameraNode.position.x) / 8
       cameraNode.position.y += (player.player.position.y - cameraNode.position.y) / 8
