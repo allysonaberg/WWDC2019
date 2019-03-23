@@ -3,16 +3,28 @@ import UIKit
 import SpriteKit
 
 
-public class LightSource {
+public class LightSource: SKNode {
   
   public var lightSource: SKLightNode!
   
-  public init() {
+  override public init() {
     self.lightSource = SKLightNode()
-    lightSource.lightColor = UIColor.red
-    lightSource.ambientColor = UIColor(red: 211/255, green: 245/255, blue: 254/255, alpha: 1.0) /* #d3f5fe */
-    lightSource.shadowColor = UIColor.red
-    lightSource.falloff = 200
+    
+    super.init()
+    
+    setupLightPresets()
   }
+  
+  required public init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func setupLightPresets() {
+    lightSource.lightColor = redColor
+    lightSource.ambientColor = ambientLightColor
+    lightSource.shadowColor = redColor
+    lightSource.falloff = lightSourceDefaultFalloff
+  }
+  
 }
 

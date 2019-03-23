@@ -29,3 +29,8 @@ public var playerSpeed: Double = 300.0
 
 public var volumeImage = "volume"
 public var muteVolumeImage = "volume_mute"
+
+
+public var ambientLightColor: UIColor = UIColor(red: 211/255, green: 245/255, blue: 254/255, alpha: 1.0) /* #d3f5fe */
+public var lightSourceDefaultFalloff: CGFloat = 200
+
