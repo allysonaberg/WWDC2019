@@ -19,9 +19,10 @@ class Tutorial: SKNode {
     self.root = root
     
     self.page = 0
-
+    
     self.text = SKLabelNode(text: tutorialPageText[page])
     self.text.color = redColor
+    self.text.numberOfLines = 0
     self.text.alpha = 0
     
     self.continueButton = SKLabelNode(text: continueButtonText)
@@ -45,8 +46,8 @@ class Tutorial: SKNode {
 
     self.text.position = CGPoint(x: self.position.x, y: self.position.y)
     self.text.run(fadeIn)
-    self.continueButton.position = CGPoint(x: self.position.x, y: self.position.y - 200)
-    self.skipButton.position = CGPoint(x: self.continueButton.position.x - 100, y: self.continueButton.position.y)
+    self.continueButton.position = CGPoint(x: self.position.x, y: self.position.y - 150)
+    self.skipButton.position = CGPoint(x: self.continueButton.position.x, y: self.continueButton.position.y - 100)
     self.playButton.position = self.continueButton.position
     self.playButton.isHidden = true
     self.playButton.isUserInteractionEnabled = false

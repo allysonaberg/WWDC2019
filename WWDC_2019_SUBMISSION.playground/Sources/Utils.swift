@@ -33,10 +33,10 @@ public let playButtonName = "play"
 public let skipButtonName = "skip"
 
 public let tutorialPageText = [
-  "This is a game about BLEH",
-  "bla bla bloo",
-  "haha haha haha",
-  "AHHHHHHHHHHH",
+  "This game is best experienced in full-screen,\n while in a semi-quiet environment",
+  "To play, you must use more than just your eyes... \nUsing your voice, guide our hero through the ancient aztec ruins",
+  "The louder you speak,\n the more visible the path out of the ruins becomes",
+  "Enjoy the journey...",
 ]
 
 //PLAYER

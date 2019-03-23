@@ -73,6 +73,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   
   private func setupMenuNode() {
     menuNode = SKSpriteNode(imageNamed: "menu_button")
+    menuNode.size = CGSize(width: 45, height: 45)
     menuNode.name = menuButtonName
     menuNode.zPosition = 100000
   }
@@ -128,6 +129,46 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     self.addChild(clouds3)
     clouds3.isUserInteractionEnabled = false
     clouds3.run(moveClouds3)
+    
+    let clouds4 = SKSpriteNode(imageNamed: "clouds")
+    clouds4.position = CGPoint(x: self.player.position.x + 600, y: self.player.position.y)
+    clouds4.alpha = 0.8
+    clouds4.isUserInteractionEnabled = false
+    let moveClouds4 = SKAction.moveTo(x: 2200, duration: 450)
+    clouds4.zPosition = 100000000000000000
+    self.addChild(clouds4)
+    clouds4.isUserInteractionEnabled = false
+    clouds4.run(moveClouds4)
+    
+    let clouds5 = SKSpriteNode(imageNamed: "clouds")
+    clouds5.position = CGPoint(x: self.player.position.x + 1200, y: self.player.position.y - 2000)
+    clouds5.alpha = 1
+    clouds5.isUserInteractionEnabled = false
+    let moveClouds5 = SKAction.moveTo(x: 2200, duration: 350)
+    clouds5.zPosition = 100000000000000000
+    self.addChild(clouds5)
+    clouds5.isUserInteractionEnabled = false
+    clouds5.run(moveClouds5)
+    
+    let clouds6 = SKSpriteNode(imageNamed: "clouds")
+    clouds6.position = CGPoint(x: self.player.position.x + 500, y: self.player.position.y - 3500)
+    clouds6.alpha = 0.8
+    clouds6.isUserInteractionEnabled = false
+    let moveClouds6 = SKAction.moveTo(x: 2200, duration: 450)
+    clouds6.zPosition = 100000000000000000
+    self.addChild(clouds6)
+    clouds6.isUserInteractionEnabled = false
+    clouds6.run(moveClouds6)
+    
+    let clouds7 = SKSpriteNode(imageNamed: "clouds")
+    clouds7.position = CGPoint(x: self.player.position.x + 100, y: self.player.position.y - 5500)
+    clouds7.alpha = 1
+    clouds7.isUserInteractionEnabled = false
+    let moveClouds7 = SKAction.moveTo(x: 3200, duration: 550)
+    clouds7.zPosition = 100000000000000000
+    self.addChild(clouds7)
+    clouds7.isUserInteractionEnabled = false
+    clouds7.run(moveClouds7)
   }
   
   // MARK: - Touch Handling

@@ -24,7 +24,7 @@ public class AudioPlayer: SKNode {
   func setupNode() {
     soundNode.name = volumeButtonName
     soundNode.zPosition = 100000
-    soundNode.size = CGSize(width: 60, height: 60)
+    soundNode.size = CGSize(width: 45, height: 45)
   }
   
   func setupPlayer() {
