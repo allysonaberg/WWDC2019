@@ -1,7 +1,7 @@
 import SpriteKit
 import GameplayKit
 
-public class Map {
+public class Map: SKNode {
 
   public var container : SKSpriteNode!
 
@@ -9,16 +9,20 @@ public class Map {
   var offset : CGFloat!
   var root: GameScene
   var tileSize: CGSize!
-  var startingPosition: CGPoint!
 
   public init(_ root: GameScene) {
     self.root = root
     self.container = SKSpriteNode()
     self.container.position = root.position
+    self.ground = SKTileMapNode()
+    self.offset = ground.mapSize.height
+    self.tileSize = CGSize(width: 128, height: 64)
+
+    super.init()
+    
     root.addChild(container)
     setupTiles(root: root)
 
-    self.offset = ground.mapSize.height
 
     let groundmap = tileMapNode(tilemap: ground, level: -1)
 
@@ -37,10 +41,6 @@ public class Map {
           let defaultsTexture = SKTexture(imageNamed: "shape")
           item.element.physicsBody = SKPhysicsBody(texture: defaultsTexture, size: defaultsTexture.size())
           if let physicsBody = item.element.physicsBody {
-            print("setting starting position")
-            self.startingPosition = item.element.position
-            print(startingPosition)
-            print("setting 3")
             physicsBody.isDynamic = false
             physicsBody.contactTestBitMask = 2
             physicsBody.categoryBitMask = 3
@@ -48,12 +48,13 @@ public class Map {
         }
       }
     }
-    
   }
 
+  required public init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
   func setupTiles(root: GameScene) {
-    self.tileSize = CGSize(width: 128, height: 64)
     self.ground = setupLevels(level: "Level1.txt")
   }
 
@@ -134,7 +135,6 @@ public class Map {
         else if tilemap.tileGroup(atColumn: col, row: row)?.name == "03" { sprite.name = "03" }
         else if tilemap.tileGroup(atColumn: col, row: row)?.name == "04" {
           sprite.name = "04"
-//          self.root.startingPosition = sprite.position
         }
         array.append(sprite)
       }

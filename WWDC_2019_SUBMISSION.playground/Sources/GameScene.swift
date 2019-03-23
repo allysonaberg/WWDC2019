@@ -11,11 +11,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   let menuButtonName = "menu"
   
   public var hasShownTutorial: Bool = false
-  lazy var startingPosition: CGPoint = {
-    guard let startingPosition = self.playingMap.startingPosition else { return CGPoint(x: self.size.width / 2 - 500 , y: self.size.height / 2 - 150 )
-}
-    return startingPosition
-  }()
+
   
   // Instance Variables
   var player: Player!
