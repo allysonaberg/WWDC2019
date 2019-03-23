@@ -99,76 +99,34 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     self.addChild(tutorial)
   }
   
+  //TODO: FIX
   func setupClouds() {
-    let clouds1 = SKSpriteNode(imageNamed: "clouds")
-    clouds1.alpha = 0.9
-    clouds1.isUserInteractionEnabled = false
-    let moveClouds = SKAction.moveTo(x: 1000, duration: 350)
-    clouds1.zPosition = 100000000000000000
-    self.addChild(clouds1)
-    clouds1.isUserInteractionEnabled = false
-    clouds1.run(moveClouds)
+    setupCloudsNode(alpha: 1, to: 4000, duration: 650.0, xDiff: 1000, yDiff: 3200)
+    setupCloudsNode(alpha: 1, to: 4000, duration: 650.0, xDiff: 2000, yDiff: 2900)
+    setupCloudsNode(alpha: 0.9, to: 1000, duration: 350.0, xDiff: 0, yDiff: 0)
+    setupCloudsNode(alpha: 0.9, to: 1000, duration: 350.0, xDiff: 800, yDiff: 0)
+    setupCloudsNode(alpha: 1, to: 1200, duration: 600.0, xDiff: -900, yDiff: 2000)
+    setupCloudsNode(alpha: 0.9, to: 1000, duration: 350.0, xDiff: 1000, yDiff: 800)
+    setupCloudsNode(alpha: 0.8, to: 1200, duration: 450.0, xDiff: 200, yDiff: 400)
+    setupCloudsNode(alpha: 0.9, to: 1000, duration: 350.0, xDiff: 600, yDiff: -300)
+    setupCloudsNode(alpha: 0.9, to: 1000, duration: 350.0, xDiff: 1200, yDiff: -300)
+    setupCloudsNode(alpha: 1, to: 2000, duration: 650.0, xDiff: -1000, yDiff: -1000)
+    setupCloudsNode(alpha: 0.9, to: 1000, duration: 400.0, xDiff: -1500, yDiff: -2000)
+    setupCloudsNode(alpha: 0.9, to: 1000, duration: 400.0, xDiff: 1800, yDiff: -2200)
+    setupCloudsNode(alpha: 1, to: 4000, duration: 650.0, xDiff: -2000, yDiff: -4000)
+    setupCloudsNode(alpha: 1, to: 4000, duration: 650.0, xDiff: 1500, yDiff: -4400)
+  }
+  
+  func setupCloudsNode(alpha: CGFloat, to: Int, duration: Double, xDiff: Int, yDiff: Int) {
+    let clouds = SKSpriteNode(imageNamed: "clouds")
+    clouds.alpha = alpha
+    clouds.isUserInteractionEnabled = false
+    clouds.position = CGPoint(x: self.player.position.x + CGFloat(xDiff), y: self.player.position.y + CGFloat(yDiff))
+    clouds.zPosition = 1000000000000000
+    self.addChild(clouds)
     
-    
-    let clouds2 = SKSpriteNode(imageNamed: "clouds")
-    clouds2.position = CGPoint(x: self.player.position.x - 900, y: self.player.position.y + 900)
-    clouds2.alpha = 1
-    clouds2.isUserInteractionEnabled = false
-    let moveClouds2 = SKAction.moveTo(x: 1200, duration: 600)
-    clouds2.zPosition = 100000000000000000
-    self.addChild(clouds2)
-    clouds2.isUserInteractionEnabled = false
-    clouds2.run(moveClouds2)
-    
-    let clouds3 = SKSpriteNode(imageNamed: "clouds")
-    clouds3.position = CGPoint(x: self.player.position.x + 200, y: self.player.position.y + 400)
-    clouds3.alpha = 0.8
-    clouds3.isUserInteractionEnabled = false
-    let moveClouds3 = SKAction.moveTo(x: 1200, duration: 450)
-    clouds3.zPosition = 100000000000000000
-    self.addChild(clouds3)
-    clouds3.isUserInteractionEnabled = false
-    clouds3.run(moveClouds3)
-    
-    let clouds4 = SKSpriteNode(imageNamed: "clouds")
-    clouds4.position = CGPoint(x: self.player.position.x + 600, y: self.player.position.y)
-    clouds4.alpha = 0.8
-    clouds4.isUserInteractionEnabled = false
-    let moveClouds4 = SKAction.moveTo(x: 2200, duration: 450)
-    clouds4.zPosition = 100000000000000000
-    self.addChild(clouds4)
-    clouds4.isUserInteractionEnabled = false
-    clouds4.run(moveClouds4)
-    
-    let clouds5 = SKSpriteNode(imageNamed: "clouds")
-    clouds5.position = CGPoint(x: self.player.position.x + 1200, y: self.player.position.y - 2000)
-    clouds5.alpha = 1
-    clouds5.isUserInteractionEnabled = false
-    let moveClouds5 = SKAction.moveTo(x: 2200, duration: 350)
-    clouds5.zPosition = 100000000000000000
-    self.addChild(clouds5)
-    clouds5.isUserInteractionEnabled = false
-    clouds5.run(moveClouds5)
-    
-    let clouds6 = SKSpriteNode(imageNamed: "clouds")
-    clouds6.position = CGPoint(x: self.player.position.x + 500, y: self.player.position.y - 3500)
-    clouds6.alpha = 0.8
-    clouds6.isUserInteractionEnabled = false
-    let moveClouds6 = SKAction.moveTo(x: 2200, duration: 450)
-    clouds6.zPosition = 100000000000000000
-    self.addChild(clouds6)
-    clouds6.isUserInteractionEnabled = false
-    clouds6.run(moveClouds6)
-    
-    let clouds7 = SKSpriteNode(imageNamed: "clouds")
-    clouds7.position = CGPoint(x: self.player.position.x + 100, y: self.player.position.y - 5500)
-    clouds7.alpha = 1
-    clouds7.isUserInteractionEnabled = false
-    let moveClouds7 = SKAction.moveTo(x: 3200, duration: 550)
-    clouds7.zPosition = 100000000000000000
-    self.addChild(clouds7)
-    clouds7.isUserInteractionEnabled = false
-    clouds7.run(moveClouds7)
+    let moveClouds = SKAction.move(to: CGPoint(x: clouds.position.x + CGFloat(to), y: clouds.position.y), duration: duration)
+    clouds.run(moveClouds)
   }
   
   // MARK: - Touch Handling
@@ -226,8 +184,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
       recordingSource.recorder.updateMeters()
       //need this to be sensitive...
       //generally, the numbers hover around -20->-40 db, this is just a random equation that makes it sensitive
-      //if CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0))) < 30.0 {
-      //LOWER = more light
       //1.075 just looks good...
       lightSource.lightSource.falloff = pow(1.075, CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0))))
     }
@@ -259,6 +215,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     recordingSource?.recorder.stop()
     musicPlayer.stopMusic()
   }
+  
+  
   //SKPhysicsContactDelegateMethods
   public func didBegin(_ contact: SKPhysicsContact) {
     var firstBody: SKPhysicsBody
@@ -279,15 +237,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
       handleWin()
     } else if firstBody.categoryBitMask == player?.player.physicsBody!.categoryBitMask &&
       secondBody.categoryBitMask == 2 {
-        print("contact")
         lastTouch = player.player.position
-      
     }
-    
-  }
-  
-  public func didEnd(_ contact: SKPhysicsContact) {
-//    self.backgroundColor = whiteColor
   }
   
 }
