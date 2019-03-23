@@ -71,21 +71,23 @@ class Tutorial: SKNode {
   }
   
   public func handleInteraction(_ touches: Set<UITouch>) {
-    let location = touches.first?.location(in: self)
-    if location != nil {
-      let nodes = self.nodes(at: location!)
-      
-      for node in nodes
-      {
-        print("TOUCH INTERACTION")
-        print(node.name)
-        if node.name == continueButtonName {
-          nextPage()
-        } else if node.name == playButtonName {
-          startPlaying()
-        }
-      }
-    }
+    startPlaying()
+
+//    let location = touches.first?.location(in: self)
+//    if location != nil {
+//      let nodes = self.nodes(at: location!)
+//
+//      for node in nodes
+//      {
+//        print("TOUCH INTERACTION")
+//        print(node.name)
+//        if node.name == continueButtonName {
+//          nextPage()
+//        } else if node.name == playButtonName {
+//          startPlaying()
+//        }
+//      }
+//    }
   }
   
   private func nextPage() {

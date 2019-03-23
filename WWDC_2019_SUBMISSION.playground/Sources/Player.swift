@@ -2,7 +2,6 @@ import UIKit
 import SpriteKit
 import AVFoundation
 
-//direction enum, will help us determine what player texture to use
 enum Direction : String {
   case West = "W"
   case East = "E"
@@ -14,28 +13,47 @@ enum Direction : String {
   case SouthEast = "SE"
 }
 
+public class Player: SKNode {
 
-public class Player {
-
-  let speed: CGFloat = 300.0
-  let map: Map!
   public var player: SKSpriteNode!
+  let map: Map!
 
-  public init(_ root: SKNode, map: Map) {
+  init(_ root: SKNode, map: Map) {
     self.map = map
+    
+    super.init()
+    
     setupPlayer(root)
   }
 
+  required public init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func setupPlayer(_ root: SKNode) {
+    player = SKSpriteNode(imageNamed: "S")
+    player.size = CGSize(width: 50, height: 50)
+    player.physicsBody = SKPhysicsBody(circleOfRadius: 20.0, center: CGPoint(x: 0.0, y: 0.0))
+    player.physicsBody?.allowsRotation = false
+    player.physicsBody?.affectedByGravity = false
+    player.physicsBody?.isDynamic = true
+    player.physicsBody?.categoryBitMask = 1
+    player.physicsBody?.contactTestBitMask = 2
+    
+    player.position = CGPoint(x: map.ground.mapSize.width / 2, y: map.ground.mapSize.height / 2)
+    player.zPosition =  self.map.offset - self.player.position.y + 1000
+    
+    root.addChild(player)
+  }
+  
+  
   public func updatePlayer(position: CGPoint?) {
     guard
       let player = player,
       let position = position
       else { return }
 
-
-    let currentPosition = player.position
-
-    if shouldMove(currentPosition: currentPosition, goalPosition: position) {
+    if shouldMove(currentPosition: player.position, goalPosition: position) {
       movePlayer(to: position)
     } else {
       player.physicsBody!.isResting = true
@@ -43,51 +61,34 @@ public class Player {
   }
 
 
-  private func setupPlayer(_ root: SKNode) {
-    player = SKSpriteNode(imageNamed: "S")
-    player.size = CGSize(width: 50, height: 50)
-    player.physicsBody = SKPhysicsBody(circleOfRadius: 20.0, center: CGPoint(x: 0.0, y: 0.0))
-    player.physicsBody!.allowsRotation = false
-    player.physicsBody!.affectedByGravity = false
-    player.physicsBody!.isDynamic = true
-    player.physicsBody!.categoryBitMask = 1
-    player.physicsBody!.contactTestBitMask = 2
-
-    player.position = CGPoint(x: map.ground.mapSize.width / 2, y: map.ground.mapSize.height / 2)
-
-    self.player.zPosition =  self.map.offset - self.player.position.y + 1000
-
-    root.addChild(player)
-  }
-
   private func shouldMove(currentPosition: CGPoint, goalPosition: CGPoint) -> Bool {
+    //make sure our point isn't just in the player
     return abs(currentPosition.x - goalPosition.x) > player.frame.width / 2 || abs(currentPosition.y - goalPosition.y) > player.frame.height / 2
   }
 
   private func movePlayer(to: CGPoint) {
+    guard let _ = self.player.physicsBody else { return }
+    
     let direction = self.angleDirection(to.y - self.player.position.y, to.x - self.player.position.x)
 
     self.player.texture = SKTexture(imageNamed: direction.rawValue)
     self.player.zPosition =  self.map.offset - self.player.position.y + 1000
 
     var velocity = CGVector(dx: 0, dy: 0)
-    let diagSpeed: CGFloat = speed/1.5
-
+    let diagSpeed: Double = playerSpeed / 1.5
 
     switch direction {
-    case .North: velocity = CGVector(dx: 0, dy: speed)
-    case .East: velocity = CGVector(dx: speed, dy: 0)
-    case .South: velocity = CGVector(dx: 0, dy: -speed)
-    case .West: velocity = CGVector(dx: -speed, dy: 0)
+    case .North: velocity = CGVector(dx: 0, dy: playerSpeed)
+    case .East: velocity = CGVector(dx: playerSpeed, dy: 0)
+    case .South: velocity = CGVector(dx: 0, dy: -playerSpeed)
+    case .West: velocity = CGVector(dx: -playerSpeed, dy: 0)
     case .NorthEast: velocity = CGVector(dx: diagSpeed, dy: diagSpeed)
     case .NorthWest: velocity = CGVector(dx: -diagSpeed, dy: diagSpeed)
     case .SouthEast: velocity = CGVector(dx: diagSpeed, dy: -diagSpeed)
     case .SouthWest: velocity = CGVector(dx: -diagSpeed, dy: -diagSpeed)
     }
 
-    if self.player.physicsBody != nil {
-      self.player.physicsBody!.velocity = velocity
-    }
+    self.player.physicsBody!.velocity = velocity
   }
 
   //figure out which direction we're heading...

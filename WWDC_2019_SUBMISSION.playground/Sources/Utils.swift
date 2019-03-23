@@ -22,3 +22,6 @@ public let buttonTitle: String = "PLAY"
 public let volumeButtonName = "Volume"
 public let menuButtonText = "MENU"
 public let menuButtonName = "Menu"
+
+
+public var playerSpeed: Double = 300.0
