@@ -11,6 +11,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   let menuButtonName = "menu"
   
   public var hasShownTutorial: Bool = false
+  var cloudsShown: Bool = false
   lazy var startingPosition: CGPoint = {
     guard let startingPosition = self.playingMap.startingPosition else { return CGPoint(x: self.size.width / 2 - 500 , y: self.size.height / 2 - 150 )
 }
@@ -23,17 +24,19 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   var cameraNode: SKCameraNode!
   var recordingSource: RecordingSource!
   var musicPlayer: AudioPlayer!
-  var menuNode: SKLabelNode!
+  var menuNode: SKSpriteNode!
   var lightSource: LightSource!
   var gradientNode: SKSpriteNode!
   var lastTouch: CGPoint? = nil
+
   
   var tutorial: Tutorial!
 
   // Initialization
   override public init(size: CGSize) {
-    
+
     super.init(size: size)
+    
     
     tutorial = Tutorial(self)
     tutorial.zPosition = 10000000000000
@@ -42,7 +45,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     playingMap.container.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
     player = Player(self, map: playingMap)
     player.player.position = CGPoint(x: self.size.width / 2 - 500 , y: self.size.height / 2 - 150 )
-
 
     lightSource = LightSource()
     
@@ -70,9 +72,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   private func setupMenuNode() {
-    menuNode = SKLabelNode(text: menuButtonText)
-    menuNode.fontSize = 25
-    menuNode.fontColor = whiteColor
+    menuNode = SKSpriteNode(imageNamed: "menu_button")
     menuNode.name = menuButtonName
     menuNode.zPosition = 100000
   }
@@ -96,7 +96,38 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     self.recordingSource.recordButtonTapped()
     self.musicPlayer.startMusic()
     self.addChild(tutorial)
-
+  }
+  
+  func setupClouds() {
+    let clouds1 = SKSpriteNode(imageNamed: "clouds")
+    clouds1.alpha = 0.9
+    clouds1.isUserInteractionEnabled = false
+    let moveClouds = SKAction.moveTo(x: 1000, duration: 350)
+    clouds1.zPosition = 100000000000000000
+    self.addChild(clouds1)
+    clouds1.isUserInteractionEnabled = false
+    clouds1.run(moveClouds)
+    
+    
+    let clouds2 = SKSpriteNode(imageNamed: "clouds")
+    clouds2.position = CGPoint(x: self.player.position.x - 900, y: self.player.position.y + 900)
+    clouds2.alpha = 1
+    clouds2.isUserInteractionEnabled = false
+    let moveClouds2 = SKAction.moveTo(x: 1200, duration: 600)
+    clouds2.zPosition = 100000000000000000
+    self.addChild(clouds2)
+    clouds2.isUserInteractionEnabled = false
+    clouds2.run(moveClouds2)
+    
+    let clouds3 = SKSpriteNode(imageNamed: "clouds")
+    clouds3.position = CGPoint(x: self.player.position.x + 200, y: self.player.position.y + 400)
+    clouds3.alpha = 0.8
+    clouds3.isUserInteractionEnabled = false
+    let moveClouds3 = SKAction.moveTo(x: 1200, duration: 450)
+    clouds3.zPosition = 100000000000000000
+    self.addChild(clouds3)
+    clouds3.isUserInteractionEnabled = false
+    clouds3.run(moveClouds3)
   }
   
   // MARK: - Touch Handling
@@ -118,6 +149,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   fileprivate func handleTouches(_ touches: Set<UITouch>) {
     
     if hasShownTutorial {
+      
       let location = touches.first?.location(in: self)
       if location != nil {
         let nodes = self.nodes(at: location!)
@@ -143,6 +175,12 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   public override func didSimulatePhysics() {
+    
+    if (!cloudsShown && hasShownTutorial) {
+      setupClouds()
+      cloudsShown = true
+    }
+    
     if recordingSource?.recorder != nil   {
       recordingSource.recorder.updateMeters()
       //need this to be sensitive...

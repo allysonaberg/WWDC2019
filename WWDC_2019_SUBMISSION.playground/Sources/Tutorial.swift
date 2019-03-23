@@ -12,6 +12,7 @@ class Tutorial: SKNode {
   
   let fadeIn: SKAction!
   let fadeOut: SKAction!
+  let overlay: SKSpriteNode!
   
   
   init(_ root: GameScene) {
@@ -37,6 +38,8 @@ class Tutorial: SKNode {
     
     self.fadeIn = SKAction.fadeIn(withDuration: 2)
     self.fadeOut = SKAction.fadeOut(withDuration: 2)
+    
+    self.overlay = SKSpriteNode()
 
     super.init()
 
@@ -53,7 +56,6 @@ class Tutorial: SKNode {
     self.addChild(skipButton)
     self.addChild(playButton)
     
-    let overlay = SKSpriteNode()
     overlay.size = standardScreenSize
     overlay.color = blackColor
     overlay.alpha = 0.9
