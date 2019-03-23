@@ -10,41 +10,28 @@ class Tutorial: SKNode {
   var skipButton: SKLabelNode
   var root: GameScene
   
-  //todo: wrap this in a block
   let fadeIn: SKAction!
   let fadeOut: SKAction!
   
-  let continueButtonName = "continue"
-  let playButtonName = "play"
-  let skipButtonName = "skip"
-  //todo: build out pages as separate classes... also put the text in a dic
-  let pageText = [
-  "This is a game about BLEH",
-  "bla bla bloo",
-  "haha haha haha",
-  "AHHHHHHHHHHH",
-  ]
   
-  //todo: do I need to add text and continueButton as children?
   init(_ root: GameScene) {
-    print("setting up tutorial")
     self.root = root
     
     self.page = 0
 
-    self.text = SKLabelNode(text: pageText[page])
+    self.text = SKLabelNode(text: tutorialPageText[page])
     self.text.color = redColor
     self.text.alpha = 0
     
-    self.continueButton = SKLabelNode(text: "CONTINUE")
+    self.continueButton = SKLabelNode(text: continueButtonText)
     self.continueButton.color = redColor
     self.continueButton.name = continueButtonName
     
-    self.playButton = SKLabelNode(text: "PLAY")
+    self.playButton = SKLabelNode(text: playButtonText)
     self.playButton.color = redColor
     self.playButton.name = playButtonName
     
-    self.skipButton = SKLabelNode(text: "SKIP")
+    self.skipButton = SKLabelNode(text: skipButtonText)
     self.skipButton.color = redColor
     self.skipButton.name = skipButtonName
     
@@ -85,8 +72,6 @@ class Tutorial: SKNode {
 
       for node in nodes
       {
-        print("TOUCH INTERACTION")
-        print(node.name)
         if node.name == continueButtonName {
           nextPage()
         } else if node.name == playButtonName || node.name == skipButtonName {
@@ -100,7 +85,7 @@ class Tutorial: SKNode {
     //TODO: unowned self
     self.text.run(fadeOut, completion: {
       self.page+=1
-        self.text.text = self.pageText[self.page]
+        self.text.text = tutorialPageText[self.page]
         self.text.run(self.fadeIn)
       if (self.page == 3) {
         self.continueButton.isHidden = true
@@ -113,7 +98,6 @@ class Tutorial: SKNode {
   
   
   private func startPlaying() {
-    print("STARTING")
     self.removeFromParent()
     root.hasShownTutorial = true
   }
