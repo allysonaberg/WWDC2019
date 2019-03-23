@@ -160,8 +160,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
       //generally, the numbers hover around -20->-40 db, this is just a random equation that makes it sensitive
       //if CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0))) < 30.0 {
       //LOWER = more light
-      //1.08 just looks good...
-      lightSource.lightSource.falloff = pow(1.08, CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0))))
+      //1.075 just looks good...
+      lightSource.lightSource.falloff = pow(1.075, CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0))))
     }
     
     if player != nil {
@@ -209,6 +209,11 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     if firstBody.categoryBitMask == player?.player.physicsBody!.categoryBitMask &&
       secondBody.categoryBitMask == 3 {
       handleWin()
+    } else if firstBody.categoryBitMask == player?.player.physicsBody!.categoryBitMask &&
+      secondBody.categoryBitMask == 2 {
+        print("contact")
+        lastTouch = player.player.position
+      
     }
     
   }
