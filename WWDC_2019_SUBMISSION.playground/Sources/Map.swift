@@ -60,6 +60,12 @@ public class Map {
 
   func setupLevels(level: String) -> SKTileMapNode {
 
+    //nothing
+    let tile00 = SKTileDefinition(texture: SKTexture(imageNamed: "03"), size: tileSize)
+    let tileGroupRule00 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile00])
+    let tileGroup00 = SKTileGroup(rules: [tileGroupRule00])
+    tileGroup00.name = "00"
+    
     //item
     let tile01 = SKTileDefinition(texture: SKTexture(imageNamed: "02"), size: tileSize)
     let tileGroupRule01 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile01])
@@ -84,9 +90,9 @@ public class Map {
     let tileGroup04 = SKTileGroup(rules: [tileGroupRule04])
     tileGroup04.name = "04"
 
-    let tileSet = SKTileSet(tileGroups: [tileGroup01, tileGroup02, tileGroup03, tileGroup04], tileSetType: .isometric)
+    let tileSet = SKTileSet(tileGroups: [tileGroup00, tileGroup01, tileGroup02, tileGroup03, tileGroup04], tileSetType: .isometric)
 
-    let map = SKTileMapNode(tileSet: tileSet, columns: 40, rows: 40, tileSize: self.tileSize)
+    let map = SKTileMapNode(tileSet: tileSet, columns: 37, rows: 21, tileSize: self.tileSize)
 
     let path = Bundle.main.path(forResource: level, ofType: nil)
     do {
@@ -119,6 +125,7 @@ public class Map {
     var array = [SKSpriteNode]()
     for col in 0..<tilemap.numberOfColumns {
       for row in 0..<tilemap.numberOfRows {
+        if (tilemap.tileGroup(atColumn: col, row: row))?.name != "00" {
         let sprite = SKSpriteNode(texture: tilemap.tileDefinition(atColumn: col, row: row)?.textures.first)
         sprite.position = tilemap.centerOfTile(atColumn: col, row: row)
         sprite.zPosition = self.offset - sprite.position.y + tilemap.tileSize.height *  CGFloat(level)
@@ -130,6 +137,7 @@ public class Map {
 //          self.root.startingPosition = sprite.position
         }
         array.append(sprite)
+      }
       }
     }
     tilemap.removeFromParent()

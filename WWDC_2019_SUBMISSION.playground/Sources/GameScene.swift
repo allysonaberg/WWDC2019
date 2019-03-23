@@ -12,7 +12,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   
   public var hasShownTutorial: Bool = false
   lazy var startingPosition: CGPoint = {
-    guard let startingPosition = self.playingMap.startingPosition else { return CGPoint(x: self.size.width / 2 - 500 , y: self.size.height / 2 - 400 )
+    guard let startingPosition = self.playingMap.startingPosition else { return CGPoint(x: self.size.width / 2 - 500 , y: self.size.height / 2 - 150 )
 }
     return startingPosition
   }()
@@ -41,7 +41,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     playingMap = Map(self)
     playingMap.container.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
     player = Player(self, map: playingMap)
-    player.player.position = CGPoint(x: self.size.width / 2 - 500 , y: self.size.height / 2 - 400 )
+    player.player.position = CGPoint(x: self.size.width / 2 - 500 , y: self.size.height / 2 - 150 )
 
     lightSource = LightSource()
     
