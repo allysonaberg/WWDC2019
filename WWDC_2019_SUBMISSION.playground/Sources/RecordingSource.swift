@@ -5,7 +5,7 @@ import AVFoundation
 public class RecordingSource {
   var recordingSession: AVAudioSession!
   let temporaryDirectoryToKeepRecords = FileManager.default.temporaryDirectory
-  var recordNumber = 1
+  var fileNum = 1
   var player: AVAudioPlayer!
   var recorder: AVAudioRecorder!
   
@@ -15,12 +15,12 @@ public class RecordingSource {
   
   public func recordButtonTapped() {
     if recorder == nil {
-      recordNumber += 1
+      fileNum += 1
       
-      let recordFileName = temporaryDirectoryToKeepRecords.appendingPathComponent("record\(recordNumber).m4a")
+      let recordFileName = temporaryDirectoryToKeepRecords.appendingPathComponent("record\(fileNum).m4a")
       
       let settings = [AVFormatIDKey: Int(kAudioFormatMPEG4AAC), AVSampleRateKey: 44100, AVNumberOfChannelsKey: 1, AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue]
-      recordingSession = AVAudioSession.sharedInstance()
+      
       do {
         try recordingSession.setCategory(.playAndRecord, mode: .default)
         try recordingSession.setActive(true, options: [])

@@ -7,6 +7,7 @@ class Tutorial: SKNode {
   var page: Int = 0
   //todo: make play button a lazy var
   var playButton: SKLabelNode
+  var skipButton: SKLabelNode
   var root: GameScene
   
   //todo: wrap this in a block
@@ -15,7 +16,7 @@ class Tutorial: SKNode {
   
   let continueButtonName = "continue"
   let playButtonName = "play"
-  
+  let skipButtonName = "skip"
   //todo: build out pages as separate classes... also put the text in a dic
   let pageText = [
   "This is a game about BLEH",
@@ -43,6 +44,10 @@ class Tutorial: SKNode {
     self.playButton.color = redColor
     self.playButton.name = playButtonName
     
+    self.skipButton = SKLabelNode(text: "SKIP")
+    self.skipButton.color = redColor
+    self.skipButton.name = skipButtonName
+    
     self.fadeIn = SKAction.fadeIn(withDuration: 2)
     self.fadeOut = SKAction.fadeOut(withDuration: 2)
 
@@ -51,12 +56,14 @@ class Tutorial: SKNode {
     self.text.position = CGPoint(x: self.position.x, y: self.position.y)
     self.text.run(fadeIn)
     self.continueButton.position = CGPoint(x: self.position.x, y: self.position.y - 200)
+    self.skipButton.position = CGPoint(x: self.continueButton.position.x - 100, y: self.continueButton.position.y)
     self.playButton.position = self.continueButton.position
     self.playButton.isHidden = true
     self.playButton.isUserInteractionEnabled = false
 
     self.addChild(text)
     self.addChild(continueButton)
+    self.addChild(skipButton)
     self.addChild(playButton)
     
     let overlay = SKSpriteNode()
@@ -71,23 +78,22 @@ class Tutorial: SKNode {
   }
   
   public func handleInteraction(_ touches: Set<UITouch>) {
-    startPlaying()
 
-//    let location = touches.first?.location(in: self)
-//    if location != nil {
-//      let nodes = self.nodes(at: location!)
-//
-//      for node in nodes
-//      {
-//        print("TOUCH INTERACTION")
-//        print(node.name)
-//        if node.name == continueButtonName {
-//          nextPage()
-//        } else if node.name == playButtonName {
-//          startPlaying()
-//        }
-//      }
-//    }
+    let location = touches.first?.location(in: self)
+    if location != nil {
+      let nodes = self.nodes(at: location!)
+
+      for node in nodes
+      {
+        print("TOUCH INTERACTION")
+        print(node.name)
+        if node.name == continueButtonName {
+          nextPage()
+        } else if node.name == playButtonName || node.name == skipButtonName {
+          startPlaying()
+        }
+      }
+    }
   }
   
   private func nextPage() {
