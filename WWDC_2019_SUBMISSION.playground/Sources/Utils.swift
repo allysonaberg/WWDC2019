@@ -25,3 +25,7 @@ public let menuButtonName = "Menu"
 
 
 public var playerSpeed: Double = 300.0
+
+
+public var volumeImage = "volume"
+public var muteVolumeImage = "volume_mute"

@@ -1,23 +1,27 @@
 import SpriteKit
 import AVFoundation
 
-public class AudioPlayer {
+public class AudioPlayer: SKNode {
   
   var music: AVAudioPlayer!
   var soundNode: SKSpriteNode!
   var isOn: Bool! = false
   
   public init(_ root: SKNode) {
+    super.init()
     setupNode(root)
     setupPlayer()
   }
   
+  required public init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
   func setupNode(_ root: SKNode) {
-    self.soundNode = SKSpriteNode(imageNamed: "volume")
+    self.soundNode = SKSpriteNode(imageNamed: volumeImage)
     soundNode.name = volumeButtonName
     soundNode.zPosition = 100000
     soundNode.size = CGSize(width: 60, height: 60)
-//    root.addChild(soundNode)
   }
   
   func setupPlayer() {
@@ -43,13 +47,13 @@ public class AudioPlayer {
   
   public func stopMusic() {
     music.stop()
-    soundNode.texture = SKTexture(imageNamed: "volume_mute")
+    soundNode.texture = SKTexture(imageNamed: muteVolumeImage)
 //    clearTempDirectory()
   }
   
   public func startMusic() {
     music.play()
-    soundNode.texture = SKTexture(imageNamed: "volume")
+    soundNode.texture = SKTexture(imageNamed: volumeImage)
   }
   
   private func clearTempDirectory() {
