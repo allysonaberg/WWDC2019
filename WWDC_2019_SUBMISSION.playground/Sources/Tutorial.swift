@@ -9,6 +9,10 @@ class Tutorial: SKNode {
   var playButton: SKLabelNode
   var root: GameScene
   
+  //todo: wrap this in a block
+  let fadeIn: SKAction!
+  let fadeOut: SKAction!
+  
   let continueButtonName = "continue"
   let playButtonName = "play"
   
@@ -29,6 +33,7 @@ class Tutorial: SKNode {
 
     self.text = SKLabelNode(text: pageText[page])
     self.text.color = redColor
+    self.text.alpha = 0
     
     self.continueButton = SKLabelNode(text: "CONTINUE")
     self.continueButton.color = redColor
@@ -38,9 +43,13 @@ class Tutorial: SKNode {
     self.playButton.color = redColor
     self.playButton.name = playButtonName
     
+    self.fadeIn = SKAction.fadeIn(withDuration: 2)
+    self.fadeOut = SKAction.fadeOut(withDuration: 2)
+
     super.init()
 
     self.text.position = CGPoint(x: self.position.x, y: self.position.y)
+    self.text.run(fadeIn)
     self.continueButton.position = CGPoint(x: self.position.x, y: self.position.y - 200)
     self.playButton.position = self.continueButton.position
     self.playButton.isHidden = true
@@ -68,6 +77,8 @@ class Tutorial: SKNode {
       
       for node in nodes
       {
+        print("TOUCH INTERACTION")
+        print(node.name)
         if node.name == continueButtonName {
           nextPage()
         } else if node.name == playButtonName {
@@ -78,15 +89,18 @@ class Tutorial: SKNode {
   }
   
   private func nextPage() {
-    page+=1
-    if (page < 3) {
-      self.text.text = pageText[page]
-    } else {
-      self.continueButton.isHidden = true
-      self.continueButton.isUserInteractionEnabled = false
-      self.playButton.isHidden = false
-      self.playButton.isUserInteractionEnabled = true
-    }
+    //TODO: unowned self
+    self.text.run(fadeOut, completion: {
+      self.page+=1
+        self.text.text = self.pageText[self.page]
+        self.text.run(self.fadeIn)
+      if (self.page == 3) {
+        self.continueButton.isHidden = true
+        self.continueButton.isUserInteractionEnabled = false
+        self.playButton.isHidden = false
+        self.playButton.isUserInteractionEnabled = true
+      }
+    })
   }
   
   

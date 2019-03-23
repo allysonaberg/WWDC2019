@@ -44,11 +44,25 @@ public class AudioPlayer {
   public func stopMusic() {
     music.stop()
     soundNode.texture = SKTexture(imageNamed: "volume_mute")
+//    clearTempDirectory()
   }
   
   public func startMusic() {
     music.play()
     soundNode.texture = SKTexture(imageNamed: "volume")
+  }
+  
+  private func clearTempDirectory() {
+    do {
+      let savedFiles = try FileManager.default.contentsOfDirectory(atPath: NSTemporaryDirectory())
+      for file in savedFiles {
+        guard let fileURL = URL(string: file) else { continue }
+        try FileManager.default.removeItem(at: fileURL)
+      }
+      print("temp file removal successful")
+    } catch {
+      print(error)
+    }
   }
   
 }

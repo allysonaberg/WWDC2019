@@ -11,6 +11,10 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   let menuButtonName = "menu"
   
   public var hasShownTutorial: Bool = false
+  lazy var startingPosition: CGPoint = {
+    guard let startingPosition = self.playingMap.startingPosition else { return CGPoint(x: self.size.width / 2, y: self.size.height / 2)}
+    return startingPosition
+  }()
   
   // Instance Variables
   var player: Player!
@@ -32,12 +36,10 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     
     tutorial = Tutorial(self)
     tutorial.zPosition = 10000000000000
-    self.addChild(tutorial)
     
     playingMap = Map(self)
     playingMap.container.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
     player = Player(self, map: playingMap)
-    player.player.position = CGPoint(x: self.size.width / 2 - 500 , y: self.size.height / 2 - 400 )
     
     lightSource = LightSource()
     
@@ -48,10 +50,18 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     musicPlayer = AudioPlayer(self)
   
     setupMenuNode()
+    
+    NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { (notification) in
+      
+    }
   }
   
   required public init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  deinit {
+//    handleCleanUp()
   }
   
   private func setupMenuNode() {
@@ -60,7 +70,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     menuNode.fontColor = whiteColor
     menuNode.name = menuButtonName
     menuNode.zPosition = 100000
-//    self.addChild(menuNode)
   }
   
   private func setupGradientBackground() {
@@ -86,8 +95,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   
   
   public override func didMove(to view: SKView) {
-    let topRightCornerConstraint = SKConstraint.distance(SKRange(constantValue: 100), to: CGPoint(x: self.frame.maxX, y: self.frame.maxY))
-    let topLeftCornerConstraint = SKConstraint.distance(SKRange(constantValue: 100), to: CGPoint(x: self.frame.minX, y: self.frame.maxY))
     self.physicsWorld.contactDelegate = self
     self.camera = cameraNode
     self.addChild(menuNode)
@@ -96,6 +103,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     self.addChild(cameraNode)
     self.recordingSource.recordButtonTapped()
     self.musicPlayer.startMusic()
+    self.addChild(tutorial)
     setupGradientBackground()
 
   }
@@ -127,8 +135,10 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
         {
           if node.name == volumeButtonName {
             musicPlayer.handleTapped()
+            break
           } else if node.name == menuButtonName {
             handleShowMenu()
+            break
           } else {
             //player movement
             lastTouch = touches.first?.location(in: self)
@@ -147,25 +157,25 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
       //need this to be sensitive...
       //generally, the numbers hover around -20->-40 db, this is just a random equation that makes it sensitive
 //      if CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0))) < 30.0 {
-        lightSource.lightSource.falloff = CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0)) / 8)
+        lightSource.lightSource.falloff = CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0)) / 10)
 //      } else {
 //        lightSource.lightSource.falloff = 50
 //      }
     }
     
     if player != nil {
+      player.player.position = startingPosition
       player.updatePlayer(position: lastTouch)
-      cameraNode.position.x += (player.player.position.x - cameraNode.position.x) / 10
-      cameraNode.position.y += (player.player.position.y - cameraNode.position.y) / 10
-//      cameraNode.position += (player.player.position - cameraNode.position) / 10
+      cameraNode.position.x += (player.player.position.x - cameraNode.position.x) / 8
+      cameraNode.position.y += (player.player.position.y - cameraNode.position.y) / 8
+      tutorial.position = cameraNode.position
       menuNode.position = CGPoint(x: cameraNode.position.x + self.frame.midX / 1.5 + 100, y: cameraNode.position.y + self.frame.midY / 1.5 )
       musicPlayer.soundNode.position = CGPoint(x: cameraNode.position.x + self.frame.midX / 1.5, y: cameraNode.position.y + self.frame.midY / 1.5)
     }
   }
   
   private func handleShowMenu() {
-    recordingSource?.recorder.stop()
-    musicPlayer.stopMusic()
+    handleCleanUp()
     
     let sKView = self.view?.scene?.view
     let menuScene = MenuScene(size: standardScreenSize)
@@ -177,6 +187,10 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     handleShowMenu()
   }
   
+  private func handleCleanUp() {
+    recordingSource?.recorder.stop()
+    musicPlayer.stopMusic()
+  }
   //SKPhysicsContactDelegateMethods
   public func didBegin(_ contact: SKPhysicsContact) {
     var firstBody: SKPhysicsBody
@@ -193,11 +207,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     print(firstBody.categoryBitMask)
     print(secondBody.categoryBitMask)
     if firstBody.categoryBitMask == player?.player.physicsBody!.categoryBitMask &&
-      secondBody.categoryBitMask == 2 {
-//            self.backgroundColor = redColor
-    } else if firstBody.categoryBitMask == player?.player.physicsBody!.categoryBitMask &&
       secondBody.categoryBitMask == 3 {
-      print("HANDLEWIN")
       handleWin()
     }
     
