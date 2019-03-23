@@ -85,7 +85,7 @@ public class Map {
     tileGroup03.name = "03"
     
     //WINNNER!
-    let tile04 = SKTileDefinition(texture: SKTexture(imageNamed: "011"), size: tileSize)
+    let tile04 = SKTileDefinition(texture: SKTexture(imageNamed: "WIN"), size: tileSize)
     let tileGroupRule04 = SKTileGroupRule(adjacency: .adjacencyAll, tileDefinitions: [tile04])
     let tileGroup04 = SKTileGroup(rules: [tileGroupRule04])
     tileGroup04.name = "04"
