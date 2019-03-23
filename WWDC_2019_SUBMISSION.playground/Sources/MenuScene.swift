@@ -1,20 +1,15 @@
 import SpriteKit
 
-
 //todo: fix dynamic sizing placement
 //todo: fix zPosition
 public class MenuScene: SKScene {
 
-  // Instance Variables
-  let gameTitle: String = "In The Dark"
-  let buttonTitle: String = "PLAY"
-  let playButtonName: String = "playButton"
-  
   var titleLabel: SKLabelNode!
   var playButton: SKLabelNode!
   
   
   override public init(size: CGSize) {
+    
     super.init(size: size)
     
     self.backgroundColor = whiteColor
@@ -64,7 +59,6 @@ public class MenuScene: SKScene {
   }
   
   private func startPlaying() {
-    print("start playing")
     guard let sKView = self.view?.scene?.view else { return }
     let gameScene = GameScene(size: standardScreenSize)
     gameScene.scaleMode = .aspectFill
