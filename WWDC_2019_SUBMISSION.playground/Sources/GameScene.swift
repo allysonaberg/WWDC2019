@@ -53,7 +53,9 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     musicPlayer = AudioPlayer()
   
     setupMenuNode()
-    
+    setupGradientBackground()
+    gradientNode.size = CGSize(width: CGFloat(standardScreenSize.width*5), height: CGFloat(standardScreenSize.height*5))
+
     NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { (notification) in
       
     }
@@ -76,26 +78,13 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   private func setupGradientBackground() {
-    let topColor = gradientColorTop
-    let bottomColor = gradientColorBottom
-    
-    let texture = SKTexture(size: self.playingMap.ground!.mapSize, startColor: topColor, endcolor: bottomColor)
+    let texture = SKTexture(size: CGSize(width: CGFloat(standardScreenSize.width*2), height: CGFloat(standardScreenSize.height*3)), startColor: redColor, endcolor: gradientColorBottom)
     self.gradientNode = SKSpriteNode(texture: texture)
     gradientNode.zPosition = -1
     gradientNode.alpha = 1
     
     self.addChild(gradientNode)
   }
-  
-  private func layerToNode(layer: CAGradientLayer) -> SKSpriteNode {
-    UIGraphicsBeginImageContext(self.frame.size)
-    self.view?.layer.render(in: UIGraphicsGetCurrentContext()!)
-    let background = UIGraphicsGetImageFromCurrentImageContext()!
-    UIGraphicsEndImageContext()
-    
-    return SKSpriteNode(texture: SKTexture(image: background))
-  }
-  
   
   public override func didMove(to view: SKView) {
     self.physicsWorld.contactDelegate = self
@@ -107,7 +96,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     self.recordingSource.recordButtonTapped()
     self.musicPlayer.startMusic()
     self.addChild(tutorial)
-    setupGradientBackground()
 
   }
   
