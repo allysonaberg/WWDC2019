@@ -15,8 +15,5 @@ let menuScene = MenuScene(size: viewSize)
 menuScene.scaleMode = .aspectFill
 sceneView.presentScene(menuScene)
 
-//let gameScene = GameScene(size: viewSize)
-//gameScene.scaleMode = .aspectFill
-//sceneView.presentScene(gameScene)
 
 PlaygroundPage.current.liveView = sceneView

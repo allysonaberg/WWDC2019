@@ -43,6 +43,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     player = Player(self, map: playingMap)
     player.player.position = CGPoint(x: self.size.width / 2 - 500 , y: self.size.height / 2 - 150 )
 
+
     lightSource = LightSource()
     
     cameraNode = SKCameraNode()

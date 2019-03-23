@@ -40,7 +40,6 @@ public class Player: SKNode {
     player.physicsBody?.categoryBitMask = 1
     player.physicsBody?.contactTestBitMask = 2
     
-    player.position = CGPoint(x: map.ground.mapSize.width / 2, y: map.ground.mapSize.height / 2)
     player.zPosition =  self.map.offset - self.player.position.y + 1000
     
     root.addChild(player)
