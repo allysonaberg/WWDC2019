@@ -4,16 +4,13 @@ import AVFoundation
 public class AudioPlayer: SKNode {
   
   var music: AVAudioPlayer!
-  var soundNode: SKSpriteNode!
   var isOn: Bool! = false
   
   override public init() {
-    self.soundNode = SKSpriteNode(imageNamed: "011")
     self.music = AVAudioPlayer()
     
     super.init()
     
-    setupNode()
     setupPlayer()
   }
   
@@ -21,11 +18,6 @@ public class AudioPlayer: SKNode {
     fatalError("init(coder:) has not been implemented")
   }
 
-  func setupNode() {
-    soundNode.name = volumeButtonName
-    soundNode.size = CGSize(width: 45, height: 45)
-  }
-  
   func setupPlayer() {
     let url = Bundle.main.url(forResource: "song", withExtension: "mp3")
     do {
@@ -49,13 +41,10 @@ public class AudioPlayer: SKNode {
   
   public func stopMusic() {
     music.stop()
-    soundNode.texture = SKTexture(imageNamed: muteVolumeImage)
-//    clearTempDirectory()
   }
   
   public func startMusic() {
     music.play()
-    soundNode.texture = SKTexture(imageNamed: volumeImage)
   }
   
   private func clearTempDirectory() {

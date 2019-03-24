@@ -68,7 +68,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     self.musicPlayer = AudioPlayer()
     musicPlayer.startMusic()
     musicPlayer.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2 - 150)
-//    musicPlayer.soundNode.name = volumeButtonName
   }
   
   private func setupGradientBackground() {
