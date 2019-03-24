@@ -12,11 +12,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   
   public var hasShownTutorial: Bool = false
   var cloudsShown: Bool = false
-  lazy var startingPosition: CGPoint = {
-    guard let startingPosition = self.playingMap.startingPosition else { return CGPoint(x: self.size.width / 2 - 500 , y: self.size.height / 2 - 150 )
-}
-    return startingPosition
-  }()
   
   // Instance Variables
   var player: Player!
@@ -42,9 +37,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     tutorial.zPosition = 10000000000000
     
     playingMap = Map(self)
-    playingMap.container.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
     player = Player(self, map: playingMap)
-    player.player.position = CGPoint(x: self.size.width / 2 - 500 , y: self.size.height / 2 - 150 )
+    self.addChild(player)
 
     lightSource = LightSource()
     
@@ -57,10 +51,24 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     setupMenuNode()
     setupGradientBackground()
     gradientNode.size = CGSize(width: CGFloat(standardScreenSize.width*5), height: CGFloat(standardScreenSize.height*5))
-
-    NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: nil) { (notification) in
-      
-    }
+  }
+  
+  private func handlePortraitOrientation() {
+    let testNode = SKLabelNode(text: "PORTRAIT")
+    testNode.zPosition = 1000000
+    self.addChild(testNode)
+    menuNode.removeFromParent()
+    musicPlayer.removeFromParent()
+  }
+  
+  private func handleLandscapeOrientation() {
+    let testNode = SKLabelNode(text: "LANDSCAPE")
+    testNode.zPosition = 100000000
+    self.addChild(testNode)
+    menuNode.removeFromParent()
+    musicPlayer.removeFromParent()
+//    menuNode.position = CGPoint(x: cameraNode.position.x + self.frame.midX / 1.5 + 50, y: cameraNode.position.y + self.frame.midY / 1.5 )
+//    musicPlayer.soundNode.position = CGPoint(x: cameraNode.position.x + self.frame.midX / 1.5, y: cameraNode.position.y + self.frame.midY / 1.5)
   }
   
   required public init?(coder aDecoder: NSCoder) {
@@ -192,9 +200,13 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
       player.updatePlayer(position: lastTouch)
       cameraNode.position.x += (player.player.position.x - cameraNode.position.x) / 8
       cameraNode.position.y += (player.player.position.y - cameraNode.position.y) / 8
+
+      guard let sKView = self.view?.scene?.view else { return }
       tutorial.position = cameraNode.position
-      menuNode.position = CGPoint(x: cameraNode.position.x + self.frame.midX / 1.5 + 100, y: cameraNode.position.y + self.frame.midY / 1.5 )
-      musicPlayer.soundNode.position = CGPoint(x: cameraNode.position.x + self.frame.midX / 1.5, y: cameraNode.position.y + self.frame.midY / 1.5)
+      menuNode.position = CGPoint(x: cameraNode.position.x + sKView.scene!.size.width / 3, y: cameraNode.position.y + sKView.scene!.size.height / 3)
+      musicPlayer.soundNode.position = CGPoint(x: menuNode.position.x + 50, y: menuNode.position.y)
+//      menuNode.position = CGPoint(x: cameraNode.position.x + self.frame.midX / 2 + 50, y: cameraNode.position.y + self.frame.midY / 2 )
+//      musicPlayer.soundNode.position = CGPoint(x: cameraNode.position.x + self.frame.midX / 2, y: cameraNode.position.y + self.frame.midY / 2)
     }
   }
   
@@ -203,7 +215,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let sKView = self.view?.scene?.view
     let menuScene = MenuScene(size: standardScreenSize)
-    menuScene.scaleMode = .aspectFill
+    menuScene.scaleMode = .aspectFit
     sKView?.presentScene(menuScene)
   }
 
@@ -216,7 +228,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     musicPlayer.stopMusic()
   }
   
-  
+
   //SKPhysicsContactDelegateMethods
   public func didBegin(_ contact: SKPhysicsContact) {
     var firstBody: SKPhysicsBody

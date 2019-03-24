@@ -11,10 +11,11 @@ let sceneView = SKView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: viewSize
 sceneView.ignoresSiblingOrder = true
 sceneView.showsDrawCount = true
 sceneView.preferredFramesPerSecond = UIScreen.main.maximumFramesPerSecond
+sceneView.backgroundColor = gradientColorBottom
 //sceneView.showsPhysics = true
 
-let menuScene = MenuScene(size: viewSize)
-menuScene.scaleMode = .aspectFill
+let menuScene = MenuScene(size: sceneView.bounds.size)
+menuScene.scaleMode = .aspectFit
 sceneView.presentScene(menuScene)
 
 

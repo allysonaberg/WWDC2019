@@ -7,7 +7,6 @@ public class MenuScene: SKScene {
   var titleLabel: SKLabelNode!
   var playButton: SKLabelNode!
   
-  
   override public init(size: CGSize) {
     
     super.init(size: size)
@@ -60,8 +59,8 @@ public class MenuScene: SKScene {
   
   private func startPlaying() {
     guard let sKView = self.view?.scene?.view else { return }
-    let gameScene = GameScene(size: standardScreenSize)
-    gameScene.scaleMode = .aspectFill
+    let gameScene = GameScene(size: sKView.scene!.size)
+    gameScene.scaleMode = .aspectFit
     sKView.presentScene(gameScene)
   }
   

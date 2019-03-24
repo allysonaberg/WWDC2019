@@ -32,8 +32,8 @@ public class Player: SKNode {
   
   private func setupPlayer(_ root: SKNode) {
     player = SKSpriteNode(imageNamed: "S")
-    player.size = CGSize(width: 50, height: 50)
-    player.physicsBody = SKPhysicsBody(circleOfRadius: 8, center: CGPoint(x: 0.0, y: 0.0))
+    player.size = CGSize(width: 40, height: 40)
+    player.physicsBody = SKPhysicsBody(circleOfRadius: 5, center: CGPoint(x: 0.0, y: 0.0))
     player.physicsBody?.allowsRotation = false
     player.physicsBody?.affectedByGravity = false
     player.physicsBody?.isDynamic = true

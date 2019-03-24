@@ -9,13 +9,13 @@ public var redColor = UIColor.red
 
 
 //GameScene
-public var gradientColorBottom = UIColor(red: 252/255, green: 202/255, blue: 40/255, alpha: 1.0) /*   */
+public var gradientColorBottom = UIColor(red: 252/255, green: 202/255, blue: 40/255, alpha: 1.0)
 public var gradientColorTop = redColor
 public let menuButtonText = "MENU"
 public let menuButtonName = "Menu"
 
 //MenuScene
-public let gameTitle: String = "In The Dark"
+public let gameTitle: String = "Way Home"
 public let buttonTitle: String = "PLAY"
 
 
@@ -33,9 +33,9 @@ public let playButtonName = "play"
 public let skipButtonName = "skip"
 
 public let tutorialPageText = [
-  "This game is best experienced in full-screen,\n while in a semi-quiet environment",
-  "To play, you must use more than just your eyes... \nUsing your voice, guide our hero through the ancient aztec ruins",
-  "The louder you speak,\n the more visible the path out of the ruins becomes",
+  "This game is best experienced in full-screen,\n with microphone permissions enabled",
+  "To play, you must use more than just your eyes... \nUsing your voice, guide our hero home through the ancient aztec ruins",
+  "The louder you speak,\nthe brighter the path out of the ruins becomes",
   "Enjoy the journey...",
 ]
 
