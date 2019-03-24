@@ -5,12 +5,14 @@ public class MenuScene: SKScene {
 
   var titleLabel: SKLabelNode!
   var playButton: SKLabelNode!
+  var character: SKSpriteNode!
   
   override public init(size: CGSize) {
     super.init(size: size)
     
     self.backgroundColor = UIColor.red
     setupTitleLabel()
+    setupCharacter()
     setupPlayButton()
     setupClouds()
     setupBackground()
@@ -24,17 +26,24 @@ public class MenuScene: SKScene {
   private func setupTitleLabel() {
     titleLabel = SKLabelNode(text: gameTitle)
     titleLabel.fontName = font
-    titleLabel.fontSize = 50
+    titleLabel.fontSize = 45
     titleLabel.fontColor = whiteColor
-    titleLabel.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
+    titleLabel.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2 + 100)
     self.addChild(titleLabel)
+  }
+  
+  private func setupCharacter() {
+    character = SKSpriteNode(imageNamed: "S")
+    character.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
+    character.size = CGSize(width: 40, height: 40)
+    self.addChild(character)
   }
   
   private func setupPlayButton() {
     self.playButton = SKLabelNode(text: buttonTitle)
     playButton.fontColor = whiteColor
     playButton.fontName = font
-    playButton.fontSize = 40
+    playButton.fontSize = 35
     playButton.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2 - 100)
     playButton.name = playButtonName
     self.addChild(playButton)

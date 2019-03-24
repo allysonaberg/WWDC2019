@@ -33,8 +33,8 @@ public let skipButtonName = "skip"
 
 public let tutorialPageText = [
   "This game is best experienced in full-screen,\n with microphone permissions enabled",
-  "To play, you must use more than just your eyes... \nUsing your voice, guide our hero home through the ancient aztec ruins",
-  "The louder you speak,\nthe brighter the path out of the ruins becomes",
+  "To play, you must use more than just\nyour eyes... \nUsing your voice, guide our hero home\nthrough the ancient aztec ruins",
+  "The louder you speak,\nthe brighter the path\nout of the ruins becomes",
   "Enjoy the journey...",
 ]
 

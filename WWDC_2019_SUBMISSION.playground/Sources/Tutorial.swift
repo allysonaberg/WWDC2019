@@ -25,6 +25,7 @@ class Tutorial: SKNode {
     self.text.numberOfLines = 0
     self.text.alpha = 0
     self.text.fontColor = blackColor
+    self.text.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
     
     self.continueButton = SKLabelNode(text: continueButtonText)
     self.continueButton.fontName = font
