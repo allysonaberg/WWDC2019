@@ -31,9 +31,9 @@ public class Player: SKNode {
   }
   
   private func setupPlayer(_ root: SKNode) {
-    player = SKSpriteNode(imageNamed: "S")
+    player = SKSpriteNode(imageNamed: mainCharacterSprite)
     player.size = CGSize(width: 50, height: 50)
-    player.physicsBody = SKPhysicsBody(circleOfRadius: 5, center: CGPoint(x: 0.0, y: 0.0))
+    player.physicsBody = SKPhysicsBody(circleOfRadius: 5, center: CGPoint(x: -5.0, y: -5.0))
     player.physicsBody?.allowsRotation = false
     player.physicsBody?.affectedByGravity = false
     player.physicsBody?.isDynamic = true
@@ -42,8 +42,8 @@ public class Player: SKNode {
     player.zPosition =  self.map.offsetWide + 1
     player.name = playerName
     
-    let eyeOpen = SKAction.setTexture(SKTexture(imageNamed: "S"))
-    let eyeClosed = SKAction.setTexture(SKTexture(imageNamed: "S_blink"))
+    let eyeOpen = SKAction.setTexture(SKTexture(imageNamed: mainCharacterSprite))
+    let eyeClosed = SKAction.setTexture(SKTexture(imageNamed: mainCharacterBlink))
     let waitMiddle = SKAction.wait(forDuration: 0.6)
     let waitShort = SKAction.wait(forDuration: 0.1)
     let waitLong = SKAction.wait(forDuration: 4)
@@ -99,11 +99,14 @@ public class Player: SKNode {
     self.player.physicsBody!.velocity = velocity
   }
 
-  //figure out which direction we're heading...
+  //figure out which direction we're heading using the unit circle
   private func angleDirection(_ y: CGFloat, _ x: CGFloat) -> Direction {
     let radius = atan2(y, x) * (180 / CGFloat.pi)
+    
+    //4 directions per 90 degree direction
     let angle  = CGFloat(90 / 4)
 
+    //credits to math class and online resources for this
     switch radius {
     case let r where r < angle && r > -angle:
       return Direction.East

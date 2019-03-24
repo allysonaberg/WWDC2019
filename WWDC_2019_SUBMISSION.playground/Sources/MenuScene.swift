@@ -1,6 +1,5 @@
 import SpriteKit
 
-//todo: fix dynamic sizing placement
 public class MenuScene: SKScene {
 
   var titleLabel: SKLabelNode!
@@ -33,12 +32,12 @@ public class MenuScene: SKScene {
   }
   
   private func setupCharacter() {
-    character = SKSpriteNode(imageNamed: "S")
+    character = SKSpriteNode(imageNamed: mainCharacterSprite)
     character.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
     character.size = CGSize(width: 50, height: 50)
     
-    let eyeOpen = SKAction.setTexture(SKTexture(imageNamed: "S"))
-    let eyeClosed = SKAction.setTexture(SKTexture(imageNamed: "S_blink"))
+    let eyeOpen = SKAction.setTexture(SKTexture(imageNamed: mainCharacterSprite))
+    let eyeClosed = SKAction.setTexture(SKTexture(imageNamed: mainCharacterBlink))
     let waitMiddle = SKAction.wait(forDuration: 0.6)
     let waitShort = SKAction.wait(forDuration: 0.1)
     let waitLong = SKAction.wait(forDuration: 2)
@@ -63,7 +62,7 @@ public class MenuScene: SKScene {
   }
   
   func setupCloudsNode(alpha: CGFloat, to: Int, duration: Double, xDiff: Int, yDiff: Int) {
-    let clouds = SKSpriteNode(imageNamed: "clouds")
+    let clouds = SKSpriteNode(imageNamed: cloudsImage)
     clouds.alpha = alpha
     clouds.isUserInteractionEnabled = false
     clouds.position = CGPoint(x: self.size.width / 2 + CGFloat(xDiff), y: self.size.height / 2 + CGFloat(yDiff))

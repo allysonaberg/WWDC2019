@@ -136,7 +136,6 @@ class Tutorial: SKNode {
   public func showWinningOverlay() {
     self.isHidden = false
     self.isUserInteractionEnabled = true
-    
     self.text.text = winPageText
   }
   

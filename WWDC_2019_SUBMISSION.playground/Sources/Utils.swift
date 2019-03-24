@@ -1,14 +1,14 @@
 import Foundation
 import UIKit
 
-//GENERAL SYSTEM
+//GENERAL SYSTEM STUFF
 public var standardScreenSize = CGSize(width: 1024, height: 768)
 public var whiteColor = UIColor.white
 public var blackColor = UIColor.black
 public var redColor = UIColor.red
 public var font = "Cronus Round"
 
-//GameScene
+//GAMESCENE
 public var gradientColorBottom = UIColor(red: 252/255, green: 202/255, blue: 40/255, alpha: 1.0)
 public var gradientColorTop = redColor
 public let menuButtonText = "MENU"
@@ -23,9 +23,11 @@ public let input1 = "inputPoint1"
 public let inputColor0 = "inputColor0"
 public let inputColor1 = "inputColor1"
 
-//MenuScene
+//MENUSCENE
 public let gameTitle: String = "Way Home"
 public let buttonTitle: String = "PLAY"
+public let mainCharacterSprite: String = "S"
+public let mainCharacterBlink: String = "S_blink"
 
 
 //AUDIO I/O
