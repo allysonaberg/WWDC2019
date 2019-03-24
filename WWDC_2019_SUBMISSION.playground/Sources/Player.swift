@@ -40,6 +40,7 @@ public class Player: SKNode {
     player.physicsBody?.categoryBitMask = 1
     player.physicsBody?.contactTestBitMask = 2
     player.zPosition =  self.map.offsetWide + 1
+    player.name = playerName
     
     let eyeOpen = SKAction.setTexture(SKTexture(imageNamed: "S"))
     let eyeClosed = SKAction.setTexture(SKTexture(imageNamed: "S_blink"))

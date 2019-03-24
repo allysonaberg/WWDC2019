@@ -12,6 +12,7 @@ public var gradientColorBottom = UIColor(red: 252/255, green: 202/255, blue: 40/
 public var gradientColorTop = redColor
 public let menuButtonText = "MENU"
 public let menuButtonName = "Menu"
+public let playerName = "player"
 
 //MenuScene
 public let gameTitle: String = "Way Home"

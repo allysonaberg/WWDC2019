@@ -3,7 +3,9 @@ import GameplayKit
 
 public class GameScene: SKScene, SKPhysicsContactDelegate {
   
+  // Variables
   public var hasShownTutorial: Bool = false
+  var didWin: Bool = false
   var cloudsShown: Bool = false
   
   var player: Player!
@@ -14,36 +16,26 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   var lightSource: LightSource!
   var gradientNode: SKSpriteNode!
   var lastTouch: CGPoint? = nil
-  var didWin: Bool = false
-
-  
   var tutorial: Tutorial!
 
+  
   // Initialization
   override public init(size: CGSize) {
 
     super.init(size: size)
     
-    
     playingMap = Map(self)
     player = Player(self, map: playingMap)
-    player.player.name = "player"
-    
     self.addChild(player)
 
     tutorial = Tutorial(self)
     tutorial.zPosition = self.playingMap.offsetWide
     
     setupAudio()
-    
     lightSource = LightSource()
-    
     cameraNode = SKCameraNode()
-    
     recordingSource = RecordingSource()
-    
     setupGradientBackground()
-    gradientNode.size = CGSize(width: CGFloat(standardScreenSize.width*5), height: CGFloat(standardScreenSize.height*5))
   }
   
   required public init?(coder aDecoder: NSCoder) {
@@ -63,7 +55,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   private func setupGradientBackground() {
-    let texture = SKTexture(size: CGSize(width: CGFloat(standardScreenSize.width*2), height: CGFloat(standardScreenSize.height*3)), startColor: redColor, endcolor: gradientColorBottom)
+    let texture = SKTexture(size: CGSize(width: CGFloat(standardScreenSize.width*3), height: CGFloat(standardScreenSize.height*3)), startColor: redColor, endcolor: gradientColorBottom)
     self.gradientNode = SKSpriteNode(texture: texture)
     gradientNode.zPosition = -1
     gradientNode.alpha = 1
