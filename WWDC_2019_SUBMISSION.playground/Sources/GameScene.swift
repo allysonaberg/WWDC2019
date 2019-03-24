@@ -183,11 +183,12 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
 
   private func handleWin() {
-//    handleShowMenu()
-    didWin = true
-    handleCleanUp()
-    lightSource.lightSource.falloff = 0.5
-    tutorial.showWinningOverlay()
+    self.tutorial.showWinningOverlay()
+   
+    DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+      self.handleShowMenu()
+    })
+    
   }
   
   private func handleCleanUp() {

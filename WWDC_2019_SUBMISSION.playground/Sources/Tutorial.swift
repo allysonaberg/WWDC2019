@@ -24,18 +24,23 @@ class Tutorial: SKNode {
     self.text.fontName = font
     self.text.numberOfLines = 0
     self.text.alpha = 0
+    self.text.fontColor = blackColor
     
     self.continueButton = SKLabelNode(text: continueButtonText)
     self.continueButton.fontName = font
     self.continueButton.name = continueButtonName
+    self.continueButton.fontColor = blackColor
     
     self.playButton = SKLabelNode(text: playButtonText)
     self.playButton.fontName = font
     self.playButton.name = playButtonName
+    self.playButton.fontColor = blackColor
     
     self.skipButton = SKLabelNode(text: skipButtonText)
     self.skipButton.fontName = font
     self.skipButton.name = skipButtonName
+    self.skipButton.fontColor = blackColor
+
     
     self.fadeIn = SKAction.fadeIn(withDuration: 2)
     self.fadeOut = SKAction.fadeOut(withDuration: 2)
@@ -58,7 +63,7 @@ class Tutorial: SKNode {
     self.addChild(playButton)
     
     overlay.size = standardScreenSize
-    overlay.color = blackColor
+    overlay.color = whiteColor
     overlay.alpha = 0.9
     self.addChild(overlay)
   }
@@ -79,8 +84,6 @@ class Tutorial: SKNode {
           nextPage()
         } else if node.name == playButtonName || node.name == skipButtonName {
           startPlaying()
-        } else if node.name == "playAgain" {
-          showMenu()
         }
       }
     }
@@ -103,7 +106,6 @@ class Tutorial: SKNode {
   
   
   private func startPlaying() {
-//    self.removeFromParent()
     continueButton.removeFromParent()
     skipButton.removeFromParent()
     playButton.removeFromParent()
@@ -117,19 +119,7 @@ class Tutorial: SKNode {
     self.isUserInteractionEnabled = true
     
     self.text.text = winPageText
-    
-    let playAgainButton = SKLabelNode(text: "Explore Again?")
-    playAgainButton.fontName = font
-    playAgainButton.fontSize = 40
-    playAgainButton.position = CGPoint(x: self.position.x, y: self.position.y - 150)
-    playAgainButton.name = "playAgain"
-    playAgainButton.zPosition = self.zPosition + 1
-    self.addChild(playAgainButton)
-    
   }
   
-  private func showMenu() {
-    root.handleShowMenu()
-  }
 }
 
