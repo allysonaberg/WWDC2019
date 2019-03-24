@@ -6,8 +6,7 @@ public var standardScreenSize = CGSize(width: 1024, height: 768)
 public var whiteColor = UIColor.white
 public var blackColor = UIColor.black
 public var redColor = UIColor.red
-
-
+public var font = "Cronus Round"
 //GameScene
 public var gradientColorBottom = UIColor(red: 252/255, green: 202/255, blue: 40/255, alpha: 1.0)
 public var gradientColorTop = redColor

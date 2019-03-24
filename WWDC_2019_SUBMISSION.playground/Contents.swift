@@ -14,6 +14,10 @@ sceneView.preferredFramesPerSecond = UIScreen.main.maximumFramesPerSecond
 sceneView.backgroundColor = gradientColorBottom
 //sceneView.showsPhysics = true
 
+if let fontURL = Bundle.main.url(forResource: "Cronus Round", withExtension: "otf") {
+  CTFontManagerRegisterFontsForURL(fontURL as CFURL, CTFontManagerScope.process, nil)
+}
+
 let menuScene = MenuScene(size: sceneView.bounds.size)
 menuScene.scaleMode = .aspectFill
 sceneView.presentScene(menuScene)

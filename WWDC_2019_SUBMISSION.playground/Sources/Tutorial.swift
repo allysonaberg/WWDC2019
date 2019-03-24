@@ -21,20 +21,20 @@ class Tutorial: SKNode {
     self.page = 0
     
     self.text = SKLabelNode(text: tutorialPageText[page])
-    self.text.color = redColor
+    self.text.fontName = font
     self.text.numberOfLines = 0
     self.text.alpha = 0
     
     self.continueButton = SKLabelNode(text: continueButtonText)
-    self.continueButton.color = redColor
+    self.continueButton.fontName = font
     self.continueButton.name = continueButtonName
     
     self.playButton = SKLabelNode(text: playButtonText)
-    self.playButton.color = redColor
+    self.playButton.fontName = font
     self.playButton.name = playButtonName
     
     self.skipButton = SKLabelNode(text: skipButtonText)
-    self.skipButton.color = redColor
+    self.skipButton.fontName = font
     self.skipButton.name = skipButtonName
     
     self.fadeIn = SKAction.fadeIn(withDuration: 2)
@@ -44,7 +44,7 @@ class Tutorial: SKNode {
 
     super.init()
 
-    self.text.position = CGPoint(x: self.position.x, y: self.position.y)
+    self.text.position = CGPoint(x: self.position.x, y: self.position.y + 100)
     self.text.run(fadeIn)
     self.continueButton.position = CGPoint(x: self.position.x, y: self.position.y - 150)
     self.skipButton.position = CGPoint(x: self.continueButton.position.x, y: self.continueButton.position.y - 100)

@@ -21,6 +21,7 @@ public class MenuScene: SKScene {
   //setup
   private func setupTitleLabel() {
     titleLabel = SKLabelNode(text: gameTitle)
+    titleLabel.fontName = font
     titleLabel.fontSize = 50
     titleLabel.fontColor = blackColor
     titleLabel.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
@@ -30,6 +31,7 @@ public class MenuScene: SKScene {
   private func setupPlayButton() {
     self.playButton = SKLabelNode(text: buttonTitle)
     playButton.fontColor = redColor
+    playButton.fontName = font
     playButton.fontSize = 40
     playButton.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2 - 100)
     playButton.name = playButtonName
