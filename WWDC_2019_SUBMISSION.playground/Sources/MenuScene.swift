@@ -35,7 +35,15 @@ public class MenuScene: SKScene {
   private func setupCharacter() {
     character = SKSpriteNode(imageNamed: "S")
     character.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
-    character.size = CGSize(width: 40, height: 40)
+    character.size = CGSize(width: 50, height: 50)
+    
+    let eyeOpen = SKAction.setTexture(SKTexture(imageNamed: "S"))
+    let eyeClosed = SKAction.setTexture(SKTexture(imageNamed: "S_blink"))
+    let waitShort = SKAction.wait(forDuration: 0.1)
+    let waitLong = SKAction.wait(forDuration: 2)
+    
+    let blink = SKAction.repeatForever(SKAction.sequence([waitLong, eyeOpen, waitShort, eyeClosed, waitShort, eyeOpen, waitShort, eyeClosed, waitShort, eyeOpen, waitLong]))
+    character.run(blink)
     self.addChild(character)
   }
   

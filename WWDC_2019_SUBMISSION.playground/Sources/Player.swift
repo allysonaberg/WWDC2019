@@ -32,15 +32,23 @@ public class Player: SKNode {
   
   private func setupPlayer(_ root: SKNode) {
     player = SKSpriteNode(imageNamed: "S")
-    player.size = CGSize(width: 40, height: 40)
+    player.size = CGSize(width: 50, height: 50)
     player.physicsBody = SKPhysicsBody(circleOfRadius: 5, center: CGPoint(x: 0.0, y: 0.0))
     player.physicsBody?.allowsRotation = false
     player.physicsBody?.affectedByGravity = false
     player.physicsBody?.isDynamic = true
     player.physicsBody?.categoryBitMask = 1
     player.physicsBody?.contactTestBitMask = 2
-    
     player.zPosition =  self.map.offsetWide + 1
+    
+    let eyeOpen = SKAction.setTexture(SKTexture(imageNamed: "S"))
+    let eyeClosed = SKAction.setTexture(SKTexture(imageNamed: "S_blink"))
+    let waitShort = SKAction.wait(forDuration: 0.1)
+    let waitLong = SKAction.wait(forDuration: 2)
+    
+    let blink = SKAction.repeatForever(SKAction.sequence([eyeOpen, waitShort, eyeClosed, waitShort, eyeOpen, waitShort, eyeClosed, waitShort, eyeOpen, waitLong]))
+    player.run(blink, withKey: "blink")
+    
     root.addChild(player)
   }
   

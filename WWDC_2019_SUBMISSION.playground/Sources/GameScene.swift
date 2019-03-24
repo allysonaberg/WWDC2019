@@ -153,6 +153,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   public override func didSimulatePhysics() {
     
     if (!cloudsShown && hasShownTutorial) {
+      player.player.removeAllActions()
       setupClouds()
       cloudsShown = true
     }
