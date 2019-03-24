@@ -9,9 +9,11 @@ public class MenuScene: SKScene {
   override public init(size: CGSize) {
     super.init(size: size)
     
-    self.backgroundColor = whiteColor
+    self.backgroundColor = UIColor.red
     setupTitleLabel()
     setupPlayButton()
+    setupClouds()
+    setupBackground()
   }
   
   required public init?(coder aDecoder: NSCoder) {
@@ -23,14 +25,14 @@ public class MenuScene: SKScene {
     titleLabel = SKLabelNode(text: gameTitle)
     titleLabel.fontName = font
     titleLabel.fontSize = 50
-    titleLabel.fontColor = blackColor
+    titleLabel.fontColor = whiteColor
     titleLabel.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
     self.addChild(titleLabel)
   }
   
   private func setupPlayButton() {
     self.playButton = SKLabelNode(text: buttonTitle)
-    playButton.fontColor = redColor
+    playButton.fontColor = whiteColor
     playButton.fontName = font
     playButton.fontSize = 40
     playButton.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2 - 100)
@@ -38,6 +40,30 @@ public class MenuScene: SKScene {
     self.addChild(playButton)
   }
   
+  func setupClouds() {
+    setupCloudsNode(alpha: 1, to: 4000, duration: 650.0, xDiff: -100, yDiff: 100)
+  }
+  
+  func setupCloudsNode(alpha: CGFloat, to: Int, duration: Double, xDiff: Int, yDiff: Int) {
+    let clouds = SKSpriteNode(imageNamed: "clouds")
+    clouds.alpha = alpha
+    clouds.isUserInteractionEnabled = false
+    clouds.position = CGPoint(x: self.size.width / 2 + CGFloat(xDiff), y: self.size.height / 2 + CGFloat(yDiff))
+    self.addChild(clouds)
+    
+    let moveClouds = SKAction.move(to: CGPoint(x: clouds.position.x + CGFloat(to), y: clouds.position.y), duration: duration)
+    clouds.run(moveClouds)
+  }
+
+  func setupBackground() {
+    let texture = SKTexture(size: self.size, startColor: redColor, endcolor: gradientColorBottom)
+    let gradientNode = SKSpriteNode(texture: texture)
+    gradientNode.zPosition = -1
+    gradientNode.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
+    gradientNode.alpha = 1
+    
+    self.addChild(gradientNode)
+  }
   
   // Touch Handling
   public override func touchesBegan(_ touches: Set<UITouch>,
