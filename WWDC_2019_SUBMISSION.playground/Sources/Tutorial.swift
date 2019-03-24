@@ -5,7 +5,6 @@ class Tutorial: SKNode {
   var text: SKLabelNode
   var continueButton: SKLabelNode
   var page: Int = 0
-  var playButton: SKLabelNode
   var skipButton: SKLabelNode
   var root: GameScene
   
@@ -31,11 +30,6 @@ class Tutorial: SKNode {
     self.continueButton.name = continueButtonName
     self.continueButton.fontColor = blackColor
     
-    self.playButton = SKLabelNode(text: playButtonText)
-    self.playButton.fontName = font
-    self.playButton.name = playButtonName
-    self.playButton.fontColor = blackColor
-    
     self.skipButton = SKLabelNode(text: skipButtonText)
     self.skipButton.fontName = font
     self.skipButton.name = skipButtonName
@@ -52,14 +46,10 @@ class Tutorial: SKNode {
     self.text.run(fadeIn)
     self.continueButton.position = CGPoint(x: self.position.x, y: self.position.y - 150)
     self.skipButton.position = CGPoint(x: self.continueButton.position.x, y: self.continueButton.position.y - 100)
-    self.playButton.position = self.continueButton.position
-    self.playButton.isHidden = true
-    self.playButton.isUserInteractionEnabled = false
 
     self.addChild(text)
     self.addChild(continueButton)
     self.addChild(skipButton)
-    self.addChild(playButton)
     
     overlay.size = standardScreenSize
     overlay.color = whiteColor
@@ -89,45 +79,27 @@ class Tutorial: SKNode {
   }
   
   private func nextPage() {
-    disableInteraction()
     self.text.run(fadeOut, completion: {
       self.page+=1
+      if (self.page == (tutorialPageText.count - 1)) {
+        self.setupPlay()
+      }
+      if self.page < 4 {
         self.text.text = tutorialPageText[self.page]
-      self.text.run(self.fadeIn, completion: {
-        if (self.page == (tutorialPageText.count - 1)) {
-          self.setupPlay()
-          self.enableInteraction(finalPage: true)
-        } else {
-          self.enableInteraction(finalPage: false)
-        }
-      })
+        self.text.run(self.fadeIn)
+      }
     })
   }
   
-  private func disableInteraction() {
-    self.continueButton.isUserInteractionEnabled = false
-    self.playButton.isUserInteractionEnabled = false
-  }
-  
-  private func enableInteraction(finalPage: Bool) {
-    if finalPage {
-      self.playButton.isUserInteractionEnabled = true
-    } else {
-      self.continueButton.isUserInteractionEnabled = true
-    }
-  }
   
   private func setupPlay() {
-    self.continueButton.isHidden = true
-    self.continueButton.isUserInteractionEnabled = false
-    self.playButton.isHidden = false
-    self.playButton.isUserInteractionEnabled = true
+    self.continueButton.text = playButtonText
+    self.continueButton.name = playButtonName
   }
   
   private func startPlaying() {
     continueButton.removeFromParent()
     skipButton.removeFromParent()
-    playButton.removeFromParent()
     self.isHidden = true
     self.isUserInteractionEnabled = false
     root.hasShownTutorial = true
