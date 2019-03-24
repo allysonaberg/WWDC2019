@@ -52,6 +52,25 @@ public let winPageText = "Congratulations!\nYou helped our hero navigate the rui
 //PLAYER
 public var playerSpeed: Double = 300.0
 
+//MAP
+public let level = "Level.txt"
+public let fakeShape = "shape"
+
+public let blankTileImage = "03"
+public let blankTileName = "00"
+
+public let itemTileImage = "02"
+public let itemTileName = "01"
+
+public let groundTileImage = "01_real"
+public let groundTileName = "02"
+
+public let wallTileImage = "03"
+public let wallTileName = "03"
+
+public let winTileImage = "WIN"
+public let winTileName = "04"
+
 
 //LIGHT SOURCE
 public var ambientLightColor: UIColor = UIColor(red: 211/255, green: 245/255, blue: 254/255, alpha: 1.0) /* #d3f5fe */

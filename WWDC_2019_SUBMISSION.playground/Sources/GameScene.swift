@@ -80,7 +80,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   private func setupGradientBackground() {
-    let texture = SKTexture(size: CGSize(width: CGFloat(standardScreenSize.width*3), height: CGFloat(standardScreenSize.height*3)), startColor: redColor, endcolor: gradientColorBottom)
+    let texture = SKTexture(size: CGSize(width: CGFloat(standardScreenSize.width*5), height: CGFloat(standardScreenSize.height*5)), startColor: redColor, endcolor: gradientColorBottom)
     self.gradientNode = SKSpriteNode(texture: texture)
     gradientNode.zPosition = -1
     gradientNode.alpha = 1
