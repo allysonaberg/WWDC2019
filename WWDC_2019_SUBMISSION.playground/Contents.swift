@@ -15,7 +15,7 @@ sceneView.backgroundColor = gradientColorBottom
 //sceneView.showsPhysics = true
 
 let menuScene = MenuScene(size: sceneView.bounds.size)
-menuScene.scaleMode = .aspectFit
+menuScene.scaleMode = .aspectFill
 sceneView.presentScene(menuScene)
 
 
