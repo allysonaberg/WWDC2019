@@ -64,7 +64,7 @@ public let blankTileName = "00"
 public let itemTileImage = "02"
 public let itemTileName = "01"
 
-public let groundTileImage = "01_real"
+public let groundTileImage = "01"
 public let groundTileName = "02"
 
 public let wallTileImage = "03"

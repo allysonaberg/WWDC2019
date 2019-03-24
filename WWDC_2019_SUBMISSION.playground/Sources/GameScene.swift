@@ -204,7 +204,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
       secondBody.categoryBitMask == winningTileBitMask {
       handleWin()
     } else if firstBody.categoryBitMask == player?.player.physicsBody!.categoryBitMask &&
-      secondBody.categoryBitMask == edgeTileBitMask {
+      secondBody.categoryBitMask == 2 {
       //stop the player
         lastTouch = player.player.position
     }
