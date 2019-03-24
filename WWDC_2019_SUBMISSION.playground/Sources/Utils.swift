@@ -7,12 +7,21 @@ public var whiteColor = UIColor.white
 public var blackColor = UIColor.black
 public var redColor = UIColor.red
 public var font = "Cronus Round"
+
 //GameScene
 public var gradientColorBottom = UIColor(red: 252/255, green: 202/255, blue: 40/255, alpha: 1.0)
 public var gradientColorTop = redColor
 public let menuButtonText = "MENU"
 public let menuButtonName = "Menu"
 public let playerName = "player"
+public let cloudsImage = "clouds"
+
+//GRADIENT
+public let filterGradient = "CILinearGradient"
+public let input0 = "inputPoint0"
+public let input1 = "inputPoint1"
+public let inputColor0 = "inputColor0"
+public let inputColor1 = "inputColor1"
 
 //MenuScene
 public let gameTitle: String = "Way Home"
@@ -48,3 +57,7 @@ public var playerSpeed: Double = 300.0
 public var ambientLightColor: UIColor = UIColor(red: 211/255, green: 245/255, blue: 254/255, alpha: 1.0) /* #d3f5fe */
 public var lightSourceDefaultFalloff: CGFloat = 200
 
+
+public var playerBitMask = 1
+public var edgeTileBitMask = 2
+public var winningTileBitMask = 3

@@ -48,6 +48,31 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   
+  public override func didSimulatePhysics() {
+    if (!cloudsShown && hasShownTutorial) {
+      player.player.removeAllActions()
+      setupClouds()
+      cloudsShown = true
+    }
+    
+    if recordingSource?.recorder != nil && !didWin  {
+      recordingSource.recorder.updateMeters()
+      //generally, the numbers hover around -20->-40 db, this is just a random equation that makes it sensitive
+      //1.075 just looks good...
+      lightSource.lightSource.falloff = pow(1.075, CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0))))
+    }
+    
+    if player != nil {
+      player.updatePlayer(position: lastTouch)
+      cameraNode.position.x += (player.player.position.x - cameraNode.position.x) / 8
+      cameraNode.position.y += (player.player.position.y - cameraNode.position.y) / 8
+      tutorial.position = cameraNode.position
+    }
+  }
+  
+  
+  
+  // Setup
   private func setupAudio() {
     self.musicPlayer = AudioPlayer()
     musicPlayer.startMusic()
@@ -72,7 +97,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     self.addChild(tutorial)
   }
   
-  //TODO: FIX
+  
   func setupClouds() {
     setupCloudsNode(alpha: 1, to: 4000, duration: 650.0, xDiff: -1200, yDiff: 1200)
     setupCloudsNode(alpha: 1, to: 1200, duration: 750.0, xDiff: -1020, yDiff: 1000)
@@ -92,7 +117,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   func setupCloudsNode(alpha: CGFloat, to: Int, duration: Double, xDiff: Int, yDiff: Int) {
-    let clouds = SKSpriteNode(imageNamed: "clouds")
+    let clouds = SKSpriteNode(imageNamed: cloudsImage)
     clouds.alpha = alpha
     clouds.isUserInteractionEnabled = false
     clouds.position = CGPoint(x: self.player.position.x + CGFloat(xDiff), y: self.player.position.y + CGFloat(yDiff))
@@ -103,7 +128,9 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     clouds.run(moveClouds)
   }
   
-  // MARK: - Touch Handling
+  
+  
+  // Touch Handling
   public override func touchesBegan(_ touches: Set<UITouch>,
                                     with event: UIEvent?) {
       handleTouches(touches)
@@ -134,30 +161,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
 
   
-  public override func didSimulatePhysics() {
-    
-    if (!cloudsShown && hasShownTutorial) {
-      player.player.removeAllActions()
-      setupClouds()
-      cloudsShown = true
-    }
-    
-    if recordingSource?.recorder != nil && !didWin  {
-      recordingSource.recorder.updateMeters()
-      //need this to be sensitive...
-      //generally, the numbers hover around -20->-40 db, this is just a random equation that makes it sensitive
-      //1.075 just looks good...
-      lightSource.lightSource.falloff = pow(1.075, CGFloat(abs(recordingSource.recorder.averagePower(forChannel: 0))))
-    }
-    
-    if player != nil {
-      player.updatePlayer(position: lastTouch)
-      cameraNode.position.x += (player.player.position.x - cameraNode.position.x) / 8
-      cameraNode.position.y += (player.player.position.y - cameraNode.position.y) / 8
-      tutorial.position = cameraNode.position
-    }
-  }
-  
   public func handleShowMenu() {
     handleCleanUp()
     
@@ -170,7 +173,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   private func handleWin() {
     self.tutorial.showWinningOverlay()
    
-    DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 4, execute: {
       self.handleShowMenu()
     })
     
@@ -182,7 +185,9 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
 
-  //SKPhysicsContactDelegateMethods
+  
+  
+  // SKPhysicsContactDelegateMethods
   public func didBegin(_ contact: SKPhysicsContact) {
     var firstBody: SKPhysicsBody
     var secondBody: SKPhysicsBody
@@ -195,13 +200,12 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
       secondBody = contact.bodyA
     }
     
-    print(firstBody.categoryBitMask)
-    print(secondBody.categoryBitMask)
     if firstBody.categoryBitMask == player?.player.physicsBody!.categoryBitMask &&
-      secondBody.categoryBitMask == 3 {
+      secondBody.categoryBitMask == winningTileBitMask {
       handleWin()
     } else if firstBody.categoryBitMask == player?.player.physicsBody!.categoryBitMask &&
-      secondBody.categoryBitMask == 2 {
+      secondBody.categoryBitMask == edgeTileBitMask {
+      //stop the player
         lastTouch = player.player.position
     }
   }
@@ -212,21 +216,22 @@ extension SKTexture {
   
   convenience init(size: CGSize, startColor: SKColor, endcolor: SKColor) {
     let context = CIContext(options: nil)
-    let filter = CIFilter(name: "CILinearGradient")!
+    let filter = CIFilter(name: filterGradient)!
     
     filter.setDefaults()
-
+    
     let startVector: CIVector = CIVector(x: size.width/2, y:0)
     let endVector: CIVector = CIVector(x: size.width/2, y:size.height)
     
-    filter.setValue(startVector, forKey: "inputPoint0")
-    filter.setValue(endVector, forKey: "inputPoint1")
-    filter.setValue(CIColor(color: startColor), forKey: "inputColor0")
-    filter.setValue(CIColor(color: endcolor), forKey: "inputColor1")
+    filter.setValue(startVector, forKey: input0)
+    filter.setValue(endVector, forKey: input1)
+    filter.setValue(CIColor(color: startColor), forKey: inputColor0)
+    filter.setValue(CIColor(color: endcolor), forKey: inputColor1)
     
     let image = context.createCGImage(filter.outputImage!, from: CGRect(origin: .zero, size: size))
-    
     self.init(cgImage: image!)
-    
   }
 }
+
+
+

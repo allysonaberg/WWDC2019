@@ -1,12 +1,14 @@
-import Foundation
 import UIKit
 import SpriteKit
 
 
 public class LightSource: SKNode {
   
+  // Variables
   public var lightSource: SKLightNode!
   
+  
+  // Initialization
   override public init() {
     self.lightSource = SKLightNode()
     
@@ -19,6 +21,7 @@ public class LightSource: SKNode {
     fatalError("init(coder:) has not been implemented")
   }
   
+  // Setup
   private func setupLightPresets() {
     lightSource.lightColor = whiteColor
     lightSource.ambientColor = ambientLightColor
