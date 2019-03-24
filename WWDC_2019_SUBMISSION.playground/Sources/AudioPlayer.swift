@@ -7,13 +7,13 @@ public class AudioPlayer: SKNode {
   var soundNode: SKSpriteNode!
   var isOn: Bool! = false
   
-  init(_ root: SKNode) {
+  override public init() {
     self.soundNode = SKSpriteNode(imageNamed: "011")
     self.music = AVAudioPlayer()
     
     super.init()
     
-    setupNode(root)
+    setupNode()
     setupPlayer()
   }
   
@@ -21,11 +21,9 @@ public class AudioPlayer: SKNode {
     fatalError("init(coder:) has not been implemented")
   }
 
-  func setupNode(_ root: SKNode) {
+  func setupNode() {
     soundNode.name = volumeButtonName
-    soundNode.zPosition = 100000
     soundNode.size = CGSize(width: 45, height: 45)
-    root.addChild(soundNode)
   }
   
   func setupPlayer() {

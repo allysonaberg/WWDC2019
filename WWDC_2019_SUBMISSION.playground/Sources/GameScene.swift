@@ -18,7 +18,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   var playingMap: Map!
   var cameraNode: SKCameraNode!
   var recordingSource: RecordingSource!
-//  var musicPlayer: AudioPlayer!
+  var musicPlayer: AudioPlayer!
   var lightSource: LightSource!
   var gradientNode: SKSpriteNode!
   var lastTouch: CGPoint? = nil
@@ -42,6 +42,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     
     self.addChild(player)
 
+    setupAudio()
+    
     lightSource = LightSource()
     
     cameraNode = SKCameraNode()
@@ -61,6 +63,13 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     handleCleanUp()
   }
   
+  
+  private func setupAudio() {
+    self.musicPlayer = AudioPlayer()
+    musicPlayer.startMusic()
+    musicPlayer.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2 - 150)
+//    musicPlayer.soundNode.name = volumeButtonName
+  }
   
   private func setupGradientBackground() {
     let texture = SKTexture(size: CGSize(width: CGFloat(standardScreenSize.width*2), height: CGFloat(standardScreenSize.height*3)), startColor: redColor, endcolor: gradientColorBottom)
@@ -179,6 +188,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   
   private func handleCleanUp() {
     recordingSource?.recorder.stop()
+    musicPlayer.stopMusic()
   }
   
 
