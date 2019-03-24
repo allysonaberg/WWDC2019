@@ -1,19 +1,11 @@
 import SpriteKit
 import GameplayKit
 
-//TODO: figure out zPosition
-//TODO: figure out dynamic positioning / sizes
-//TODO: fix force unwrapping
-//TODO: recorder and audio player cleanup
 public class GameScene: SKScene, SKPhysicsContactDelegate {
-  
-  let menuButtonText = "MENU"
-  let menuButtonName = "menu"
   
   public var hasShownTutorial: Bool = false
   var cloudsShown: Bool = false
   
-  // Instance Variables
   var player: Player!
   var playingMap: Map!
   var cameraNode: SKCameraNode!

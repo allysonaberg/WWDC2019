@@ -20,8 +20,7 @@ public let buttonTitle: String = "PLAY"
 
 //AUDIO I/O
 public let volumeButtonName = "Volume"
-public var volumeImage = "volume"
-public var muteVolumeImage = "volume_mute"
+public let tempDirectoryName = "song"
 
 //TUTORIAL
 public let playButtonText = "PLAY"

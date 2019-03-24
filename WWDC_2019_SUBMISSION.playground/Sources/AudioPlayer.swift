@@ -3,9 +3,10 @@ import AVFoundation
 
 public class AudioPlayer: SKNode {
   
+  // Variables
   var music: AVAudioPlayer!
-  var isOn: Bool! = false
   
+  // Initialization
   override public init() {
     self.music = AVAudioPlayer()
     
@@ -18,33 +19,26 @@ public class AudioPlayer: SKNode {
     fatalError("init(coder:) has not been implemented")
   }
 
-  func setupPlayer() {
-    let url = Bundle.main.url(forResource: "song", withExtension: "mp3")
-    do {
-      guard let url = url else { return }
-        music = try AVAudioPlayer(contentsOf: url)
-        music.prepareToPlay()
-    } catch let error {
-      print(error)
-    }
-  }
-  
-  public func handleTapped() {
-    if isOn {
-      stopMusic()
-      isOn = false
-    } else {
-      startMusic()
-      isOn = true
-    }
-  }
-  
+  // Public
   public func stopMusic() {
     music.stop()
   }
   
   public func startMusic() {
     music.play()
+  }
+  
+  
+  // Private
+  private func setupPlayer() {
+    let url = Bundle.main.url(forResource: tempDirectoryName, withExtension: "mp3")
+    do {
+      guard let url = url else { return }
+      music = try AVAudioPlayer(contentsOf: url)
+      music.prepareToPlay()
+    } catch let error {
+      print(error)
+    }
   }
   
   private func clearTempDirectory() {
