@@ -20,9 +20,9 @@ public class LightSource: SKNode {
   }
   
   private func setupLightPresets() {
-    lightSource.lightColor = redColor
+    lightSource.lightColor = whiteColor
     lightSource.ambientColor = ambientLightColor
-    lightSource.shadowColor = redColor
+    lightSource.shadowColor = whiteColor
     lightSource.falloff = lightSourceDefaultFalloff
   }
   

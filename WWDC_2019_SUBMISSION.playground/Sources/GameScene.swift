@@ -22,7 +22,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   var lightSource: LightSource!
   var gradientNode: SKSpriteNode!
   var lastTouch: CGPoint? = nil
-  var menuShowing: Bool = false
+  var didWin: Bool = false
 
   
   var tutorial: Tutorial!
@@ -157,7 +157,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
       cloudsShown = true
     }
     
-    if recordingSource?.recorder != nil   {
+    if recordingSource?.recorder != nil && !didWin  {
       recordingSource.recorder.updateMeters()
       //need this to be sensitive...
       //generally, the numbers hover around -20->-40 db, this is just a random equation that makes it sensitive
@@ -173,7 +173,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     }
   }
   
-  private func handleShowMenu() {
+  public func handleShowMenu() {
     handleCleanUp()
     
     let sKView = self.view?.scene?.view
@@ -183,7 +183,11 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
 
   private func handleWin() {
-    handleShowMenu()
+//    handleShowMenu()
+    didWin = true
+    handleCleanUp()
+    lightSource.lightSource.falloff = 0.5
+    tutorial.showWinningOverlay()
   }
   
   private func handleCleanUp() {

@@ -79,6 +79,8 @@ class Tutorial: SKNode {
           nextPage()
         } else if node.name == playButtonName || node.name == skipButtonName {
           startPlaying()
+        } else if node.name == "playAgain" {
+          showMenu()
         }
       }
     }
@@ -101,8 +103,33 @@ class Tutorial: SKNode {
   
   
   private func startPlaying() {
-    self.removeFromParent()
+//    self.removeFromParent()
+    continueButton.removeFromParent()
+    skipButton.removeFromParent()
+    playButton.removeFromParent()
+    self.isHidden = true
+    self.isUserInteractionEnabled = false
     root.hasShownTutorial = true
+  }
+  
+  public func showWinningOverlay() {
+    self.isHidden = false
+    self.isUserInteractionEnabled = true
+    
+    self.text.text = winPageText
+    
+    let playAgainButton = SKLabelNode(text: "Explore Again?")
+    playAgainButton.fontName = font
+    playAgainButton.fontSize = 40
+    playAgainButton.position = CGPoint(x: self.position.x, y: self.position.y - 150)
+    playAgainButton.name = "playAgain"
+    playAgainButton.zPosition = self.zPosition + 1
+    self.addChild(playAgainButton)
+    
+  }
+  
+  private func showMenu() {
+    root.handleShowMenu()
   }
 }
 

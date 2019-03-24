@@ -38,6 +38,8 @@ public let tutorialPageText = [
   "Enjoy the journey...",
 ]
 
+public let winPageText = "Congratulations!\nYou helped our hero navigate the ruins and find his way home"
+
 //PLAYER
 public var playerSpeed: Double = 300.0
 
