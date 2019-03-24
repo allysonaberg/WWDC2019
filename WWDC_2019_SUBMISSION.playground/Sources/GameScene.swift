@@ -33,15 +33,15 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     super.init(size: size)
     
     
-    tutorial = Tutorial(self)
-    tutorial.zPosition = 10000000000000
-    
     playingMap = Map(self)
     player = Player(self, map: playingMap)
     player.player.name = "player"
     
     self.addChild(player)
 
+    tutorial = Tutorial(self)
+    tutorial.zPosition = self.playingMap.offsetWide
+    
     setupAudio()
     
     lightSource = LightSource()
@@ -112,7 +112,7 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     clouds.alpha = alpha
     clouds.isUserInteractionEnabled = false
     clouds.position = CGPoint(x: self.player.position.x + CGFloat(xDiff), y: self.player.position.y + CGFloat(yDiff))
-    clouds.zPosition = 1000000000000000
+    clouds.zPosition = playingMap.offsetWide
     self.addChild(clouds)
     
     let moveClouds = SKAction.move(to: CGPoint(x: clouds.position.x + CGFloat(to), y: clouds.position.y), duration: duration)

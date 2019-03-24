@@ -7,6 +7,7 @@ public class Map {
 
   var ground: SKTileMapNode!
   var offset : CGFloat!
+  var offsetWide: CGFloat!
   var root: GameScene
   var tileSize: CGSize!
 
@@ -18,6 +19,7 @@ public class Map {
     setupTiles(root: root)
 
     self.offset = ground.mapSize.height
+    self.offsetWide = ground.mapSize.width
 
     let groundmap = tileMapNode(tilemap: ground, level: -1)
 

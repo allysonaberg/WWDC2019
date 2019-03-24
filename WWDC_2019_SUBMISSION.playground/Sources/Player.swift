@@ -40,8 +40,7 @@ public class Player: SKNode {
     player.physicsBody?.categoryBitMask = 1
     player.physicsBody?.contactTestBitMask = 2
     
-    player.zPosition =  self.map.offset - self.player.position.y + 1000
-    
+    player.zPosition =  self.map.offsetWide + 1
     root.addChild(player)
   }
   
@@ -71,7 +70,7 @@ public class Player: SKNode {
     let direction = self.angleDirection(to.y - self.player.position.y, to.x - self.player.position.x)
 
     self.player.texture = SKTexture(imageNamed: direction.rawValue)
-    self.player.zPosition =  self.map.offset - self.player.position.y + 1000
+    self.player.zPosition = self.map.offsetWide
 
     var velocity = CGVector(dx: 0, dy: 0)
     let diagSpeed: Double = playerSpeed / 1.5
