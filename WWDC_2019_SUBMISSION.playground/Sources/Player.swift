@@ -43,10 +43,11 @@ public class Player: SKNode {
     
     let eyeOpen = SKAction.setTexture(SKTexture(imageNamed: "S"))
     let eyeClosed = SKAction.setTexture(SKTexture(imageNamed: "S_blink"))
+    let waitMiddle = SKAction.wait(forDuration: 0.6)
     let waitShort = SKAction.wait(forDuration: 0.1)
-    let waitLong = SKAction.wait(forDuration: 2)
+    let waitLong = SKAction.wait(forDuration: 4)
     
-    let blink = SKAction.repeatForever(SKAction.sequence([eyeOpen, waitShort, eyeClosed, waitShort, eyeOpen, waitShort, eyeClosed, waitShort, eyeOpen, waitLong]))
+    let blink = SKAction.repeatForever(SKAction.sequence([eyeOpen, waitShort, eyeClosed, waitShort, eyeOpen, waitMiddle, eyeClosed, waitShort, eyeOpen, waitLong]))
     player.run(blink, withKey: "blink")
     
     root.addChild(player)

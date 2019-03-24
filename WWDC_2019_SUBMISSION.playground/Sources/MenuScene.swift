@@ -39,10 +39,11 @@ public class MenuScene: SKScene {
     
     let eyeOpen = SKAction.setTexture(SKTexture(imageNamed: "S"))
     let eyeClosed = SKAction.setTexture(SKTexture(imageNamed: "S_blink"))
+    let waitMiddle = SKAction.wait(forDuration: 0.6)
     let waitShort = SKAction.wait(forDuration: 0.1)
     let waitLong = SKAction.wait(forDuration: 2)
     
-    let blink = SKAction.repeatForever(SKAction.sequence([waitLong, eyeOpen, waitShort, eyeClosed, waitShort, eyeOpen, waitShort, eyeClosed, waitShort, eyeOpen, waitLong]))
+    let blink = SKAction.repeatForever(SKAction.sequence([waitLong, eyeOpen, waitShort, eyeClosed, waitShort, eyeOpen, waitMiddle, eyeClosed, waitShort, eyeOpen, waitLong]))
     character.run(blink)
     self.addChild(character)
   }

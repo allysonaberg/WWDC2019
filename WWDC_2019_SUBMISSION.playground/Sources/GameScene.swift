@@ -91,20 +91,21 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //TODO: FIX
   func setupClouds() {
-    setupCloudsNode(alpha: 1, to: 4000, duration: 650.0, xDiff: 1000, yDiff: 3200)
-    setupCloudsNode(alpha: 1, to: 4000, duration: 650.0, xDiff: 2000, yDiff: 2900)
-    setupCloudsNode(alpha: 0.9, to: 1000, duration: 350.0, xDiff: 0, yDiff: 0)
-    setupCloudsNode(alpha: 0.9, to: 1000, duration: 350.0, xDiff: 800, yDiff: 0)
+    setupCloudsNode(alpha: 1, to: 4000, duration: 650.0, xDiff: -1200, yDiff: 1200)
+    setupCloudsNode(alpha: 1, to: 1200, duration: 750.0, xDiff: -1020, yDiff: 1000)
+    setupCloudsNode(alpha: 1, to: 4000, duration: 650.0, xDiff: 10, yDiff: 1000)
+    setupCloudsNode(alpha: 0.9, to: 1000, duration: 350.0, xDiff: -500, yDiff: 800)
+    setupCloudsNode(alpha: 0.9, to: 1000, duration: 350.0, xDiff: -100, yDiff: 200)
     setupCloudsNode(alpha: 1, to: 1200, duration: 600.0, xDiff: -900, yDiff: 2000)
     setupCloudsNode(alpha: 0.9, to: 1000, duration: 350.0, xDiff: 1000, yDiff: 800)
     setupCloudsNode(alpha: 0.8, to: 1200, duration: 450.0, xDiff: 200, yDiff: 400)
     setupCloudsNode(alpha: 0.9, to: 1000, duration: 350.0, xDiff: 600, yDiff: -300)
     setupCloudsNode(alpha: 0.9, to: 1000, duration: 350.0, xDiff: 1200, yDiff: -300)
-    setupCloudsNode(alpha: 1, to: 2000, duration: 650.0, xDiff: -1000, yDiff: -1000)
-    setupCloudsNode(alpha: 0.9, to: 1000, duration: 400.0, xDiff: -1500, yDiff: -2000)
-    setupCloudsNode(alpha: 0.9, to: 1000, duration: 400.0, xDiff: 1800, yDiff: -2200)
-    setupCloudsNode(alpha: 1, to: 4000, duration: 650.0, xDiff: -2000, yDiff: -4000)
-    setupCloudsNode(alpha: 1, to: 4000, duration: 650.0, xDiff: 1500, yDiff: -4400)
+    setupCloudsNode(alpha: 1, to: 2000, duration: 650.0, xDiff: -800, yDiff: -1000)
+    setupCloudsNode(alpha: 0.9, to: 1000, duration: 400.0, xDiff: 1000, yDiff: -2000)
+    setupCloudsNode(alpha: 0.9, to: 1000, duration: 400.0, xDiff: 100, yDiff: -2200)
+    setupCloudsNode(alpha: 1, to: 4000, duration: 650.0, xDiff: -900, yDiff: -4000)
+    setupCloudsNode(alpha: 1, to: 4000, duration: 650.0, xDiff: -1024, yDiff: -4400)
   }
   
   func setupCloudsNode(alpha: CGFloat, to: Int, duration: Double, xDiff: Int, yDiff: Int) {
