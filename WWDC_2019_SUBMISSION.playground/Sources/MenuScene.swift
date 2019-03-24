@@ -22,6 +22,11 @@ public class MenuScene: SKScene {
     fatalError("init(coder:) has not been implemented")
   }
   
+  deinit {
+    //deinit not consistently called, but when it is, cleanup
+    handleCleanUp()
+  }
+  
   //setup
   private func setupTitleLabel() {
     titleLabel = SKLabelNode(text: gameTitle)
@@ -46,9 +51,12 @@ public class MenuScene: SKScene {
     music.startMusic()
     music.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2 - 150)
     music.soundNode.name = volumeButtonName
-//    self.addChild(music.soundNode)
-    
   }
+  
+  private func handleCleanUp() {
+    music.stopMusic()
+  }
+  
   // Touch Handling
   public override func touchesBegan(_ touches: Set<UITouch>,
                                     with event: UIEvent?) {

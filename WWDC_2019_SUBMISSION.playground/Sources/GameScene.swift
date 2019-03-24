@@ -57,7 +57,8 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   deinit {
-//    handleCleanUp()
+    //deinit not consistently called, but when it is, cleanup
+    handleCleanUp()
   }
   
   
@@ -76,7 +77,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
     self.player.player.addChild(lightSource.lightSource)
     self.addChild(cameraNode)
     self.recordingSource.recordButtonTapped()
-//    self.musicPlayer.startMusic()
     self.addChild(tutorial)
   }
   
@@ -179,7 +179,6 @@ public class GameScene: SKScene, SKPhysicsContactDelegate {
   
   private func handleCleanUp() {
     recordingSource?.recorder.stop()
-//    musicPlayer.stopMusic()
   }
   
 
